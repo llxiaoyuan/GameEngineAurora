@@ -1,0 +1,11 @@
+#include"Math.hpp"
+
+const float Math::pi = 3.1415926535897932384626433832795f;
+
+const float Math::half_pi = 1.5707963267948966192313216916398f;
+
+const float Math::two_pi = 6.283185307179586476925286766559f;
+
+const float Math::angToDeg = 0.01745329251994329576923690768489f;
+
+const float Math::degToAng = 57.295779513082320876798154814105f;

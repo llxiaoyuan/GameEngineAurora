@@ -1,0 +1,59 @@
+#include "Mouse.hpp"
+
+glm::vec2 Mouse::pos;
+bool Mouse::leftDown;
+bool Mouse::rightDown;
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	Mouse::pos[0] = (float)xpos;
+	Mouse::pos[1] = (float)ypos;
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT)
+		{
+			Mouse::leftDown = true;
+		}
+		else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+		{
+			Mouse::rightDown = true;
+		}
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT)
+		{
+			Mouse::leftDown = false;
+		}
+		else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+		{
+			Mouse::rightDown = false;
+		}
+	}
+}
+
+const glm::vec2& Mouse::getPosition()
+{
+	return pos;
+}
+
+const bool& Mouse::isLeftDown()
+{
+	return leftDown;
+}
+
+const bool& Mouse::isRightDown()
+{
+	return rightDown;
+}
+
+void Mouse::ini()
+{
+	pos = glm::vec2(0, 0);
+	leftDown = false;
+	rightDown = false;
+}
