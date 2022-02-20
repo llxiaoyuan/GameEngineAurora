@@ -1,7 +1,8 @@
 #include"BitmapFont.hpp"
 
 
-BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configFilePath)
+BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configFilePath,const int& fontSize):
+	fontSize(fontSize)
 {
 	std::ifstream stream(configFilePath);
 
@@ -32,7 +33,12 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 		else if (temp.find("size")!=std::string::npos)
 		{
 			Parse(temp);
-			fontSize = std::stoi(value);;
+			originFontSize = std::stoi(value);
+			if (fontSize < 0)
+			{
+				this->fontSize = originFontSize;
+			}
+			scale = (float)this->fontSize / originFontSize;
 		}
 	}
 
@@ -147,5 +153,16 @@ const  BitmapFont::Character& BitmapFont::getCharacter(const char& c)
 const int& BitmapFont::getFontSize()
 {
 	return fontSize;
+}
+
+void BitmapFont::setFontSize(const int& fontSize)
+{
+	this->fontSize = fontSize;
+	scale = (float)fontSize / originFontSize;
+}
+
+const float& BitmapFont::getScale()
+{
+	return scale;
 }
 

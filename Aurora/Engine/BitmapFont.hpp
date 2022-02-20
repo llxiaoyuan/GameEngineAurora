@@ -14,7 +14,7 @@ class BitmapFont
 {
 public:
 
-	BitmapFont(const std::string& bitmapPath, const std::string& configFilePath);
+	BitmapFont(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize = -1);
 
 	~BitmapFont();
 
@@ -32,9 +32,17 @@ public:
 
 	const int& getFontSize();
 
+	void setFontSize(const int& fontSize);
+
+	const float& getScale();
+
 private:
 
 	int fontSize;
+
+	int originFontSize;
+
+	float scale;
 
 	std::vector<Texture> texturebuffers;
 

@@ -36,9 +36,10 @@ void SpriteRenderer::draw(BitmapFont& bitmapFont, const std::string& context, co
 		const BitmapFont::Character& character = bitmapFont.getCharacter(context[i]);
 		const float currentY = y +  character.yoffset;
 		glm::mat4 pos = glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0));
+		pos = glm::scale(pos, glm::vec3(bitmapFont.getScale(), bitmapFont.getScale(), 1));
 		defaultShader.setMatrix4fv("pos", pos);
 		bitmapFont.getTexture(character.index).draw();
-		currentX += character.xadvance;
+		currentX += character.xadvance * bitmapFont.getScale();
 	}
 }
 
@@ -47,6 +48,7 @@ void SpriteRenderer::draw(BitmapFont& bitmapFont, const char& c, const float& x,
 	defaultShader.setVec4f("spriteColor", r, g, b, a);
 	const BitmapFont::Character& character = bitmapFont.getCharacter(c);
 	glm::mat4 pos = glm::translate(glm::mat4(1.f), glm::vec3(x + character.xoffset, y + character.yoffset, 0));
+	pos = glm::scale(pos, glm::vec3(bitmapFont.getScale(), bitmapFont.getScale(), 1));
 	defaultShader.setMatrix4fv("pos", pos);
 	bitmapFont.getTexture(character.index).draw();
 }

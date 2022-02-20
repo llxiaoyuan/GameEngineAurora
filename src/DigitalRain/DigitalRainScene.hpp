@@ -16,7 +16,7 @@ public:
 	DigitalRainScene(GameSceneManager* gsm) :
 		Scene(gsm),
 		stride((float)font.getFontSize()),
-		font("res\\DigitalRainRes\\Game_0.png", "res\\DigitalRainRes\\Game.fnt")
+		font("res\\DigitalRainRes\\Game_0.png", "res\\DigitalRainRes\\Game.fnt",24)
 	{
 		Rain::stride = font.getFontSize();
 		for (size_t i = 0; i < Graphics::getWidth() / stride; i++)
@@ -52,6 +52,7 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 0, 0, 1);
 		renderer.begin();
+		//renderer.draw(font, "FPS:" + std::to_string(1.f / Graphics::getDeltaTime()), 0, Graphics::getHeight(), 1, 1, 1, 1);
 		for (int i = 0; i < rains.size(); i++)
 		{
 			renderer.draw(font, rains[i].character[0], rains[i].x, rains[i].y, 1, 1, 1, 1);
