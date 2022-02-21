@@ -26,15 +26,13 @@ public:
 		return instance;
 	}
 
-private:
-
 	bool iniEngine(const Configuration& config);
 
 	void iniGame(Game* game);
 
-	GLFWwindow* window;
+private:
 
-	friend int main(int argc, char* argv[]);
+	GLFWwindow* window;
 
 	void run();
 

@@ -17,7 +17,15 @@ public:
 
 	static const int& getHeight();
 
+	static const float& getFPS();
+
 private:
+
+	static float FPS;
+
+	static float frameDuration;
+
+	static int frameCount;
 
 	static int screenWidth;
 

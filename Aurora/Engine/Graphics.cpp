@@ -2,6 +2,12 @@
 
 float Graphics::deltaTime = 0;
 
+float Graphics::frameDuration = 0;
+
+int Graphics::frameCount = 0;
+
+float Graphics::FPS = 0;
+
  int Graphics::screenWidth;
 
 int Graphics::screenHeight;
@@ -24,4 +30,17 @@ const int& Graphics::getWidth()
 const int& Graphics::getHeight()
 {
 	return screenHeight;
+}
+
+const float& Graphics::getFPS()
+{
+	frameDuration += deltaTime;
+	frameCount++;
+	if (frameDuration > 0.1f)
+	{
+		FPS = frameCount / frameDuration;
+		frameCount = 0;
+		frameDuration = 0;
+	}
+	return FPS;
 }

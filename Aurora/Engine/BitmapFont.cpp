@@ -2,7 +2,7 @@
 
 
 BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configFilePath,const int& fontSize):
-	fontSize(fontSize)
+	fontSize(fontSize),originFontSize(0),scale(1)
 {
 	std::ifstream stream(configFilePath);
 
