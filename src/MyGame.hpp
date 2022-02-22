@@ -17,7 +17,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new DigitalRainScene(&gsm));
+		gsm.push(new MyScene(&gsm));
 	}
 
 	~MyGame()

@@ -30,11 +30,11 @@ public:
 
 	const Character& getCharacter(const char& c);
 
-	const int& getFontSize();
+	const int& getFontSize() const;
 
 	void setFontSize(const int& fontSize);
 
-	const float& getScale();
+	const float& getScale() const;
 
 private:
 

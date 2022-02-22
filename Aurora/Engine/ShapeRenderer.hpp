@@ -24,9 +24,9 @@ public:
 
 	void drawLine(const glm::vec2& start, const glm::vec2& end);
 
-	void drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, float r, float g, float b, float a);
+	void drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, const float& r, const float& g, const float& b, const float& a);
 
-	void drawRect(const glm::vec2& pos, const glm::vec2 rect, float r, float g, float b, float a);
+	void drawRect(const glm::vec2& pos, const glm::vec2 rect, const float& r, const float& g, const float& b, const float& a);
 
 private:
 

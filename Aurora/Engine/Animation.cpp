@@ -1,7 +1,7 @@
 #include"Animation.hpp"
 
 Animation::Animation(const float& frameDuration) :
-	frameDuration(frameDuration),curIndex(0),curTime(0)
+	frameDuration(frameDuration)
 {
 	
 }
@@ -11,17 +11,7 @@ void Animation::addTexture(Texture texture)
 	textures.push_back(texture);
 }
 
-Texture& Animation::getTexture()
+Texture& Animation::getTexture(const float& stateTime)
 {
-	curTime += Graphics::getDeltaTime();
-	if (curTime >= frameDuration)
-	{
-		curTime = 0;
-		curIndex++;
-		if (curIndex == textures.size())
-		{
-			curIndex = 0;
-		}
-	}
-	return textures[curIndex];
+	return textures[(size_t)(stateTime / frameDuration) % textures.size()];
 }

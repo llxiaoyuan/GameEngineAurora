@@ -2,7 +2,7 @@
 
 #include"MyGame.hpp"
 
-int main(int argc,char* argv[])
+int main()
 {
 	Configuration config;
 	config.screenWidth = 960;

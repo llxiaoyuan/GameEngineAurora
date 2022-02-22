@@ -1,7 +1,7 @@
 #include"Texture.hpp"
 
 Texture::Texture(const std::string& path)
-	:rendererID(0), filePath(path),width(0), height(0), bpp(0), VAO(0), VBO(0)
+	:rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0)
 {
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
@@ -53,7 +53,7 @@ Texture::Texture(const std::string& path)
 
 }
 
-Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const float& originX = 0, const float& originY = 0) :
+Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp) :
 	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0)
 {
 	glGenTextures(1, &rendererID);
@@ -65,20 +65,7 @@ Texture::Texture(unsigned char* buffer, const int& width, const int& height, con
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	std::vector<float> positions = std::vector<float>(16, 0);
-
-	positions[0] = -originX;
-	positions[1] = -originY;
-	positions[4] = (float)width - originX;
-	positions[5] = -originY;
-	positions[6] = 1.0f;
-	positions[8] = (float)width - originX;
-	positions[9] = (float)height - originY;
-	positions[10] = 1.0f;
-	positions[11] = 1.0f;
-	positions[12] = -originX;
-	positions[13] = (float)height - originY;
-	positions[15] = 1.0f;
+	std::vector<float> positions = { 0,0,0,0,(float)width ,0 ,1.0f ,0,(float)width ,(float)height ,1.0f,1.0f,0,(float)height,0 ,1.0 };
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -95,14 +82,14 @@ Texture::Texture(unsigned char* buffer, const int& width, const int& height, con
 
 }
 
-void Texture::dispose()
+void Texture::dispose() const
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteTextures(1, &rendererID);
 }
 
-void Texture::draw()
+void Texture::draw() const
 {
 	bind();
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
@@ -151,7 +138,7 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 			}
 		}
 
-		results.push_back(Texture(tempBuffer, width, height, bpp, 0, 0));
+		results.push_back(Texture(tempBuffer, width, height, bpp));
 
 		delete[] tempBuffer;
 	}
@@ -163,12 +150,12 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 	return results;
 }
 
-const int& Texture::getWidth()
+const int& Texture::getWidth() const
 {
 	return width;
 }
 
-const int& Texture::getHeight()
+const int& Texture::getHeight() const
 {
 	return height;
 }

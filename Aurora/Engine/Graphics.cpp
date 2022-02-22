@@ -36,7 +36,7 @@ const float& Graphics::getFPS()
 {
 	frameDuration += deltaTime;
 	frameCount++;
-	if (frameDuration > 0.1f)
+	if (frameDuration > 0.01f)
 	{
 		FPS = frameCount / frameDuration;
 		frameCount = 0;

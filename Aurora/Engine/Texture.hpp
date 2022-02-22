@@ -15,11 +15,11 @@ public:
 
 	Texture(const std::string& path);
 
-	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const float& originX, const float& originY);
+	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp);
 
-	void dispose();
+	void dispose() const;
 
-	void draw();
+	void draw() const;
 
 	void bind() const;
 
@@ -27,9 +27,9 @@ public:
 
 	static std::vector<Texture> loadSplit(const std::string& path,const int& width,const int& height,const int& count);
 
-	const int& getWidth();
+	const int& getWidth() const;
 
-	const int& getHeight();
+	const int& getHeight() const;
 
 private:
 

@@ -120,7 +120,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 			}
 		}
 
-		texturebuffers.push_back(Texture(buffer, width, height, bpp, 0, 0));
+		texturebuffers.push_back(Texture(buffer, width, height, bpp));
 
 		delete[] buffer;
 	}
@@ -150,7 +150,7 @@ const  BitmapFont::Character& BitmapFont::getCharacter(const char& c)
 	return keyMap[c];
 }
 
-const int& BitmapFont::getFontSize()
+const int& BitmapFont::getFontSize() const
 {
 	return fontSize;
 }
@@ -161,7 +161,7 @@ void BitmapFont::setFontSize(const int& fontSize)
 	scale = (float)fontSize / originFontSize;
 }
 
-const float& BitmapFont::getScale()
+const float& BitmapFont::getScale() const
 {
 	return scale;
 }

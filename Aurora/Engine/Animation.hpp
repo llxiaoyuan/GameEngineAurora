@@ -16,15 +16,11 @@ public:
 
 	void addTexture(Texture texture);
 
-	Texture& getTexture();
+	Texture& getTexture(const float& stateTime);
 
 	std::vector<Texture> textures;
 
 private:
-
-	size_t curIndex;
-
-	float curTime;
 
 	const float frameDuration;
 

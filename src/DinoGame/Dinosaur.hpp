@@ -21,6 +21,8 @@ public:
 	bool isJumping;
 	bool collided;
 
+	float runStateTime;
+
 	const float gravityConst;
 
 	glm::vec3 speed;
@@ -33,7 +35,8 @@ public:
 		speed(glm::vec3(0,0,0)),
 		gravityConst(3000),
 		isJumping(false),
-		collided(false)
+		collided(false),
+		runStateTime(0)
 	{
 		rect = Rectangle(100, 50, 50, 65);
 		position = glm::vec3(100, 50, 0);
@@ -83,6 +86,10 @@ public:
 				rect.y = 50;
 			}
 		}
+		else
+		{
+			runStateTime += dt;
+		}
 	}
 
 	void render() override
@@ -99,7 +106,7 @@ public:
 			}
 			else
 			{
-				runAnimation.getTexture().draw();
+				runAnimation.getTexture(runStateTime).draw();
 			}
 		}
 	}

@@ -15,15 +15,15 @@ public:
 
 	const bool overLap(const Rectangle&) const;
 	
-	const bool in(const glm::vec2& dot);
+	const bool in(const glm::vec2& dot) const;
 
 	float x;
 
 	float y;
 
-	const float& getWidth();
+	const float& getWidth() const;
 
-	const float& getHeight();
+	const float& getHeight() const;
 
 private:
 

@@ -53,7 +53,7 @@ void ShapeRenderer::drawLine(const glm::vec2& start, const glm::vec2& end)
 	glBindVertexArray(0);
 }
 
-void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, float r, float g, float b, float a)
+void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, const float& r, const float& g, const float& b, const float& a)
 {
 	const glm::vec2 dir = end - start;
 
@@ -93,7 +93,7 @@ void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, con
 
 }
 
-void ShapeRenderer::drawRect(const glm::vec2& pos, const glm::vec2 rect, float r, float g, float b, float a)
+void ShapeRenderer::drawRect(const glm::vec2& pos, const glm::vec2 rect, const float& r, const float& g, const float& b, const float& a)
 {
 	positions[0] = pos.x;
 	positions[1] = pos.y;
