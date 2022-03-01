@@ -12,7 +12,6 @@ bool Aurora::iniEngine(const Configuration& config)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 	Graphics::screenWidth = config.screenWidth;
 	Graphics::screenHeight = config.screenHeight;
 
@@ -38,7 +37,7 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	srand((unsigned int)time(nullptr));
 
-	std::cout << "[Engine] initiallize complete!\n";
+	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
 
 	Music::ini();
 
@@ -51,7 +50,7 @@ bool Aurora::iniEngine(const Configuration& config)
 
 void Aurora::iniGame(Game* game)
 {
-	this->game = game;
+	this->game = game->clone();
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
@@ -70,6 +69,5 @@ void Aurora::run()
 		Graphics::setDeltaTime(std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f);
 		glfwPollEvents();
 	}
-	delete game;
 	glfwTerminate();
 }

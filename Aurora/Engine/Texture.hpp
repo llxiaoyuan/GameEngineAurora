@@ -13,6 +13,8 @@ class Texture
 {
 public:
 
+	Texture();
+
 	Texture(const std::string& path);
 
 	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp);
@@ -21,23 +23,25 @@ public:
 
 	void draw() const;
 
-	void bind() const;
-
-	void unbind() const;
-
 	static std::vector<Texture> loadSplit(const std::string& path,const int& width,const int& height,const int& count);
 
 	const int& getWidth() const;
 
 	const int& getHeight() const;
 
+	const bool operator==(const Texture& texture);
+
 private:
+
+	void bind() const;
+
+	void unbind() const;
 
 	int width;
 
 	int height;
 
-	const std::string filePath;
+	std::string filePath;
 
 	int bpp;
 

@@ -25,9 +25,9 @@ public:
 
 	void unbind() const;
 
-	void setMatrix4fv(const char* name, const glm::mat4& mat);
+	void setMatrix4fv(const char* name, const glm::mat4& mat) const;
 
-	void setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w);
+	void setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w) const;
 
 private:
 

@@ -9,13 +9,29 @@ class Actor
 {
 public:
 
-	Actor() {}
+	Actor() :position(0, 0, 0) {}
 
 	virtual ~Actor() {}
 
 	virtual void update(const float& dt) = 0;
 
 	virtual void render() = 0;
+
+	const glm::vec3& getPosition() const;
+
+	void setPosition(const float& x, const float& y);
+
+	void setPosition(const glm::vec3& pos);
+
+	void setX(const float& x);
+
+	void setY(const float& y);
+
+	const float& getX() const;
+
+	const float& getY() const;
+
+protected:
 
 	glm::vec3 position;
 

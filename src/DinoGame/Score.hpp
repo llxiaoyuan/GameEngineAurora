@@ -8,12 +8,10 @@ public:
 
 	Score():
 		score(0),
-		scoreUpTimer(0),
-		scoreUpTimeLimit(.06f),
+		scoreUpTimer(.06f),
 		isFlashing(false),
 		flashTime(6),
-		flashTimer(0),
-		flashTimerLimit(.3f),
+		flashTimer(.3f),
 		visible(true)
 	{
 		
@@ -29,33 +27,31 @@ public:
 
 	int flashTime;
 
-	float flashTimer;
+	Timer flashTimer;
 
-	float flashTimerLimit;
+	Timer scoreUpTimer;
 
 	bool visible;
 
 	int score;
 
-	float scoreUpTimer;
-
-	const float scoreUpTimeLimit;
+	int scoreRecord;
 
 	void update(const float& dt)
 	{
 		if (isFlashing)
 		{
-			flashTimer += dt;
-			if (flashTimer > flashTimerLimit)
+			flashTimer.update();
+			if (flashTimer.reached())
 			{
 				visible = !visible;
-				flashTimer = 0;
+				flashTimer.restart();
 				flashTime--;
 				if (flashTime == 0)
 				{
 					isFlashing = false;
 					flashTime = 6;
-					flashTimer = 0;
+					flashTimer.restart();
 					visible = true;
 				}
 			}
@@ -64,10 +60,10 @@ public:
 
 		if (score < 99999)
 		{
-			scoreUpTimer += dt;
-			if (scoreUpTimer >= scoreUpTimeLimit)
+			scoreUpTimer.update();
+			if (scoreUpTimer.reached())
 			{
-				scoreUpTimer = 0;
+				scoreUpTimer.restart();
 				score++;
 				if (score % 100 == 0)
 				{
@@ -75,6 +71,7 @@ public:
 					{
 						Music::play("res\\DinoGameRes\\music\\reach.ogg", false);
 					}
+					scoreRecord = score / 100 * 100;
 					isFlashing = true;
 					visible = false;
 				}
@@ -91,7 +88,7 @@ public:
 	{
 		if (isFlashing)
 		{
-			return score / 100 * 100;
+			return scoreRecord;
 		}
 		return score;
 	}

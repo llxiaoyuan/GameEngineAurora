@@ -45,7 +45,7 @@
     <ClInclude Include="Aurora\Engine\Keyboard.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\LoopTimer.hpp">
+    <ClInclude Include="Aurora\Engine\Timer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Aurora\Engine\Math.hpp">
@@ -1055,7 +1055,7 @@
     <ClCompile Include="Aurora\Engine\Keyboard.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\LoopTimer.cpp">
+    <ClCompile Include="Aurora\Engine\Timer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\Engine\Math.cpp">
@@ -1092,6 +1092,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurora\Engine\Actor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurora\Engine\Configuration.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

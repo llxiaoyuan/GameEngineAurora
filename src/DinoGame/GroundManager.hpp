@@ -61,17 +61,17 @@ public:
 		for (int i = 0; i < grounds.size(); i++)
 		{
 			grounds[i].update(dt);
-			if (grounds[i].position[0] < -1925.f)
+			if (grounds[i].getX() < -1925.f)
 			{
 				float maxX=0;
 				for (int i2 = 0; i2 < grounds.size(); i2++)
 				{
-					if (grounds[i2].position[0] > maxX)
+					if (grounds[i2].getX() > maxX)
 					{
-						maxX = grounds[i2].position[0];
+						maxX = grounds[i2].getX();
 					}
 				}
-				grounds[i].position[0] = maxX + 1920.f;
+				grounds[i].setX(maxX + 1920.f);
 				
 				grounds[i].texture = &groundTextures[rand() % 3];
 			}

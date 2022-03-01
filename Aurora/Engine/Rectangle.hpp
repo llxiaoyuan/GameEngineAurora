@@ -13,20 +13,31 @@ public:
 
 	Rectangle(const float& x, const float& y, const float& width, const float& height);
 
-	const bool overLap(const Rectangle&) const;
+	bool overLap(const Rectangle&) const;
 	
-	const bool in(const glm::vec2& dot) const;
+	bool in(const glm::vec2& dot) const;
 
-	float x;
+	const float& getX();
 
-	float y;
+	const float& getY();
 
 	const float& getWidth() const;
 
 	const float& getHeight() const;
 
+	void setX(const float& x);
+
+	void setY(const float& y);
+
+	void setWidth(const float& width);
+
+	void setHeight(const float& height);
+
 private:
 
+	float x;
+
+	float y;
 
 	float width;
 

@@ -13,15 +13,13 @@ class Camera
 {
 public:
 
-	Camera(Shader& shader, const float& x, const float& y);
+	Camera(const float& x, const float& y);
 
 	const glm::vec3& getPosition() const;
 
 	void setPosition(const float& x,const float& y);
 
 private:
-
-	Shader& shader;
 
 	glm::vec3 position;
 

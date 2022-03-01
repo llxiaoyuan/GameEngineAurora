@@ -4,6 +4,7 @@
 #define _GAME_SCENE_MANAGER_HPP_
 
 #include<vector>
+#include<type_traits>
 
 #include"SpriteRenderer.hpp"
 
@@ -24,6 +25,8 @@ public:
 
 	virtual ~Scene() {}
 
+	virtual std::shared_ptr<Scene> clone() = 0;
+
 	virtual void handleinput() = 0;
 
 	virtual void update(const float& dt) = 0;
@@ -43,49 +46,38 @@ public:
 
 	~GameSceneManager()
 	{
-		for (int i = 0; i < scenes.size(); i++)
-		{
-			delete scenes[i];
-		}
+		std::cout << "[" << typeid(*this).name() << "] release!\n";
 	}
 
 	void push(Scene* scene)
 	{
-		scenes.push_back(scene);
+		scenes.push_back(scene->clone());
 	}
 
 	void pop()
 	{
-		if (scenes.size() != 0)
-		{
-			delete scenes[scenes.size() - 1];
-		}
 		scenes.pop_back();
 	}
 
 	void set(Scene* scene)
 	{
-		if (scenes.size() != 0)
-		{
-			delete scenes[scenes.size() - 1];
-		}
 		scenes.pop_back();
-		scenes.push_back(scene);
+		scenes.push_back(scene->clone());
 	}
 
 	void update(const float& dt)
 	{
-		scenes[scenes.size() - 1ULL]->update(dt);
+		scenes.back()->update(dt);
 	}
 
 	void render(SpriteRenderer& renderer)
 	{
-		scenes[scenes.size() - 1ULL]->render(renderer);
+		scenes.back()->render(renderer);
 	}
 
 private:
 
-	std::vector<Scene*> scenes;
+	std::vector<std::shared_ptr<Scene>> scenes;
 
 };
 

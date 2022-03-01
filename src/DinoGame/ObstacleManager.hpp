@@ -23,7 +23,7 @@ public:
 	void update(const float& dt) override
 	{
 		position[0] -= 600 * dt;
-		rect.x = position[0];
+		rect.setX(position[0]);
 	}
 
 	void render() override
@@ -71,7 +71,7 @@ public:
 
 		for (auto it = obstacles.begin(); it != obstacles.end(); ++it)
 		{
-			if (it->position[0] < -130)
+			if (it->getX() < -130)
 			{
 				obstacles.erase(it);
 				break;

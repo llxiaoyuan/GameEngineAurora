@@ -14,7 +14,9 @@ public:
 
 	Animation(const float& frameDuration);
 
-	void addTexture(Texture texture);
+	~Animation();
+
+	void addTexture(const Texture& texture);
 
 	Texture& getTexture(const float& stateTime);
 

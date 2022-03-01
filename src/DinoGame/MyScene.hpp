@@ -28,8 +28,13 @@ public:
 
 	~MyScene()
 	{
-		std::cout << "~MyScene\n";
+		std::cout << "[" << typeid(*this).name() << "] release!\n";
 		gameOverTexture.dispose();
+	}
+
+	std::shared_ptr<Scene> clone()
+	{
+		return std::make_shared<std::remove_reference<decltype(*this)>::type>(*this);
 	}
 
 	void handleinput() override
@@ -142,7 +147,7 @@ private:
 		dino.collided = false;
 		dino.isJumping = true;
 		dino.speed = glm::vec3(0, 0, 0);
-		dino.position = glm::vec3(100, 120, 0);
+		dino.setPosition(glm::vec3(100, 120, 0));
 		obstacleManager.obstacles.clear();
 	}
 

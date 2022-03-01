@@ -39,7 +39,7 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 		}
 	}
 
-	std::cout << "[Shader] " << filePath << " compile ";
+	std::cout << "["<<typeid(*this).name()<<"] " << filePath << " compile ";
 
 	return std::vector<std::string>{ ss[0].str(), ss[1].str(), ss[2].str() };
 }
@@ -139,12 +139,12 @@ void Shader::unbind() const
 	glUseProgram(0);
 }
 
-void Shader::setMatrix4fv(const char* name, const glm::mat4& mat)
+void Shader::setMatrix4fv(const char* name, const glm::mat4& mat) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(programID, name), 1, GL_FALSE, &mat[0][0]);
 }
 
-void Shader::setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w)
+void Shader::setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w) const
 {
 	glUniform4f(glGetUniformLocation(programID, name), x, y, z, w);
 }

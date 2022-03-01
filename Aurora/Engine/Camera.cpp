@@ -1,7 +1,6 @@
 #include"Camera.hpp"
 
-Camera::Camera(Shader& shader, const float& x, const float& y):
-	shader(shader)
+Camera::Camera(const float& x, const float& y)
 {
 	position[2] = 0;
 	setPosition(x, y);
@@ -17,7 +16,4 @@ void Camera::setPosition(const float& x, const float& y)
 	position[0] = x;
 	position[1] = y;
 	glm::mat4 view = glm::translate(glm::mat4(1.f), position);
-	shader.bind();
-	shader.setMatrix4fv("view", view);
-	shader.unbind();
 }

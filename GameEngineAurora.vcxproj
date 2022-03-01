@@ -132,6 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +153,7 @@
     <ClInclude Include="Aurora\Engine\GameSceneManager.hpp" />
     <ClInclude Include="Aurora\Engine\Graphics.hpp" />
     <ClInclude Include="Aurora\Engine\Keyboard.hpp" />
-    <ClInclude Include="Aurora\Engine\LoopTimer.hpp" />
+    <ClInclude Include="Aurora\Engine\Timer.hpp" />
     <ClInclude Include="Aurora\Engine\Math.hpp" />
     <ClInclude Include="Aurora\Engine\Mouse.hpp" />
     <ClInclude Include="Aurora\Engine\Music.hpp" />
@@ -483,14 +484,16 @@
     <ClInclude Include="src\MyGame.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Aurora\Engine\Actor.cpp" />
     <ClCompile Include="Aurora\Engine\Animation.cpp" />
     <ClCompile Include="Aurora\Engine\Aurora.cpp" />
     <ClCompile Include="Aurora\Engine\BitmapFont.cpp" />
     <ClCompile Include="Aurora\Engine\Camera.cpp" />
+    <ClCompile Include="Aurora\Engine\Configuration.cpp" />
     <ClCompile Include="Aurora\Engine\glad.c" />
     <ClCompile Include="Aurora\Engine\Graphics.cpp" />
     <ClCompile Include="Aurora\Engine\Keyboard.cpp" />
-    <ClCompile Include="Aurora\Engine\LoopTimer.cpp" />
+    <ClCompile Include="Aurora\Engine\Timer.cpp" />
     <ClCompile Include="Aurora\Engine\Math.cpp" />
     <ClCompile Include="Aurora\Engine\Mouse.cpp" />
     <ClCompile Include="Aurora\Engine\Music.cpp" />

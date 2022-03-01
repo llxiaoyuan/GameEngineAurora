@@ -1,5 +1,9 @@
 #include"Texture.hpp"
 
+Texture::Texture()
+{
+}
+
 Texture::Texture(const std::string& path)
 	:rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0)
 {
@@ -19,16 +23,7 @@ Texture::Texture(const std::string& path)
 
 		stbi_image_free(localBuffer);
 
-		std::vector<float> positions = std::vector<float>(16, 0);
-
-		positions[4] = (float)width;
-		positions[6] = 1.0f;
-		positions[8] = (float)width;
-		positions[9] = (float)height;
-		positions[10] = 1.0f;
-		positions[11] = 1.0f;
-		positions[13] = (float)height;
-		positions[15] = 1.0f;
+		std::vector<float> positions = { 0,0,0,0,(float)width,0,1.f,0,(float)width,(float)height,1.f,1.f,0,(float)height,0,1.f };
 
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
@@ -43,11 +38,11 @@ Texture::Texture(const std::string& path)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		std::cout << "[Texture] " << path << " load complete!\n";
+		std::cout << "["<<typeid(*this).name()<<"] " << path << " load complete!\n";
 	}
 	else
 	{
-		std::cout << "[Texture] " << path << " load fail!\n";
+		std::cout << "[" << typeid(*this).name() << "] " << path << " load fail!\n";
 	}
 
 
@@ -143,7 +138,7 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 		delete[] tempBuffer;
 	}
 
-	std::cout << "[Texture] " << path << " Load complete!\n";
+	std::cout << "[class Texture] " << path << " Load complete!\n";
 
 	stbi_image_free(localBuffer);
 
@@ -158,5 +153,10 @@ const int& Texture::getWidth() const
 const int& Texture::getHeight() const
 {
 	return height;
+}
+
+const bool Texture::operator==(const Texture& texture)
+{
+	return rendererID == texture.rendererID;
 }
 

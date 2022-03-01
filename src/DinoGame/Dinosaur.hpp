@@ -12,8 +12,6 @@ public:
 
 	Rectangle rect;
 
-	std::vector<Texture> buffers;
-
 	Animation runAnimation;
 	Texture collideTexture;
 	Texture jumpingTexture;
@@ -29,15 +27,15 @@ public:
 
 	Dinosaur():
 		runAnimation(0.07f),
-		buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png",70,75,4)),
-		collideTexture(buffers[0]),
-		jumpingTexture(buffers[1]),
 		speed(glm::vec3(0,0,0)),
 		gravityConst(3000),
 		isJumping(false),
 		collided(false),
 		runStateTime(0)
 	{
+		std::vector<Texture> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
+		collideTexture=Texture(buffers[0]);
+		jumpingTexture=Texture(buffers[1]);
 		rect = Rectangle(100, 50, 50, 65);
 		position = glm::vec3(100, 50, 0);
 		runAnimation.addTexture(buffers[2]);
@@ -46,10 +44,8 @@ public:
 
 	~Dinosaur()
 	{
-		for (int i = 0; i < 4; i++)
-		{
-			buffers[i].dispose();
-		}
+		collideTexture.dispose();
+		jumpingTexture.dispose();
 	}
 
 	void handleinput()
@@ -77,13 +73,13 @@ public:
 		{
 			speed -= glm::vec3(0, gravityConst, 0) * dt;
 			position += speed * dt;
-			rect.y = position[1];
+			rect.setY(position[1]);
 			if (position[1] < 50)
 			{
 				isJumping = false;
 				speed[1] = 0;
 				position[1] = 50;
-				rect.y = 50;
+				rect.setY(50);
 			}
 		}
 		else

@@ -24,6 +24,11 @@ public:
 		
 	}
 
+	std::shared_ptr<Scene> clone()
+	{
+		return std::make_shared<std::remove_reference<decltype(*this)>::type>(*this);
+	}
+
 	void handleinput() override
 	{
 

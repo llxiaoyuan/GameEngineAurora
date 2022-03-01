@@ -1,6 +1,7 @@
 #pragma once
 
 #include<GameSceneManager.hpp>
+#include<Timer.hpp>
 #include<glad/glad.h>
 #include<iostream>
 
@@ -22,7 +23,12 @@ public:
 
 	~MyGame()
 	{
-		
+		std::cout << "[" << typeid(*this).name() << "] release!\n";
+	}
+
+	std::shared_ptr<Game> clone() override
+	{
+		return std::make_shared<MyGame>(*this);
 	}
 
 	void update(const float& dt) override

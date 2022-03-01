@@ -6,7 +6,15 @@ Animation::Animation(const float& frameDuration) :
 	
 }
 
-void Animation::addTexture(Texture texture)
+Animation::~Animation()
+{
+	for (size_t i = 0; i < textures.size(); i++)
+	{
+		textures[i].dispose();
+	}
+}
+
+void Animation::addTexture(const Texture& texture)
 {
 	textures.push_back(texture);
 }

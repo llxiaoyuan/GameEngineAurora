@@ -8,6 +8,7 @@
 #include<GLFW/glfw3.h>
 #include<chrono>
 #include<cstdlib>
+#include<memory>
 
 #include"Music.hpp"
 #include"Graphics.hpp"
@@ -42,7 +43,7 @@ private:
 
 	static Aurora instance;
 
-	Game* game;
+	std::shared_ptr<Game> game;
 
 	std::chrono::steady_clock timer;
 

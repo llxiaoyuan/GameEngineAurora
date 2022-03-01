@@ -45,7 +45,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 	stream >> temp;
 
 	Parse(temp);
-	int count = std::stoi(value);
+	const int count = std::stoi(value);
 
 	unsigned char* bitmapBuffer;
 
@@ -111,8 +111,8 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 		{
 			for (int x = 0; x < width; x++)
 			{
-				int pixelIndex = 4 * (y * width + x);
-				int pixelIndex2 = 4 * ((bitmapHeight - startY - height + y) * bitmapWidth + startX + x);
+				const int pixelIndex = 4 * (y * width + x);
+				const int pixelIndex2 = 4 * ((bitmapHeight - startY - height + y) * bitmapWidth + startX + x);
 				buffer[pixelIndex] = bitmapBuffer[pixelIndex2];
 				buffer[pixelIndex + 1] = bitmapBuffer[pixelIndex2 + 1];
 				buffer[pixelIndex + 2] = bitmapBuffer[pixelIndex2 + 2];
@@ -120,7 +120,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 			}
 		}
 
-		texturebuffers.push_back(Texture(buffer, width, height, bpp));
+		textures.push_back(Texture(buffer, width, height, bpp));
 
 		delete[] buffer;
 	}
@@ -129,20 +129,21 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 
 	stream.close();
 
-	std::cout << "[BitmapFont] font load complete!\n";
+	std::cout << "[" << typeid(*this).name() << "] " << "font load complete!\n";
 }
 
 BitmapFont::~BitmapFont()
 {
-	for (int i = 0; i < texturebuffers.size(); i++)
+	std::cout << "[" << typeid(*this).name() << "] release!\n";
+	for (int i = 0; i < textures.size(); i++)
 	{
-		texturebuffers[i].dispose();
+		textures[i].dispose();
 	}
 }
 
 Texture& BitmapFont::getTexture(const int& index)
 {
-	return texturebuffers[index];
+	return textures[index];
 }
 
 const  BitmapFont::Character& BitmapFont::getCharacter(const char& c)

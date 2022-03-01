@@ -4,6 +4,7 @@
 #define _GAME_HPP_
 
 #include<iostream>
+#include<memory>
 
 class Game
 {
@@ -16,8 +17,10 @@ public:
 
 	virtual ~Game() 
 	{
-		std::cout << "[Game] destroy!\n";
+		std::cout << "[" << typeid(*this).name() << "] release!\n";
 	}
+
+	virtual std::shared_ptr<Game> clone() = 0;
 
 	virtual void update(const float& dt) = 0;
 

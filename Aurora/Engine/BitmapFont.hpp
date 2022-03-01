@@ -44,7 +44,7 @@ private:
 
 	float scale;
 
-	std::vector<Texture> texturebuffers;
+	std::vector<Texture> textures;
 
 	std::map<char, Character> keyMap;
 

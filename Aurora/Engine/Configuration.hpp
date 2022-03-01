@@ -9,11 +9,13 @@ class Configuration
 {
 public:
 
-	int screenWidth;
+	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title);
 
-	int screenHeight;
+	const int screenWidth;
 
-	std::string title;
+	const int screenHeight;
+
+	const std::string title;
 
 };
 

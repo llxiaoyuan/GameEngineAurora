@@ -13,9 +13,9 @@ public:
 
 	static const float two_pi;
 
-	static const float angToDeg;
+	static const float radToDeg;
 
-	static const float degToAng;
+	static const float degToRad;
 
 };
 
