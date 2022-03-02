@@ -32,9 +32,9 @@ private:
 
 	std::vector<float> positions;
 
-	unsigned int VAO;
+	unsigned int polygonVAO;
 
-	unsigned int VBO;
+	unsigned int polygonVBO;
 
 	Shader defaultShader;
 

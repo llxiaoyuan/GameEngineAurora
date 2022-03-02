@@ -10,10 +10,10 @@ ShapeRenderer::ShapeRenderer() :
 	defaultShader.setMatrix4fv("proj", proj);
 	defaultShader.unbind();
 
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glGenVertexArrays(1, &polygonVAO);
+	glBindVertexArray(polygonVAO);
+	glGenBuffers(1, &polygonVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
 	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), nullptr, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0 * sizeof(float)));
@@ -23,8 +23,8 @@ ShapeRenderer::ShapeRenderer() :
 
 ShapeRenderer::~ShapeRenderer()
 {
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &polygonVBO);
+	glDeleteVertexArrays(1, &polygonVAO);
 }
 
 void ShapeRenderer::begin()
@@ -44,11 +44,11 @@ void ShapeRenderer::drawLine(const glm::vec2& start, const glm::vec2& end)
 	positions[2] = end.x;
 	positions[3] = end.y;
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 4, positions.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(polygonVAO);
 	glDrawArrays(GL_LINES, 0, 2);
 	glBindVertexArray(0);
 }
@@ -83,11 +83,11 @@ void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, con
 
 	defaultShader.setVec4f("u_color", r, g, b, a);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 40, positions.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(polygonVAO);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 20);
 	glBindVertexArray(0);
 
@@ -109,11 +109,11 @@ void ShapeRenderer::drawRect(const glm::vec2& pos, const glm::vec2 rect, const f
 
 	defaultShader.setVec4f("u_color", r, g, b, a);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 8, positions.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(polygonVAO);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	glBindVertexArray(0);
 }

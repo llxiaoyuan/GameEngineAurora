@@ -7,9 +7,11 @@
 #include<type_traits>
 
 #include"SpriteRenderer.hpp"
+#include"ShapeRenderer.hpp"
 
 class GameSceneManager;
 class SpriteRenderer;
+class ShapeRenderer;
 
 class Scene
 {
@@ -31,7 +33,7 @@ public:
 
 	virtual void update(const float& dt) = 0;
 
-	virtual void render(SpriteRenderer& renderer) = 0;
+	virtual void render(SpriteRenderer& spriteRenderer,ShapeRenderer& shapeRenderer) = 0;
 
 };
 
@@ -70,9 +72,9 @@ public:
 		scenes.back()->update(dt);
 	}
 
-	void render(SpriteRenderer& renderer)
+	void render(SpriteRenderer& spriteRenderer,ShapeRenderer& shapeRenderer)
 	{
-		scenes.back()->render(renderer);
+		scenes.back()->render(spriteRenderer, shapeRenderer);
 	}
 
 private:

@@ -59,21 +59,21 @@ public:
 		}
 	}
 
-	void render(SpriteRenderer& renderer) override
+	void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
-		renderer.begin();
-		cloudManager.render(renderer);
-		groundManager.render(renderer);
-		obstacleManager.render(renderer);
-		printScore(renderer);
-		renderer.draw(dino);
+		spriteRenderer.begin();
+		cloudManager.render(spriteRenderer);
+		groundManager.render(spriteRenderer);
+		obstacleManager.render(spriteRenderer);
+		printScore(spriteRenderer);
+		spriteRenderer.draw(dino);
 		if (isGameEnded)
 		{
-			renderer.draw(gameOverTexture, Graphics::getWidth() / 2.f, Graphics::getHeight() / 2.f, gameOverTexture.getWidth() / 2.f, gameOverTexture.getHeight() / 2.f);
+			spriteRenderer.draw(gameOverTexture, Graphics::getWidth() / 2.f, Graphics::getHeight() / 2.f, gameOverTexture.getWidth() / 2.f, gameOverTexture.getHeight() / 2.f);
 		}
-		renderer.end();
+		spriteRenderer.end();
 	}
 
 private:

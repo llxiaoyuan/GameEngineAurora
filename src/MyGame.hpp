@@ -14,7 +14,9 @@ class MyGame :public Game
 public:
 
 	GameSceneManager gsm;
-	SpriteRenderer renderer;
+	SpriteRenderer spriteRenderer;
+	ShapeRenderer shapeRenderer;
+
 
 	MyGame()
 	{
@@ -38,7 +40,7 @@ public:
 
 	void render() override
 	{
-		gsm.render(renderer);
+		gsm.render(spriteRenderer,shapeRenderer);
 	}
 
 };

@@ -52,21 +52,21 @@ public:
 		}
 	}
 
-	void render(SpriteRenderer& renderer) override
+	void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 0, 0, 1);
-		renderer.begin();
-		renderer.draw(font, "FPS:" + std::to_string(Graphics::getFPS()), 0, Graphics::getHeight(), 1, 1, 1, 1);
+		spriteRenderer.begin();
+		spriteRenderer.draw(font, "FPS:" + std::to_string(Graphics::getFPS()), 0, Graphics::getHeight(), 1, 1, 1, 1);
 		for (int i = 0; i < rains.size(); i++)
 		{
-			renderer.draw(font, rains[i].character[0], rains[i].x, rains[i].y, 1, 1, 1, 1);
+			spriteRenderer.draw(font, rains[i].character[0], rains[i].x, rains[i].y, 1, 1, 1, 1);
 			for (int j = 1; j < rains[i].character.size(); j++)
 			{
-				renderer.draw(font, rains[i].character[j], rains[i].x, rains[i].y + stride * j, 0, 1, 0, 1.f - (float)(j - 1) / rains[i].len);
+				spriteRenderer.draw(font, rains[i].character[j], rains[i].x, rains[i].y + stride * j, 0, 1, 0, 1.f - (float)(j - 1) / rains[i].len);
 			}
 		}
-		renderer.end();
+		spriteRenderer.end();
 	}
 
 private:
