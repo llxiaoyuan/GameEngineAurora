@@ -53,16 +53,13 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	Mouse::ini();
 
-	HWND window = FindWindowA(NULL, config.title.c_str());
-
-	HWND bg = get_wallpaper_window();
-
 	if (config.mode == config.Wallpaper)
 	{
+		HWND window = FindWindowA(NULL, config.title.c_str());
+		HWND bg = get_wallpaper_window();
 		SetParent(window, bg);
-		RECT rect = { 0,0,Graphics::screenWidth,Graphics::screenHeight };
-		AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, WS_EX_OVERLAPPEDWINDOW);
-		MoveWindow(window, -8, -32, rect.right - rect.left, rect.bottom - rect.top, 0);
+		SetWindowLongPtr(window, GWL_STYLE, WS_VISIBLE | WS_POPUP);
+		MoveWindow(window, 0, 0, Graphics::screenWidth, Graphics::screenHeight, 0);
 	}
 	return true;
 }
