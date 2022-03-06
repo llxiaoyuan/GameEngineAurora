@@ -42,6 +42,7 @@ public:
 	{
 		shapeRenderer.begin();
 		shapeRenderer.drawRCLine(glm::vec2(100, 100), glm::vec2(200, 200), 10, 0, 0, 1, 1);
+		shapeRenderer.drawTriangle(glm::vec2(100, 100), glm::vec2(200, 100), glm::vec2(150, 200), 1, 0, 0, 1);
 		shapeRenderer.end();
 	}
 

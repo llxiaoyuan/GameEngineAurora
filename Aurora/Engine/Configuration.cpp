@@ -1,6 +1,6 @@
 #include "Configuration.hpp"
 
-Configuration::Configuration(const int& screenWidth, const int& screenHeight, const std::string& title):
-	screenWidth(screenWidth),screenHeight(screenHeight),title(title)
+Configuration::Configuration(const int& screenWidth, const int& screenHeight, const std::string& title,const DisplayMode& mode):
+	screenWidth(screenWidth),screenHeight(screenHeight),title(title),mode(mode)
 {
 }

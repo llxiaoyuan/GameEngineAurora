@@ -5,44 +5,47 @@
 
 #include<glm/glm.hpp>
 
-class Rectangle
+namespace ae
 {
-public:
+	class Rectangle
+	{
+	public:
 
-	Rectangle();
+		Rectangle();
 
-	Rectangle(const float& x, const float& y, const float& width, const float& height);
+		Rectangle(const float& x, const float& y, const float& width, const float& height);
 
-	bool overLap(const Rectangle&) const;
-	
-	bool in(const glm::vec2& dot) const;
+		bool overLap(const Rectangle&) const;
 
-	const float& getX();
+		bool in(const glm::vec2& dot) const;
 
-	const float& getY();
+		const float& getX();
 
-	const float& getWidth() const;
+		const float& getY();
 
-	const float& getHeight() const;
+		const float& getWidth() const;
 
-	void setX(const float& x);
+		const float& getHeight() const;
 
-	void setY(const float& y);
+		void setX(const float& x);
 
-	void setWidth(const float& width);
+		void setY(const float& y);
 
-	void setHeight(const float& height);
+		void setWidth(const float& width);
 
-private:
+		void setHeight(const float& height);
 
-	float x;
+	private:
 
-	float y;
+		float x;
 
-	float width;
+		float y;
 
-	float height;
+		float width;
 
-};
+		float height;
+
+	};
+}
 
 #endif // !_RECTANGLE_HPP_

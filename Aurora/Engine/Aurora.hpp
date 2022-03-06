@@ -9,6 +9,8 @@
 #include<chrono>
 #include<cstdlib>
 #include<memory>
+#include<Windows.h>
+#include<wingdi.h>
 
 #include"Music.hpp"
 #include"Graphics.hpp"
@@ -41,7 +43,11 @@ private:
 
 	Aurora(const Aurora&) {}
 
+	HWND get_wallpaper_window();
+
 	static Aurora instance;
+
+	HDC context;
 
 	std::shared_ptr<Game> game;
 
@@ -52,5 +58,9 @@ private:
 	std::chrono::steady_clock::time_point timeEnd;
 
 };
+
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
+
+void getSysResolution(int& width, int& height);
 
 #endif // !_AURORA_HPP_

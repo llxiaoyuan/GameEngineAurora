@@ -59,7 +59,7 @@ void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, con
 
 	positions[0] = start.x;
 	positions[1] = start.y;
-
+	
 	float ang = atan2f(dir.x, -dir.y);
 
 	for (int i = 0; i < 9; i++)
@@ -89,6 +89,29 @@ void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, con
 
 	glBindVertexArray(polygonVAO);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 20);
+	glBindVertexArray(0);
+
+}
+
+void ShapeRenderer::drawTriangle(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3, const float& r, const float& g, const float& b, const float& a)
+{
+	positions[0] = p1.x;
+	positions[1] = p1.y;
+
+	positions[2] = p2.x;
+	positions[3] = p2.y;
+
+	positions[4] = p3.x;
+	positions[5] = p3.y;
+
+	defaultShader.setVec4f("u_color", r, g, b, a);
+
+	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 6, positions.data());
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindVertexArray(polygonVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
 
 }

@@ -1,18 +1,18 @@
 #include"Rectangle.hpp"
 
-Rectangle::Rectangle():
+ae::Rectangle::Rectangle():
 	x(0),y(0),width(0),height(0)
 {
 
 }
 
-Rectangle::Rectangle(const float& x, const float& y, const float& width, const float& height):
+ae::Rectangle::Rectangle(const float& x, const float& y, const float& width, const float& height):
 	x(x),y(y),width(width),height(height)
 {
 
 }
 
-bool Rectangle::overLap(const Rectangle& r) const
+bool ae::Rectangle::overLap(const ae::Rectangle& r) const
 {
 	const float x1 = x;
 	const float y1 = y;
@@ -27,47 +27,47 @@ bool Rectangle::overLap(const Rectangle& r) const
 	return !(x2 <= xx1 || x1 >= xx2 || y2 <= yy1 || y1 >= yy2);
 }
 
-bool Rectangle::in(const glm::vec2& dot) const
+bool ae::Rectangle::in(const glm::vec2& dot) const
 {
 	return (dot[0] > x && dot[1] > y && dot[0] < x + width && dot[1] < y + height);
 }
 
-const float& Rectangle::getX()
+const float& ae::Rectangle::getX()
 {
 	return x;
 }
 
-const float& Rectangle::getY()
+const float& ae::Rectangle::getY()
 {
 	return y;
 }
 
-const float& Rectangle::getWidth() const
+const float& ae::Rectangle::getWidth() const
 {
 	return width;
 }
 
-const float& Rectangle::getHeight() const
+const float& ae::Rectangle::getHeight() const
 {
 	return height;
 }
 
-void Rectangle::setX(const float& x)
+void ae::Rectangle::setX(const float& x)
 {
 	this->x = x;
 }
 
-void Rectangle::setY(const float& y)
+void ae::Rectangle::setY(const float& y)
 {
 	this->y = y;
 }
 
-void Rectangle::setWidth(const float& width)
+void ae::Rectangle::setWidth(const float& width)
 {
 	this->width = width;
 }
 
-void Rectangle::setHeight(const float& height)
+void ae::Rectangle::setHeight(const float& height)
 {
 	this->height = height;
 }

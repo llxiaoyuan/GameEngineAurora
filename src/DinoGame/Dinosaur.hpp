@@ -10,7 +10,7 @@ class Dinosaur :public Actor
 {
 public:
 
-	Rectangle rect;
+	ae::Rectangle rect;
 
 	Animation runAnimation;
 	Texture collideTexture;
@@ -36,7 +36,7 @@ public:
 		std::vector<Texture> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
 		collideTexture=Texture(buffers[0]);
 		jumpingTexture=Texture(buffers[1]);
-		rect = Rectangle(100, 50, 50, 65);
+		rect = ae::Rectangle(100, 50, 50, 65);
 		position = glm::vec3(100, 50, 0);
 		runAnimation.addTexture(buffers[2]);
 		runAnimation.addTexture(buffers[3]);

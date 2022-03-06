@@ -12,8 +12,16 @@ bool Aurora::iniEngine(const Configuration& config)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	Graphics::screenWidth = config.screenWidth;
-	Graphics::screenHeight = config.screenHeight;
+
+	if (config.mode == config.Normal)
+	{
+		Graphics::screenWidth = config.screenWidth;
+		Graphics::screenHeight = config.screenHeight;
+	}
+	else
+	{
+		getSysResolution(Graphics::screenWidth, Graphics::screenHeight);
+	}
 
 	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config.title.c_str(), NULL, NULL);
 
@@ -45,6 +53,17 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	Mouse::ini();
 
+	HWND window = FindWindowA(NULL, config.title.c_str());
+
+	HWND bg = get_wallpaper_window();
+
+	if (config.mode == config.Wallpaper)
+	{
+		SetParent(window, bg);
+		RECT rect = { 0,0,Graphics::screenWidth,Graphics::screenHeight };
+		AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, WS_EX_OVERLAPPEDWINDOW);
+		MoveWindow(window, -8, -32, rect.right - rect.left, rect.bottom - rect.top, 0);
+	}
 	return true;
 }
 
@@ -70,4 +89,44 @@ void Aurora::run()
 		glfwPollEvents();
 	}
 	glfwTerminate();
+}
+
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
+{
+	HWND p = FindWindowEx(hwnd, NULL, L"SHELLDLL_DefView", NULL);
+	HWND* ret = (HWND*)lParam;
+
+	if (p)
+	{
+		// Gets the WorkerW Window after the current one.
+		*ret = FindWindowEx(NULL, hwnd, L"WorkerW", NULL);
+	}
+	return true;
+}
+
+void getSysResolution(int& width, int& height)
+{
+	HMONITOR monitor = MonitorFromWindow(GetDesktopWindow(), MONITOR_DEFAULTTONEAREST);
+	MONITORINFO info;
+	info.cbSize = sizeof(MONITORINFO);
+	GetMonitorInfo(monitor, &info);
+	width = info.rcMonitor.right - info.rcMonitor.left;
+	height = info.rcMonitor.bottom - info.rcMonitor.top;
+}
+
+HWND Aurora::get_wallpaper_window()
+{
+	// Fetch the Progman window
+	HWND progman = FindWindow(L"ProgMan", NULL);
+	// Send 0x052C to Progman. This message directs Progman to spawn a 
+	// WorkerW behind the desktop icons. If it is already there, nothing 
+	// happens.
+	SendMessageTimeout(progman, 0x052C, 0, 0, SMTO_NORMAL, 1000, nullptr);
+	// We enumerate all Windows, until we find one, that has the SHELLDLL_DefView 
+	// as a child. 
+	// If we found that window, we take its next sibling and assign it to workerw.
+	HWND wallpaper_hwnd = nullptr;
+	EnumWindows(EnumWindowsProc, (LPARAM)&wallpaper_hwnd);
+	// Return the handle you're looking for.
+	return wallpaper_hwnd;
 }

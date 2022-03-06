@@ -26,6 +26,8 @@ public:
 
 	void drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, const float& r, const float& g, const float& b, const float& a);
 
+	void drawTriangle(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3, const float& r, const float& g, const float& b, const float& a);
+
 	void drawRect(const glm::vec2& pos, const glm::vec2 rect, const float& r, const float& g, const float& b, const float& a);
 
 private:

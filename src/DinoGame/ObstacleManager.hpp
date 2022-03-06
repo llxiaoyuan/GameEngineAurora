@@ -11,12 +11,12 @@ public:
 
 	Texture* texture;
 
-	Rectangle rect;
+	ae::Rectangle rect;
 
 	Obstacle(Texture* texture, float x, float y) :
 		texture(texture)
 	{
-		rect = Rectangle(x, y, (float)texture->getWidth(), (float)texture->getHeight());
+		rect = ae::Rectangle(x, y, (float)texture->getWidth(), (float)texture->getHeight());
 		position = glm::vec3(x, y, 0);
 	}
 
