@@ -483,6 +483,8 @@
     <ClInclude Include="src\FireWorks\FireworkScene.hpp" />
     <ClInclude Include="src\FireWorks\Star.hpp" />
     <ClInclude Include="src\MyGame.hpp" />
+    <ClInclude Include="src\SteeringBehavior\Character.hpp" />
+    <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\Engine\Actor.cpp" />
@@ -507,6 +509,7 @@
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp" />
     <ClCompile Include="Aurora\tools\stb_image\stb_image.cpp" />
     <ClCompile Include="src\EngineTest.cpp" />
+    <ClCompile Include="src\SteeringBehavior\SteeringBehaviorScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Aurora\tools\glm\detail\func_common.inl" />

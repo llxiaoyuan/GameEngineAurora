@@ -4,7 +4,7 @@
 
 int main()
 {
-	Configuration config(960, 540, "Aurora Test", Configuration::DisplayMode::Wallpaper);
+	Configuration config(1920, 1080, "Aurora Test", Configuration::DisplayMode::Normal, true);
 	Aurora::get().iniEngine(config);
 	Aurora::get().iniGame(new MyGame());
 	return 0;

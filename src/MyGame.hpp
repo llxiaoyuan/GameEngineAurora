@@ -8,6 +8,7 @@
 #include"DinoGame/MyScene.hpp"
 #include"DigitalRain/DigitalRainScene.hpp"
 #include"FireWorks/FireworkScene.hpp"
+#include"SteeringBehavior/SteeringBehaviorScene.hpp"
 
 class MyGame :public Game
 {
@@ -20,7 +21,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new DigitalRainScene(&gsm));
+		gsm.push(new SteeringBehaviorScene(&gsm));
 	}
 
 	~MyGame()

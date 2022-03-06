@@ -9,6 +9,10 @@ bool Aurora::iniEngine(const Configuration& config)
 	if (!glfwInit())
 		return false;
 
+	if (config.mode == Configuration::DisplayMode::Wallpaper)
+	{
+		glfwWindowHint(GLFW_DECORATED, 0);
+	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -47,7 +51,10 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
 
-	Music::ini();
+	if (config.useAudio)
+	{
+		Music::ini();
+	}
 
 	Keyboard::ini();
 
@@ -58,9 +65,9 @@ bool Aurora::iniEngine(const Configuration& config)
 		HWND window = FindWindowA(NULL, config.title.c_str());
 		HWND bg = get_wallpaper_window();
 		SetParent(window, bg);
-		SetWindowLongPtr(window, GWL_STYLE, WS_VISIBLE | WS_POPUP);
 		MoveWindow(window, 0, 0, Graphics::screenWidth, Graphics::screenHeight, 0);
 	}
+
 	return true;
 }
 

@@ -1032,6 +1032,12 @@
     <ClInclude Include="src\MyGame.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SteeringBehavior\Character.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\Engine\Animation.cpp">
@@ -1098,6 +1104,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\Engine\Configuration.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SteeringBehavior\SteeringBehaviorScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
