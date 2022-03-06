@@ -47,8 +47,6 @@ private:
 
 	static Aurora instance;
 
-	HDC context;
-
 	std::shared_ptr<Game> game;
 
 	std::chrono::steady_clock timer;

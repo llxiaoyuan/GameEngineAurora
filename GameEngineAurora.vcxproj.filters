@@ -1511,5 +1511,8 @@
       <Filter>头文件</Filter>
     </None>
     <None Include="LICENSE" />
+    <None Include="x64\Release\ikpFlac.dll" />
+    <None Include="x64\Release\ikpMP3.dll" />
+    <None Include="x64\Release\irrKlang.dll" />
   </ItemGroup>
 </Project>
