@@ -646,9 +646,6 @@
     <None Include="Aurora\tools\glm\gtx\vector_query.inl" />
     <None Include="Aurora\tools\glm\gtx\wrap.inl" />
     <None Include="LICENSE" />
-    <None Include="x64\Release\ikpFlac.dll" />
-    <None Include="x64\Release\ikpMP3.dll" />
-    <None Include="x64\Release\irrKlang.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
