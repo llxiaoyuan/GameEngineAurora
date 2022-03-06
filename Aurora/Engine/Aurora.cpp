@@ -13,7 +13,7 @@ bool Aurora::iniEngine(const Configuration& config)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	if (config.mode == config.Normal)
+	if (config.mode == Configuration::DisplayMode::Normal)
 	{
 		Graphics::screenWidth = config.screenWidth;
 		Graphics::screenHeight = config.screenHeight;
@@ -53,7 +53,7 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	Mouse::ini();
 
-	if (config.mode == config.Wallpaper)
+	if (config.mode == Configuration::DisplayMode::Wallpaper)
 	{
 		HWND window = FindWindowA(NULL, config.title.c_str());
 		HWND bg = get_wallpaper_window();
@@ -101,17 +101,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	return true;
 }
 
-void getSysResolution(int& width, int& height)
-{
-	HMONITOR monitor = MonitorFromWindow(GetDesktopWindow(), MONITOR_DEFAULTTONEAREST);
-	MONITORINFO info;
-	info.cbSize = sizeof(MONITORINFO);
-	GetMonitorInfo(monitor, &info);
-	width = info.rcMonitor.right - info.rcMonitor.left;
-	height = info.rcMonitor.bottom - info.rcMonitor.top;
-}
-
-HWND Aurora::get_wallpaper_window()
+HWND get_wallpaper_window()
 {
 	// Fetch the Progman window
 	HWND progman = FindWindow(L"ProgMan", NULL);
@@ -126,4 +116,14 @@ HWND Aurora::get_wallpaper_window()
 	EnumWindows(EnumWindowsProc, (LPARAM)&wallpaper_hwnd);
 	// Return the handle you're looking for.
 	return wallpaper_hwnd;
+}
+
+void getSysResolution(int& width, int& height)
+{
+	HMONITOR monitor = MonitorFromWindow(GetDesktopWindow(), MONITOR_DEFAULTTONEAREST);
+	MONITORINFO info;
+	info.cbSize = sizeof(MONITORINFO);
+	GetMonitorInfo(monitor, &info);
+	width = info.rcMonitor.right - info.rcMonitor.left;
+	height = info.rcMonitor.bottom - info.rcMonitor.top;
 }

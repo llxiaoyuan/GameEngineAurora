@@ -10,7 +10,6 @@
 #include<cstdlib>
 #include<memory>
 #include<Windows.h>
-#include<wingdi.h>
 
 #include"Music.hpp"
 #include"Graphics.hpp"
@@ -43,8 +42,6 @@ private:
 
 	Aurora(const Aurora&) {}
 
-	HWND get_wallpaper_window();
-
 	static Aurora instance;
 
 	std::shared_ptr<Game> game;
@@ -58,6 +55,8 @@ private:
 };
 
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
+
+HWND get_wallpaper_window();
 
 void getSysResolution(int& width, int& height);
 

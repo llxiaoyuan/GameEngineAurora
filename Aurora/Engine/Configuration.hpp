@@ -9,9 +9,10 @@ class Configuration
 {
 public:
 
-	const enum DisplayMode
+	const enum class DisplayMode
 	{
-		Normal,Wallpaper
+		Normal,
+		Wallpaper
 	} mode;
 
 	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title, const DisplayMode& mode);
