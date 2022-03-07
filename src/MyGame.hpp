@@ -21,7 +21,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new MyScene(&gsm));
+		gsm.push(new SteeringBehaviorScene(&gsm));
 	}
 
 	~MyGame()
