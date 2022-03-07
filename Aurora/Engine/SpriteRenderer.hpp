@@ -10,7 +10,7 @@
 
 #include"Math.hpp"
 #include"Graphics.hpp"
-#include"BitmapFont.hpp"
+#include"Texture.hpp"
 #include"Actor.hpp"
 #include"Shader.hpp"
 
@@ -27,19 +27,19 @@ public:
 
 	void end();
 
-	void draw(Actor& actor);
+	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation=0);
 
-	void draw(BitmapFont& bitmapFont, const std::string& context, const float& x, const float& y, const float& r = 1, const float& g = 1, const float& b = 1, const float& a = 1) const;
+	void draw(Texture& texture, const float& x, const float& y);
 
-	void draw(BitmapFont& bitmapFont, const char& c, const float& x, const float& y, const float& r = 1, const float& g = 1, const float& b = 1, const float& a = 1) const;
+	Shader textRenderShader;
 
-	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation=0) const;
+	Shader instanceRenderShader;
 
-	void draw(Texture& texture, const float& x, const float& y) const;
+private:
 
-	std::vector<Texture*> drawTexture;
+	std::vector<Texture*> texturePool;
 
-	Shader defaultShader;
+	void texturePoolAdd(Texture& texture);
 
 };
 

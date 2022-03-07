@@ -20,9 +20,9 @@ public:
 		position[0] -= 120 * dt;
 	}
 
-	void render() override
+	void render(SpriteRenderer& renderer) override
 	{
-		texture->draw();
+		renderer.draw(*texture, position[0], position[1]);
 	}
 };
 
@@ -72,7 +72,7 @@ public:
 	{
 		for (int i = 0; i < clouds.size(); i++)
 		{
-			renderer.draw(clouds[i]);
+			clouds[i].render(renderer);
 		}
 	}
 

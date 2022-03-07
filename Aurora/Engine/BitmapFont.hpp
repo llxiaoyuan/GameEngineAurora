@@ -8,7 +8,7 @@
 #include<fstream>
 #include<map>
 
-#include"Texture.hpp"
+#include"SpriteRenderer.hpp"
 
 class BitmapFont
 {
@@ -18,7 +18,7 @@ public:
 
 	~BitmapFont();
 
-	Texture& getTexture(const int& index);
+	const Texture& getTexture(const int& index) const;
 
 	struct Character
 	{
@@ -35,6 +35,10 @@ public:
 	void setFontSize(const int& fontSize);
 
 	const float& getScale() const;
+
+	void draw(SpriteRenderer& renderer, const std::string& context, const float& x, const float& y, const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
+
+	void draw(SpriteRenderer& renderer, const char& context, const float& x, const float& y, const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
 
 private:
 

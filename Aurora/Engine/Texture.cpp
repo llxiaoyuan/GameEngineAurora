@@ -1,11 +1,14 @@
 #include"Texture.hpp"
 
-Texture::Texture()
+const int Texture::maxMatricesNum = 16384;
+
+Texture::Texture() :
+	VAO(0), VBO(0), instanceVBO(0), bpp(0), height(0), width(0), rendererID(0), curIndex(0)
 {
 }
 
 Texture::Texture(const std::string& path)
-	:rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0)
+	: rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), instanceVBO(0), modelMatrices(maxMatricesNum), curIndex(0)
 {
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
@@ -35,10 +38,27 @@ Texture::Texture(const std::string& path)
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
+		glGenBuffers(1, &instanceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * maxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+		glVertexAttribDivisor(2, 1);
+		glVertexAttribDivisor(3, 1);
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		std::cout << "["<<typeid(*this).name()<<"] " << path << " load complete!\n";
+		std::cout << "[" << typeid(*this).name() << "] " << path << " load complete!\n";
 	}
 	else
 	{
@@ -48,8 +68,8 @@ Texture::Texture(const std::string& path)
 
 }
 
-Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp) :
-	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0)
+Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const bool& needInstanceRender) :
+	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), modelMatrices(needInstanceRender ? maxMatricesNum : 0), curIndex(0)
 {
 	glGenTextures(1, &rendererID);
 	glBindTexture(GL_TEXTURE_2D, rendererID);
@@ -72,6 +92,26 @@ Texture::Texture(unsigned char* buffer, const int& width, const int& height, con
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
+	if (needInstanceRender)
+	{
+		glGenBuffers(1, &instanceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * maxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+		glVertexAttribDivisor(2, 1);
+		glVertexAttribDivisor(3, 1);
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
@@ -82,13 +122,10 @@ void Texture::dispose() const
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteTextures(1, &rendererID);
-}
-
-void Texture::draw() const
-{
-	bind();
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-	unbind();
+	if (instanceVBO)
+	{
+		glDeleteBuffers(1, &instanceVBO);
+	}
 }
 
 void Texture::bind() const
@@ -133,7 +170,7 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 			}
 		}
 
-		results.push_back(Texture(tempBuffer, width, height, bpp));
+		results.push_back(Texture(tempBuffer, width, height, bpp, true));
 
 		delete[] tempBuffer;
 	}
@@ -155,8 +192,35 @@ const int& Texture::getHeight() const
 	return height;
 }
 
-const bool Texture::operator==(const Texture& texture)
+void Texture::updateMatrices() const
+{
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(glm::mat4), &modelMatrices[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Texture::addModel(const glm::mat4& model)
+{
+	modelMatrices[curIndex++] = model;
+}
+
+const int& Texture::getInstanceNum() const
+{
+	return curIndex;
+}
+
+void Texture::resetInstanceNum()
+{
+	curIndex = 0;
+}
+
+bool Texture::operator==(const Texture& texture) const
 {
 	return rendererID == texture.rendererID;
+}
+
+const unsigned int& Texture::getRenderID() const
+{
+	return rendererID;
 }
 

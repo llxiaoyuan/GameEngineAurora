@@ -13,12 +13,9 @@ public:
 
 	Texture arrow;
 
-	float rot;
-
 	SteeringBehaviorScene(GameSceneManager* gsm):
 		Scene(gsm),
-		arrow("res\\SteeringBehaviorRes\\arrow.png"),
-		rot(0)
+		arrow("res\\SteeringBehaviorRes\\arrow.png")
 	{
 		for (size_t i = 0; i < 1000; i++)
 		{

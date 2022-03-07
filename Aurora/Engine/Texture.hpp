@@ -8,6 +8,7 @@
 #include<iostream>
 #include<stb_image/stb_image.h>
 #include<vector>
+#include<glm/glm.hpp>
 
 class Texture
 {
@@ -17,11 +18,9 @@ public:
 
 	Texture(const std::string& path);
 
-	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp);
+	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp,const bool& needInstanceRender);
 
 	void dispose() const;
-
-	void draw() const;
 
 	static std::vector<Texture> loadSplit(const std::string& path,const int& width,const int& height,const int& count);
 
@@ -29,13 +28,25 @@ public:
 
 	const int& getHeight() const;
 
-	const bool operator==(const Texture& texture);
-
-private:
-
 	void bind() const;
 
 	void unbind() const;
+
+	void updateMatrices() const;
+
+	void addModel(const glm::mat4& model);
+
+	const int& getInstanceNum() const;
+
+	void resetInstanceNum();
+
+	bool operator==(const Texture& texture) const;
+
+	static const int maxMatricesNum;
+
+	const unsigned int& getRenderID() const;
+
+private:
 
 	int width;
 
@@ -47,9 +58,15 @@ private:
 
 	unsigned int VBO;
 
+	unsigned int instanceVBO;
+
 	unsigned int VAO;
 
 	unsigned int rendererID;
+
+	std::vector<glm::mat4> modelMatrices;
+
+	int curIndex;
 
 };
 

@@ -21,9 +21,9 @@ public:
 		position[0] -= 600 * dt;
 	}
 
-	void render() override
+	void render(SpriteRenderer& renderer) override
 	{
-		texture->draw();
+		renderer.draw(*texture, position[0], position[1]);
 	}
 };
 
@@ -43,13 +43,13 @@ public:
 		}
 		for (int i = 0; i < 3; i++)
 		{
-			grounds.push_back(Ground(&groundTextures[rand() % 3], (float)1920 * i, (float)35));
+			grounds.push_back(Ground(&groundTextures[0], (float)1920 * i, (float)35));
 		}
 	}
 
 	~GroundManager()
 	{
-		for (int i = 2; i > -1; i--)
+		for (int i = 0; i < 3; i++)
 		{
 			groundTextures[i].dispose();
 		}
@@ -72,8 +72,7 @@ public:
 					}
 				}
 				grounds[i].setX(maxX + 1920.f);
-				
-				grounds[i].texture = &groundTextures[rand() % 3];
+				grounds[i].texture = &groundTextures[0];
 			}
 		}
 	}
@@ -82,7 +81,7 @@ public:
 	{
 		for (int i = 0; i < grounds.size(); i++)
 		{
-			renderer.draw(grounds[i]);
+			grounds[i].render(renderer);
 		}
 	}
 

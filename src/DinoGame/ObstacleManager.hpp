@@ -26,9 +26,9 @@ public:
 		rect.setX(position[0]);
 	}
 
-	void render() override
+	void render(SpriteRenderer& renderer) override
 	{
-		texture->draw();
+		renderer.draw(*texture, position[0], position[1]);
 	}
 };
 
@@ -93,7 +93,7 @@ public:
 	{
 		for (int i = 0; i < obstacles.size(); i++)
 		{
-			renderer.draw(obstacles[i]);
+			obstacles[i].render(renderer);
 		}
 	}
 

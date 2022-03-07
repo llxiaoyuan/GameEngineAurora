@@ -21,6 +21,8 @@ public:
 
 	float runStateTime;
 
+	Sound jumpSound;
+
 	const float gravityConst;
 
 	glm::vec3 speed;
@@ -31,7 +33,8 @@ public:
 		gravityConst(3000),
 		isJumping(false),
 		collided(false),
-		runStateTime(0)
+		runStateTime(0),
+		jumpSound(Music::load("res\\DinoGameRes\\music\\jump.mp3", false))
 	{
 		std::vector<Texture> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
 		collideTexture=Texture(buffers[0]);
@@ -54,7 +57,7 @@ public:
 		{
 			if (!isJumping)
 			{
-				Music::play("res\\DinoGameRes\\music\\jump.mp3", false);
+				Music::play(jumpSound);
 				jump();
 			}
 		}
@@ -88,21 +91,21 @@ public:
 		}
 	}
 
-	void render() override
+	void render(SpriteRenderer& renderer) override
 	{
 		if (collided)
 		{
-			collideTexture.draw();
+			renderer.draw(collideTexture, position[0], position[1]);
 		}
 		else
 		{
 			if (isJumping)
 			{
-				jumpingTexture.draw();
+				renderer.draw(jumpingTexture, position[0], position[1]);
 			}
 			else
 			{
-				runAnimation.getTexture(runStateTime).draw();
+				renderer.draw(runAnimation.getTexture(runStateTime), position[0], position[1]);
 			}
 		}
 	}

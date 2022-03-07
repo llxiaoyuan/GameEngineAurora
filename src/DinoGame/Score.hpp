@@ -12,7 +12,8 @@ public:
 		isFlashing(false),
 		flashTime(6),
 		flashTimer(.3f),
-		visible(true)
+		visible(true),
+		scoreReachSound(Music::load("res\\DinoGameRes\\music\\reach.ogg", false))
 	{
 		
 	}
@@ -36,6 +37,8 @@ public:
 	int score;
 
 	int scoreRecord;
+
+	Sound scoreReachSound;
 
 	void update(const float& dt)
 	{
@@ -69,7 +72,7 @@ public:
 				{
 					if (!isFlashing)
 					{
-						Music::play("res\\DinoGameRes\\music\\reach.ogg", false);
+						Music::play(scoreReachSound);
 					}
 					scoreRecord = score / 100 * 100;
 					isFlashing = true;

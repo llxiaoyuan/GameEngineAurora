@@ -154,6 +154,7 @@
     <ClInclude Include="Aurora\Engine\GameSceneManager.hpp" />
     <ClInclude Include="Aurora\Engine\Graphics.hpp" />
     <ClInclude Include="Aurora\Engine\Keyboard.hpp" />
+    <ClInclude Include="Aurora\Engine\Sound.hpp" />
     <ClInclude Include="Aurora\Engine\Timer.hpp" />
     <ClInclude Include="Aurora\Engine\Math.hpp" />
     <ClInclude Include="Aurora\Engine\Mouse.hpp" />
@@ -496,6 +497,7 @@
     <ClCompile Include="Aurora\Engine\glad.c" />
     <ClCompile Include="Aurora\Engine\Graphics.cpp" />
     <ClCompile Include="Aurora\Engine\Keyboard.cpp" />
+    <ClCompile Include="Aurora\Engine\Sound.cpp" />
     <ClCompile Include="Aurora\Engine\Timer.cpp" />
     <ClCompile Include="Aurora\Engine\Math.cpp" />
     <ClCompile Include="Aurora\Engine\Mouse.cpp" />

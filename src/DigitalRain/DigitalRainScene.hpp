@@ -57,15 +57,15 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 0, 0, 1);
 		spriteRenderer.begin();
-		spriteRenderer.draw(font, "FPS:" + std::to_string(Graphics::getFPS()), 0, Graphics::getHeight(), 1, 1, 1, 1);
 		for (int i = 0; i < rains.size(); i++)
 		{
-			spriteRenderer.draw(font, rains[i].character[0], rains[i].x, rains[i].y, 1, 1, 1, 1);
+			font.draw(spriteRenderer, rains[i].character[0], rains[i].x, rains[i].y, 1, 1, 1, 1);
 			for (int j = 1; j < rains[i].character.size(); j++)
 			{
-				spriteRenderer.draw(font, rains[i].character[j], rains[i].x, rains[i].y + stride * j, 0, 1, 0, 1.f - (float)(j - 1) / rains[i].len);
+				font.draw(spriteRenderer, rains[i].character[j], rains[i].x, rains[i].y + stride * j, 0, 1, 0, 1.f - (float)(j - 1) / rains[i].len);
 			}
 		}
+		font.draw(spriteRenderer, "FPS:" + std::to_string(Graphics::getFPS()), 0, Graphics::getHeight(), 1, 1, 1, 1);
 		spriteRenderer.end();
 	}
 

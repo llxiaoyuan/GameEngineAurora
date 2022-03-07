@@ -5,6 +5,10 @@
 
 #include<glm/glm.hpp>
 
+#include"SpriteRenderer.hpp"
+
+class SpriteRenderer;
+
 class Actor
 {
 public:
@@ -15,7 +19,7 @@ public:
 
 	virtual void update(const float& dt) = 0;
 
-	virtual void render() = 0;
+	virtual void render(SpriteRenderer& renderer) = 0;
 
 	const glm::vec3& getPosition() const;
 

@@ -15,7 +15,7 @@ void SteeringBehaviorScene::update(const float& dt)
     for (size_t i = 0; i < characters.size(); i++)
     {
         characters[i].flock(characters);
-        characters[i].update(1.f);
+        characters[i].update(dt*100.f);
     }
 }
 

@@ -3,15 +3,16 @@
 #ifndef _MUSIC_HPP_
 #define _MUSIC_HPP_
 
-#include<irrKlang/irrKlang.h>
-
+#include"Sound.hpp"
 #include"Aurora.hpp"
 
 class Music
 {
 public:
 
-	static void play(const char* filePath,const bool& loop);
+	static void play(const Sound& sound);
+
+	static Sound load(const char* filePath, const bool& loop);
 
 private:
 

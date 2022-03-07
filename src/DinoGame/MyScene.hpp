@@ -20,7 +20,8 @@ public:
 		Scene(gsm),
 		font("res\\DinoGameRes\\font\\Game.png", "res\\DinoGameRes\\font\\Game.fnt"),
 		isGameEnded(false),
-		gameOverTexture("res\\DinoGameRes\\textures\\Gameover.png")
+		gameOverTexture("res\\DinoGameRes\\textures\\Gameover.png"),
+		gameOverSound(Music::load("res\\DinoGameRes\\music\\hit.ogg", false))
 	{
 		score = 0;
 		hiScore = 0;
@@ -56,6 +57,7 @@ public:
 			groundManager.update(dt);
 			obstacleManager.update(dt);
 			isGameEnded = dinoCollided();
+			
 		}
 	}
 
@@ -68,7 +70,7 @@ public:
 		groundManager.render(spriteRenderer);
 		obstacleManager.render(spriteRenderer);
 		printScore(spriteRenderer);
-		spriteRenderer.draw(dino);
+		dino.render(spriteRenderer);
 		if (isGameEnded)
 		{
 			spriteRenderer.draw(gameOverTexture, Graphics::getWidth() / 2.f, Graphics::getHeight() / 2.f, gameOverTexture.getWidth() / 2.f, gameOverTexture.getHeight() / 2.f);
@@ -79,6 +81,8 @@ public:
 private:
 
 	bool isGameEnded;
+
+	Sound gameOverSound;
 
 	ObstacleManager obstacleManager;
 
@@ -98,17 +102,15 @@ private:
 
 	void printScore(SpriteRenderer& renderer)
 	{
-		renderer.draw(font, "HI", 660, 490, 0, 1, 1, 1);
-
+		font.draw(renderer, "HI", 660, 490, 0, 1, 1, 1);
 		std::string strScore = std::to_string(hiScore);
 		float x = 820 - (float)strScore.size() * 20;
-		renderer.draw(font, strScore, x, 490);
-
+		font.draw(renderer, strScore, x, 490);
 		if (score.visible)
 		{
 			strScore = std::to_string(score);
 			x = 940 - (float)strScore.size() * 20;
-			renderer.draw(font, strScore, x, 490);
+			font.draw(renderer, strScore, x, 490);
 		}
 
 	}
@@ -128,7 +130,7 @@ private:
 
 	void gameEnd()
 	{
-		Music::play("res\\DinoGameRes\\music\\hit.ogg", false);
+		Music::play(gameOverSound);
 		dino.collided = true;
 	}
 
