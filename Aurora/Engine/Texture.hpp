@@ -76,7 +76,6 @@ private:
 
 	unsigned int rendererID;
 
-
 	std::vector<glm::mat4> modelMatrices;
 
 	std::vector<glm::vec4> colors;

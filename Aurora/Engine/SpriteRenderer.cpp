@@ -28,6 +28,15 @@ void SpriteRenderer::begin()
 
 void SpriteRenderer::end()
 {
+	for (size_t i = 0; i < texturePool.size(); i++)
+	{
+		texturePool[i]->updateMatrices();
+		texturePool[i]->bind();
+		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, texturePool[i]->getInstanceNum());
+		texturePool[i]->unbind();
+		texturePool[i]->checkOut();
+	}
+
 	textRenderShader.bind();
 
 	for (size_t i = 0; i < bitmapTexturePool.size(); i++)
@@ -40,17 +49,7 @@ void SpriteRenderer::end()
 		bitmapTexturePool[i]->checkOut();
 	}
 
-	instanceRenderShader.bind();
-
-	for (size_t i = 0; i < texturePool.size(); i++)
-	{
-		texturePool[i]->updateMatrices();
-		texturePool[i]->bind();
-		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, texturePool[i]->getInstanceNum());
-		texturePool[i]->unbind();
-		texturePool[i]->checkOut();
-	}
-	instanceRenderShader.unbind();
+	textRenderShader.unbind();
 }
 
 void SpriteRenderer::draw(Texture& texture, const float& x, const float& y)

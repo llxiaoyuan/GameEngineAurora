@@ -173,6 +173,7 @@ void BitmapFont::draw(SpriteRenderer& renderer, const std::string& context, cons
 	for (int i = 0; i < context.size(); i++)
 	{
 		const BitmapFont::Character& character = getCharacter(context[i]);
+		renderer.bitmapTexturePoolAdd(getTexture(character.index));
 		const float currentY = y + character.yoffset;
 		glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0));
 		model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
