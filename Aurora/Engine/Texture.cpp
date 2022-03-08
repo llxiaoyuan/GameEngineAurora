@@ -3,12 +3,12 @@
 const int Texture::maxMatricesNum = 16384;
 
 Texture::Texture() :
-	VAO(0), VBO(0), instanceVBO(0), bpp(0), height(0), width(0), rendererID(0), curIndex(0)
+	VAO(0), VBO(0), instanceVBO(0), bpp(0), height(0), width(0), rendererID(0), curIndex(0), registered(false)
 {
 }
 
 Texture::Texture(const std::string& path)
-	: rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), instanceVBO(0), modelMatrices(maxMatricesNum), curIndex(0)
+	: rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), instanceVBO(0), modelMatrices(maxMatricesNum), curIndex(0), registered(false)
 {
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
@@ -69,7 +69,7 @@ Texture::Texture(const std::string& path)
 }
 
 Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const bool& needInstanceRender) :
-	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), modelMatrices(needInstanceRender ? maxMatricesNum : 0), curIndex(0)
+	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), modelMatrices(needInstanceRender ? maxMatricesNum : 0), curIndex(0), registered(false)
 {
 	glGenTextures(1, &rendererID);
 	glBindTexture(GL_TEXTURE_2D, rendererID);
@@ -222,5 +222,20 @@ bool Texture::operator==(const Texture& texture) const
 const unsigned int& Texture::getRenderID() const
 {
 	return rendererID;
+}
+
+void Texture::chekcIn()
+{
+	registered = true;
+}
+
+void Texture::checkOut()
+{
+	registered = false;
+}
+
+const bool& Texture::isRegistered()
+{
+	return registered;
 }
 

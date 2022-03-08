@@ -46,6 +46,12 @@ public:
 
 	const unsigned int& getRenderID() const;
 
+	void chekcIn();
+
+	void checkOut();
+
+	const bool& isRegistered();
+
 private:
 
 	int width;
@@ -67,6 +73,8 @@ private:
 	std::vector<glm::mat4> modelMatrices;
 
 	int curIndex;
+
+	bool registered;
 
 };
 

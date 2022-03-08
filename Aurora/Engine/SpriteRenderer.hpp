@@ -27,9 +27,11 @@ public:
 
 	void end();
 
-	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation=0);
-
 	void draw(Texture& texture, const float& x, const float& y);
+
+	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY);
+
+	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation);
 
 	Shader textRenderShader;
 
