@@ -18,7 +18,7 @@ public:
 
 	~BitmapFont();
 
-	const Texture& getTexture(const int& index) const;
+	Texture& getTexture(const int& index);
 
 	struct Character
 	{

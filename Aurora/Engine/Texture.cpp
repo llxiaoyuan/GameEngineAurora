@@ -1,14 +1,14 @@
 #include"Texture.hpp"
 
-const int Texture::maxMatricesNum = 16384;
+const int Texture::defaultMaxMatricesNum = 16384;
 
 Texture::Texture() :
-	VAO(0), VBO(0), instanceVBO(0), bpp(0), height(0), width(0), rendererID(0), curIndex(0), registered(false)
+	VAO(0), VBO(0), instanceVBO(0), bpp(0), height(0), width(0), rendererID(0), curIndex(0), registered(false), colorVBO(0)
 {
 }
 
 Texture::Texture(const std::string& path)
-	: rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), instanceVBO(0), modelMatrices(maxMatricesNum), curIndex(0), registered(false)
+	: rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), instanceVBO(0), modelMatrices(defaultMaxMatricesNum), curIndex(0), registered(false), colorVBO(0)
 {
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
@@ -40,7 +40,7 @@ Texture::Texture(const std::string& path)
 
 		glGenBuffers(1, &instanceVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * maxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * defaultMaxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
 		glEnableVertexAttribArray(3);
@@ -68,8 +68,8 @@ Texture::Texture(const std::string& path)
 
 }
 
-Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const bool& needInstanceRender) :
-	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), modelMatrices(needInstanceRender ? maxMatricesNum : 0), curIndex(0), registered(false)
+Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const bool& isBitmapFontTexture) :
+	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), modelMatrices(isBitmapFontTexture ? 1000 : defaultMaxMatricesNum), curIndex(0), registered(false), colorVBO(0), colors(isBitmapFontTexture ? 1000 : 0)
 {
 	glGenTextures(1, &rendererID);
 	glBindTexture(GL_TEXTURE_2D, rendererID);
@@ -92,25 +92,36 @@ Texture::Texture(unsigned char* buffer, const int& width, const int& height, con
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	if (needInstanceRender)
-	{
-		glGenBuffers(1, &instanceVBO);
-		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * maxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
-		glEnableVertexAttribArray(5);
-		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+	glGenBuffers(1, &instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * modelMatrices.size(), nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
 
-		glVertexAttribDivisor(2, 1);
-		glVertexAttribDivisor(3, 1);
-		glVertexAttribDivisor(4, 1);
-		glVertexAttribDivisor(5, 1);
+	if (isBitmapFontTexture)
+	{
+		glGenBuffers(1, &colorVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * modelMatrices.size(), nullptr, GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(6);
+		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
 	}
+
+	glVertexAttribDivisor(2, 1);
+	glVertexAttribDivisor(3, 1);
+	glVertexAttribDivisor(4, 1);
+	glVertexAttribDivisor(5, 1);
+	if (isBitmapFontTexture)
+	{
+		glVertexAttribDivisor(6, 1);
+	}
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -122,9 +133,10 @@ void Texture::dispose() const
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteTextures(1, &rendererID);
-	if (instanceVBO)
+	glDeleteBuffers(1, &instanceVBO);
+	if (colorVBO)
 	{
-		glDeleteBuffers(1, &instanceVBO);
+		glDeleteBuffers(1, &colorVBO);
 	}
 }
 
@@ -170,7 +182,7 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 			}
 		}
 
-		results.push_back(Texture(tempBuffer, width, height, bpp, true));
+		results.push_back(Texture(tempBuffer, width, height, bpp, false));
 
 		delete[] tempBuffer;
 	}
@@ -199,19 +211,26 @@ void Texture::updateMatrices() const
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void Texture::updateColors() const
+{
+	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(glm::vec4), &colors[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 void Texture::addModel(const glm::mat4& model)
 {
 	modelMatrices[curIndex++] = model;
 }
 
+void Texture::addColor(const float& r, const float& g, const float& b, const float& a)
+{
+	colors[curIndex] = glm::vec4(r, g, b, a);
+}
+
 const int& Texture::getInstanceNum() const
 {
 	return curIndex;
-}
-
-void Texture::resetInstanceNum()
-{
-	curIndex = 0;
 }
 
 bool Texture::operator==(const Texture& texture) const
@@ -224,13 +243,14 @@ const unsigned int& Texture::getRenderID() const
 	return rendererID;
 }
 
-void Texture::chekcIn()
+void Texture::checkIn()
 {
 	registered = true;
 }
 
 void Texture::checkOut()
 {
+	curIndex = 0;
 	registered = false;
 }
 

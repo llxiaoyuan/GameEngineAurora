@@ -120,8 +120,8 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 			}
 		}
 
-		textures.push_back(Texture(buffer, width, height, bpp, false));
-
+		textures.push_back(Texture(buffer, width, height, bpp, true));
+		
 		delete[] buffer;
 	}
 
@@ -141,7 +141,7 @@ BitmapFont::~BitmapFont()
 	}
 }
 
-const Texture& BitmapFont::getTexture(const int& index) const
+Texture& BitmapFont::getTexture(const int& index)
 {
 	return textures[index];
 }
@@ -169,35 +169,26 @@ const float& BitmapFont::getScale() const
 
 void BitmapFont::draw(SpriteRenderer& renderer, const std::string& context, const float& x, const float& y, const float& r, const float& g, const float& b, const float& a)
 {
-	renderer.textRenderShader.bind();
-	renderer.textRenderShader.setVec4f("spriteColor", r, g, b, a);
 	float currentX = x;
 	for (int i = 0; i < context.size(); i++)
 	{
 		const BitmapFont::Character& character = getCharacter(context[i]);
 		const float currentY = y + character.yoffset;
-		glm::mat4 pos = glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0));
-		pos = glm::scale(pos, glm::vec3(getScale(), getScale(), 1));
-		renderer.textRenderShader.setMatrix4fv("pos", pos);
-		getTexture(character.index).bind();
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		getTexture(character.index).unbind();
+		glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0));
+		model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
+		getTexture(character.index).addColor(r, g, b, a);
+		getTexture(character.index).addModel(model);
 		currentX += character.xadvance * getScale();
 	}
-	renderer.instanceRenderShader.bind();
 }
 
 void BitmapFont::draw(SpriteRenderer& renderer, const char& context, const float& x, const float& y, const float& r, const float& g, const float& b, const float& a)
 {
-	renderer.textRenderShader.bind();
-	renderer.textRenderShader.setVec4f("spriteColor", r, g, b, a);
 	const BitmapFont::Character& character = getCharacter(context);
-	glm::mat4 pos = glm::translate(glm::mat4(1.f), glm::vec3(x + character.xoffset, y + character.yoffset, 0));
-	pos = glm::scale(pos, glm::vec3(getScale(), getScale(), 1));
-	renderer.textRenderShader.setMatrix4fv("pos", pos);
-	getTexture(character.index).bind();
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-	getTexture(character.index).unbind();
-	renderer.instanceRenderShader.bind();
+	renderer.bitmapTexturePoolAdd(getTexture(character.index));
+	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x + character.xoffset, y + character.yoffset, 0));
+	model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
+	getTexture(character.index).addColor(r, g, b, a);
+	getTexture(character.index).addModel(model);
 }
 

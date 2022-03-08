@@ -33,6 +33,10 @@ public:
 
 	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation);
 
+	void texturePoolAdd(Texture& texture);
+
+	void bitmapTexturePoolAdd(Texture& texture);
+
 	Shader textRenderShader;
 
 	Shader instanceRenderShader;
@@ -41,7 +45,7 @@ private:
 
 	std::vector<Texture*> texturePool;
 
-	void texturePoolAdd(Texture& texture);
+	std::vector<Texture*> bitmapTexturePool;
 
 };
 

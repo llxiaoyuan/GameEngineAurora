@@ -18,11 +18,11 @@ public:
 
 	Texture(const std::string& path);
 
-	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp,const bool& needInstanceRender);
+	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const bool& isBitmapFontTexture);
 
 	void dispose() const;
 
-	static std::vector<Texture> loadSplit(const std::string& path,const int& width,const int& height,const int& count);
+	static std::vector<Texture> loadSplit(const std::string& path, const int& width, const int& height, const int& count);
 
 	const int& getWidth() const;
 
@@ -34,19 +34,23 @@ public:
 
 	void updateMatrices() const;
 
+	void updateColors() const;
+
+	//如有需要请先调用addColor
 	void addModel(const glm::mat4& model);
+
+	//如果需要先调用addColor再掉用addModel addModel会使curIndex自增1
+	void addColor(const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
 
 	const int& getInstanceNum() const;
 
-	void resetInstanceNum();
-
 	bool operator==(const Texture& texture) const;
 
-	static const int maxMatricesNum;
+	static const int defaultMaxMatricesNum;
 
 	const unsigned int& getRenderID() const;
 
-	void chekcIn();
+	void checkIn();
 
 	void checkOut();
 
@@ -66,11 +70,16 @@ private:
 
 	unsigned int instanceVBO;
 
+	unsigned int colorVBO;
+
 	unsigned int VAO;
 
 	unsigned int rendererID;
 
+
 	std::vector<glm::mat4> modelMatrices;
+
+	std::vector<glm::vec4> colors;
 
 	int curIndex;
 

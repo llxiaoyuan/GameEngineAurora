@@ -23,17 +23,31 @@ void SpriteRenderer::begin()
 {
 	instanceRenderShader.bind();
 	texturePool.clear();
+	bitmapTexturePool.clear();
 }
 
 void SpriteRenderer::end()
 {
+	textRenderShader.bind();
+
+	for (size_t i = 0; i < bitmapTexturePool.size(); i++)
+	{
+		bitmapTexturePool[i]->updateMatrices();
+		bitmapTexturePool[i]->updateColors();
+		bitmapTexturePool[i]->bind();
+		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, bitmapTexturePool[i]->getInstanceNum());
+		bitmapTexturePool[i]->unbind();
+		bitmapTexturePool[i]->checkOut();
+	}
+
+	instanceRenderShader.bind();
+
 	for (size_t i = 0; i < texturePool.size(); i++)
 	{
 		texturePool[i]->updateMatrices();
 		texturePool[i]->bind();
 		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, texturePool[i]->getInstanceNum());
 		texturePool[i]->unbind();
-		texturePool[i]->resetInstanceNum();
 		texturePool[i]->checkOut();
 	}
 	instanceRenderShader.unbind();
@@ -66,7 +80,16 @@ void SpriteRenderer::texturePoolAdd(Texture& texture)
 {
 	if(!texture.isRegistered())
 	{
-		texture.chekcIn();
+		texture.checkIn();
 		texturePool.push_back(&texture);
+	}
+}
+
+void SpriteRenderer::bitmapTexturePoolAdd(Texture& texture)
+{
+	if (!texture.isRegistered())
+	{
+		texture.checkIn();
+		bitmapTexturePool.push_back(&texture);
 	}
 }
