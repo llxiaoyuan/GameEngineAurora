@@ -1,16 +1,16 @@
 #pragma once
 
-#include<Actor.hpp>
-#include<Keyboard.hpp>
-#include<Rectangle.hpp>
-#include<Animation.hpp>
-#include<Mouse.hpp>
+#include<Aurora/Actor.hpp>
+#include<Aurora/Keyboard.hpp>
+#include<Aurora/Rect.hpp>
+#include<Aurora/Animation.hpp>
+#include<Aurora/Mouse.hpp>
 
 class Dinosaur :public Actor
 {
 public:
 
-	ae::Rectangle rect;
+	Rect rect;
 
 	Animation runAnimation;
 	Texture collideTexture;
@@ -39,7 +39,7 @@ public:
 		std::vector<Texture> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
 		collideTexture=Texture(buffers[0]);
 		jumpingTexture=Texture(buffers[1]);
-		rect = ae::Rectangle(100, 50, 50, 65);
+		rect = Rect(100, 50, 50, 65);
 		position = glm::vec3(100, 50, 0);
 		runAnimation.addTexture(buffers[2]);
 		runAnimation.addTexture(buffers[3]);

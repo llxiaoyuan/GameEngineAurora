@@ -1,10 +1,10 @@
 #pragma once
 
-#include<GameSceneManager.hpp>
-#include<Texture.hpp>
+#include<Aurora/GameSceneManager.hpp>
+#include<Aurora/Texture.hpp>
+#include<Aurora/BitmapFont.hpp>
 #include<iostream>
 #include<string>
-#include<BitmapFont.hpp>
 
 #include"Dinosaur.hpp"
 #include"Score.hpp"

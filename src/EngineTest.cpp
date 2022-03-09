@@ -1,4 +1,4 @@
-#include<Aurora.hpp>
+#include<Aurora/Aurora.hpp>
 
 #include"MyGame.hpp"
 

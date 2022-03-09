@@ -1,7 +1,7 @@
 #pragma once
 
-#include<GameSceneManager.hpp>
-#include<Timer.hpp>
+#include<Aurora/GameSceneManager.hpp>
+#include<Aurora/Timer.hpp>
 #include<glad/glad.h>
 #include<iostream>
 

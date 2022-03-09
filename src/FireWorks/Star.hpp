@@ -3,8 +3,9 @@
 #ifndef _STAR_HPP_
 #define _STAR_HPP_
 
+#include<Aurora/ShapeRenderer.hpp>
+
 #include<vector>
-#include<ShapeRenderer.hpp>
 
 class Star
 {

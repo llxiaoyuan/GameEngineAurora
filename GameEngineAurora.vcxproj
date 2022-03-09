@@ -81,7 +81,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Aurora\Engine;$(SolutionDir)Aurora\tools;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Aurora\include;$(SolutionDir)Aurora\tools;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Aurora\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -144,27 +144,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Aurora\Engine\Actor.hpp" />
-    <ClInclude Include="Aurora\Engine\Animation.hpp" />
-    <ClInclude Include="Aurora\Engine\Aurora.hpp" />
-    <ClInclude Include="Aurora\Engine\BitmapFont.hpp" />
-    <ClInclude Include="Aurora\Engine\Camera.hpp" />
-    <ClInclude Include="Aurora\Engine\Configuration.hpp" />
-    <ClInclude Include="Aurora\Engine\Game.hpp" />
-    <ClInclude Include="Aurora\Engine\GameSceneManager.hpp" />
-    <ClInclude Include="Aurora\Engine\Graphics.hpp" />
-    <ClInclude Include="Aurora\Engine\Keyboard.hpp" />
-    <ClInclude Include="Aurora\Engine\Sound.hpp" />
-    <ClInclude Include="Aurora\Engine\Timer.hpp" />
-    <ClInclude Include="Aurora\Engine\Math.hpp" />
-    <ClInclude Include="Aurora\Engine\Mouse.hpp" />
-    <ClInclude Include="Aurora\Engine\Music.hpp" />
-    <ClInclude Include="Aurora\Engine\Rectangle.hpp" />
-    <ClInclude Include="Aurora\Engine\Shader.hpp" />
-    <ClInclude Include="Aurora\Engine\ShapeRenderer.hpp" />
-    <ClInclude Include="Aurora\Engine\SpriteRenderer.hpp" />
-    <ClInclude Include="Aurora\Engine\Texture.hpp" />
-    <ClInclude Include="Aurora\Engine\Utility.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Actor.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Animation.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Aurora.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\BitmapFont.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Camera.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Configuration.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Game.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\GameSceneManager.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Graphics.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Keyboard.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Sound.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Timer.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Math.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Mouse.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Music.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Rect.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Shader.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\ShapeRenderer.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\SpriteRenderer.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Texture.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Utility.hpp" />
     <ClInclude Include="Aurora\tools\glad\glad.h" />
     <ClInclude Include="Aurora\tools\GLFW\glfw3.h" />
     <ClInclude Include="Aurora\tools\GLFW\glfw3native.h" />
@@ -488,26 +488,26 @@
     <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Aurora\Engine\Actor.cpp" />
-    <ClCompile Include="Aurora\Engine\Animation.cpp" />
-    <ClCompile Include="Aurora\Engine\Aurora.cpp" />
-    <ClCompile Include="Aurora\Engine\BitmapFont.cpp" />
-    <ClCompile Include="Aurora\Engine\Camera.cpp" />
-    <ClCompile Include="Aurora\Engine\Configuration.cpp" />
-    <ClCompile Include="Aurora\Engine\glad.c" />
-    <ClCompile Include="Aurora\Engine\Graphics.cpp" />
-    <ClCompile Include="Aurora\Engine\Keyboard.cpp" />
-    <ClCompile Include="Aurora\Engine\Sound.cpp" />
-    <ClCompile Include="Aurora\Engine\Timer.cpp" />
-    <ClCompile Include="Aurora\Engine\Math.cpp" />
-    <ClCompile Include="Aurora\Engine\Mouse.cpp" />
-    <ClCompile Include="Aurora\Engine\Music.cpp" />
-    <ClCompile Include="Aurora\Engine\Rectangle.cpp" />
-    <ClCompile Include="Aurora\Engine\Shader.cpp" />
-    <ClCompile Include="Aurora\Engine\ShapeRenderer.cpp" />
-    <ClCompile Include="Aurora\Engine\SpriteRenderer.cpp" />
-    <ClCompile Include="Aurora\Engine\Texture.cpp" />
-    <ClCompile Include="Aurora\Engine\Utility.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Actor.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Animation.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Aurora.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\BitmapFont.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Camera.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Configuration.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\glad.c" />
+    <ClCompile Include="Aurora\src\Aurora\Graphics.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Keyboard.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Sound.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Timer.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Math.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Mouse.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Music.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Rect.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Shader.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\ShapeRenderer.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\SpriteRenderer.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Texture.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Utility.cpp" />
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp" />
     <ClCompile Include="Aurora\tools\stb_image\stb_image.cpp" />
     <ClCompile Include="src\EngineTest.cpp" />

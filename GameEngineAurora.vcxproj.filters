@@ -15,64 +15,64 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Aurora\Engine\Actor.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Actor.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Animation.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Animation.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Aurora.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Aurora.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\BitmapFont.hpp">
+    <ClInclude Include="Aurora\include\Aurora\BitmapFont.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Camera.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Camera.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Configuration.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Configuration.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Game.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Game.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\GameSceneManager.hpp">
+    <ClInclude Include="Aurora\include\Aurora\GameSceneManager.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Graphics.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Graphics.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Keyboard.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Keyboard.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Timer.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Timer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Math.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Math.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Mouse.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Mouse.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Music.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Music.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Rectangle.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Rect.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Shader.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Shader.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\ShapeRenderer.hpp">
+    <ClInclude Include="Aurora\include\Aurora\ShapeRenderer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\SpriteRenderer.hpp">
+    <ClInclude Include="Aurora\include\Aurora\SpriteRenderer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Texture.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Texture.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Utility.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Utility.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Aurora\tools\glad\glad.h">
@@ -1038,60 +1038,60 @@
     <ClInclude Include="src\SteeringBehavior\Character.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\Engine\Sound.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Sound.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Aurora\Engine\Animation.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Animation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Aurora.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Aurora.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\BitmapFont.cpp">
+    <ClCompile Include="Aurora\src\Aurora\BitmapFont.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Camera.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\glad.c">
+    <ClCompile Include="Aurora\src\Aurora\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Graphics.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Graphics.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Keyboard.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Keyboard.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Timer.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Timer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Math.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Math.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Mouse.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Mouse.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Music.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Music.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Rectangle.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Rect.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Shader.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\ShapeRenderer.cpp">
+    <ClCompile Include="Aurora\src\Aurora\ShapeRenderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\SpriteRenderer.cpp">
+    <ClCompile Include="Aurora\src\Aurora\SpriteRenderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Texture.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Utility.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Utility.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp">
@@ -1103,16 +1103,16 @@
     <ClCompile Include="src\EngineTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Actor.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Actor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Configuration.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Configuration.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\SteeringBehavior\SteeringBehaviorScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\Engine\Sound.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Sound.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

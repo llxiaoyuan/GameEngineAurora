@@ -1,9 +1,11 @@
 #pragma once
 
-#include<GameSceneManager.hpp>
+#include<Aurora/GameSceneManager.hpp>
 #include<vector>
 
 #include"Character.hpp"
+#include<Aurora/Rect.hpp>
+
 
 class SteeringBehaviorScene :public Scene
 {

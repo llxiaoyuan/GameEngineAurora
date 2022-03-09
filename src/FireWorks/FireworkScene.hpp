@@ -1,12 +1,12 @@
 #pragma once
 
-#include<GameSceneManager.hpp>
-#include<Texture.hpp>
+#include<Aurora/GameSceneManager.hpp>
+#include<Aurora/Texture.hpp>
+#include<Aurora/ShapeRenderer.hpp>
+#include<Aurora/BitmapFont.hpp>
 #include<iostream>
 #include<string>
-#include<BitmapFont.hpp>
 #include<cstdlib>
-#include<ShapeRenderer.hpp>
 
 class FireworkScene :public Scene
 {

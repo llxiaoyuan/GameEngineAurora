@@ -1,9 +1,9 @@
 #pragma once
 
-#include<Actor.hpp>
-#include<Utility.hpp>
+#include<Aurora/Actor.hpp>
+#include<Aurora/Utility.hpp>
+#include<Aurora/Rect.hpp>
 #include<string>
-#include<Rectangle.hpp>
 
 class Obstacle :public Actor
 {
@@ -11,12 +11,12 @@ public:
 
 	Texture* texture;
 
-	ae::Rectangle rect;
+	Rect rect;
 
 	Obstacle(Texture* texture, float x, float y) :
 		texture(texture)
 	{
-		rect = ae::Rectangle(x, y, (float)texture->getWidth(), (float)texture->getHeight());
+		rect = Rect(x, y, (float)texture->getWidth(), (float)texture->getHeight());
 		position = glm::vec3(x, y, 0);
 	}
 

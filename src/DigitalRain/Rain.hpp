@@ -1,11 +1,11 @@
 #pragma once
 
+#include<Aurora/SpriteRenderer.hpp>
+#include<Aurora/BitmapFont.hpp>
+#include<Aurora/Graphics.hpp>
+#include<Aurora/Timer.hpp>
 #include<vector>
-#include<SpriteRenderer.hpp>
-#include<BitmapFont.hpp>
-#include<Graphics.hpp>
 #include<cstdlib>
-#include<Timer.hpp>
 
 class Rain
 {
