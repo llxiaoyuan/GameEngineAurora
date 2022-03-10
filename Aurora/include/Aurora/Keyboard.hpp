@@ -3,10 +3,9 @@
 #ifndef _KEYBOARD_HPP_
 #define _KEYBOARD_HPP_
 
-#include<unordered_map>
 #include<iostream>
-
-#include"Aurora.hpp"
+#include<unordered_map>
+#include<GLFW/glfw3.h>
 
 //º¸≈Ã¿‡
 class Keyboard

@@ -35,6 +35,41 @@ public:
 	//返回贴图高
 	const int& getHeight() const;
 
+private:
+
+	friend class SpriteRenderer;
+
+	friend class BitmapFont;
+
+	//贴图宽
+	int width;
+
+	//贴图高
+	int height;
+
+	//文件源
+	std::string filePath;
+
+	int bpp;
+
+	unsigned int VBO;
+
+	unsigned int instanceVBO;
+
+	unsigned int colorVBO;
+
+	unsigned int VAO;
+
+	unsigned int rendererID;
+
+	std::vector<glm::mat4> modelMatrices;
+
+	std::vector<glm::vec4> colors;
+
+	int curIndex;
+
+	bool registered;
+
 	//绑定贴图
 	void bind() const;
 
@@ -70,37 +105,6 @@ public:
 
 	//此方法返回是否已经在贴图池中
 	const bool& isRegistered() const;
-
-private:
-
-	//贴图宽
-	int width;
-
-	//贴图高
-	int height;
-
-	//文件源
-	std::string filePath;
-
-	int bpp;
-
-	unsigned int VBO;
-
-	unsigned int instanceVBO;
-
-	unsigned int colorVBO;
-
-	unsigned int VAO;
-
-	unsigned int rendererID;
-
-	std::vector<glm::mat4> modelMatrices;
-
-	std::vector<glm::vec4> colors;
-
-	int curIndex;
-
-	bool registered;
 
 };
 

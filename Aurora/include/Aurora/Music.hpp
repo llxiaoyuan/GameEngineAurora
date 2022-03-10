@@ -4,7 +4,6 @@
 #define _MUSIC_HPP_
 
 #include"Sound.hpp"
-#include"Aurora.hpp"
 
 class Music
 {

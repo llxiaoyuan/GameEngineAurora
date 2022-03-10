@@ -155,5 +155,12 @@ public:
 		return force;
 	}
 
+	glm::vec2 flee(const glm::vec2& target)
+	{
+		glm::vec2 force = seek(target);
+		force *= -1;
+		return force;
+	}
+
 
 };

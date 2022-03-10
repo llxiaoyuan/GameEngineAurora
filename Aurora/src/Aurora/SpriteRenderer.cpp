@@ -21,13 +21,14 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::begin()
 {
-	instanceRenderShader.bind();
 	texturePool.clear();
 	bitmapTexturePool.clear();
 }
 
 void SpriteRenderer::end()
 {
+	instanceRenderShader.bind();
+
 	for (size_t i = 0; i < texturePool.size(); i++)
 	{
 		texturePool[i]->updateMatrices();

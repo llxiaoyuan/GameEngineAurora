@@ -4,8 +4,7 @@
 #define _MOUSE_HPP_
 
 #include<glm/glm.hpp>
-
-#include"Aurora.hpp"
+#include<GLFW/glfw3.h>
 
 // Û±Í¿‡
 class Mouse
