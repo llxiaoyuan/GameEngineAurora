@@ -29,8 +29,6 @@ private:
 	static bool rightDown;
 
 	friend class Aurora;
-
-	static void ini();
 	
 	friend void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 

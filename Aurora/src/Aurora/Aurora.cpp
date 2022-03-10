@@ -56,8 +56,6 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	Keyboard::ini();
 
-	Mouse::ini();
-
 	if (config.mode == Configuration::DisplayMode::Wallpaper)
 	{
 		HWND window = FindWindowA(NULL, config.title.c_str());

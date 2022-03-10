@@ -1,142 +1,212 @@
 #include<Aurora/ShapeRenderer.hpp>
 
-ShapeRenderer::ShapeRenderer() :
-	positions(256,0)
+ShapeRenderer::ShapeRenderer()
 {
-	defaultShader.create("res\\shaders\\ShapeBasic.shader");
 
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
-	defaultShader.bind();
-	defaultShader.setMatrix4fv("proj", proj);
-	defaultShader.unbind();
-
-	glGenVertexArrays(1, &polygonVAO);
-	glBindVertexArray(polygonVAO);
-	glGenBuffers(1, &polygonVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
-	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), nullptr, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0 * sizeof(float)));
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 }
 
 ShapeRenderer::~ShapeRenderer()
 {
-	glDeleteBuffers(1, &polygonVBO);
-	glDeleteVertexArrays(1, &polygonVAO);
+
 }
 
 void ShapeRenderer::begin()
 {
-	defaultShader.bind();
+	circleRenderer.begin();
+	lineRenderer.begin();
 }
 
 void ShapeRenderer::end()
 {
-	glUseProgram(0);
+	circleRenderer.updateCirclesData();
+	lineRenderer.updateVerticesData();
+	lineRenderer.end();
+	circleRenderer.end();
 }
 
-void ShapeRenderer::drawLine(const glm::vec2& start, const glm::vec2& end)
+void ShapeRenderer::drawLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a)
 {
-	positions[0] = start.x;
-	positions[1] = start.y;
-	positions[2] = end.x;
-	positions[3] = end.y;
-
-	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 4, positions.data());
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(polygonVAO);
-	glDrawArrays(GL_LINES, 0, 2);
-	glBindVertexArray(0);
+	lineRenderer.addLine(x1, y1, x2, y2, r, g, b, a);
 }
 
-void ShapeRenderer::drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, const float& r, const float& g, const float& b, const float& a)
+void ShapeRenderer::drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a)
 {
-	const glm::vec2 dir = end - start;
+	circleRenderer.addCircle(x, y, length, r, g, b, a);
+}
 
-	positions[0] = start.x;
-	positions[1] = start.y;
-	
-	float ang = atan2f(dir.x, -dir.y);
+ShapeRenderer::CircleRenderer::CircleRenderer() :
+	circlePos(maxCircleNum), circleColor(maxCircleNum), circleLength(maxCircleNum), curIndex(0)
+{
+	circleShader.create("res\\shaders\\CircleShader.shader");
+	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	for (int i = 0; i < 9; i++)
+	circleShader.bind();
+	circleShader.setMatrix4fv("proj", proj);
+	circleShader.unbind();
+
+	std::vector<float> positions(128);
+
 	{
-		positions[(1 + i) * 2] = start.x + width / 2.f * cosf(ang);
-		positions[(1 + i) * 2 + 1] = start.y + width / 2.f * sinf(ang);
-		ang += Math::pi / 8.f;
+		float theta = Math::two_pi / 64;
+		for (int i = 0; i < 64; i++)
+		{
+			positions[i * 2] = cosf(theta);
+			positions[i * 2 + 1] = sinf(theta);
+			theta += Math::two_pi / 64;
+		}
 	}
 
-	ang -= Math::pi / 8.f;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glGenBuffers(1, &verticesVBO);
 
-	for (int i = 10; i < 19; i++)
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), positions.data(), GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
+
+	glGenBuffers(1, &circlePosVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, circlePosVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * maxCircleNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
+
+	glGenBuffers(1, &circleColorVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, circleColorVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * maxCircleNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
+
+	glGenBuffers(1, &circleLengthVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, circleLengthVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * maxCircleNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
+
+	glVertexAttribDivisor(1, 1);
+	glVertexAttribDivisor(2, 1);
+	glVertexAttribDivisor(3, 1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+}
+
+ShapeRenderer::CircleRenderer::~CircleRenderer()
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &verticesVBO);
+	glDeleteBuffers(1, &circlePosVBO);
+	glDeleteBuffers(1, &circleColorVBO);
+	glDeleteBuffers(1, &circleLengthVBO);
+}
+
+void ShapeRenderer::CircleRenderer::begin()
+{
+	curIndex = 0;
+}
+
+void ShapeRenderer::CircleRenderer::end()
+{
+	circleShader.bind();
+	glBindVertexArray(VAO);
+	glDrawArraysInstanced(GL_LINE_LOOP, 0, 64, curIndex);
+	glBindVertexArray(0);
+	circleShader.unbind();
+}
+
+void ShapeRenderer::CircleRenderer::updateCirclesData()
+{
+	circleShader.bind();
+	glBindBuffer(GL_ARRAY_BUFFER, circlePosVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(glm::vec2), &circlePos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, circleColorVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(glm::vec4), &circleColor[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, circleLengthVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(float), &circleLength[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	circleShader.unbind();
+}
+
+void ShapeRenderer::CircleRenderer::addCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a)
+{
+	if (length <= 1.f)//²»»­Ì«Ð¡µÄÔ²
 	{
-		positions[i * 2] = end.x + width / 2.f * cosf(ang);
-		positions[i * 2 + 1] = end.y + width / 2.f * sinf(ang);
-		ang += Math::pi / 8.f;
+		return;
 	}
-
-	positions[38] = positions[2];
-	positions[39] = positions[3];
-
-	defaultShader.setVec4f("u_color", r, g, b, a);
-
-	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 40, positions.data());
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(polygonVAO);
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 20);
-	glBindVertexArray(0);
-
+	circlePos[curIndex] = glm::vec2(x, y);
+	circleLength[curIndex] = length;
+	circleColor[curIndex++] = glm::vec4(r, g, b, a);
 }
 
-void ShapeRenderer::drawTriangle(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3, const float& r, const float& g, const float& b, const float& a)
+ShapeRenderer::LineRenderer::LineRenderer() :
+	vertices(maxVerticesNum * 2), colors(maxVerticesNum), curIndex(0), verticesNum(0)
 {
-	positions[0] = p1.x;
-	positions[1] = p1.y;
+	lineShader.create("res\\shaders\\LineShader.shader");
+	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	positions[2] = p2.x;
-	positions[3] = p2.y;
+	lineShader.bind();
+	lineShader.setMatrix4fv("proj", proj);
+	lineShader.unbind();
 
-	positions[4] = p3.x;
-	positions[5] = p3.y;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glGenBuffers(1, &verticesVBO);
 
-	defaultShader.setVec4f("u_color", r, g, b, a);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 6, positions.data());
+	glGenBuffers(1, &colorVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * maxVerticesNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(polygonVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
-
 }
 
-void ShapeRenderer::drawRect(const glm::vec2& pos, const glm::vec2 rect, const float& r, const float& g, const float& b, const float& a)
+ShapeRenderer::LineRenderer::~LineRenderer()
 {
-	positions[0] = pos.x;
-	positions[1] = pos.y;
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &verticesVBO);
+	glDeleteBuffers(1, &colorVBO);
+}
 
-	positions[2] = pos.x + rect.x;
-	positions[3] = pos.y;
+void ShapeRenderer::LineRenderer::begin()
+{
+	verticesNum = 0;
+	curIndex = 0;
+}
 
-	positions[4] = pos.x + rect.x;
-	positions[5] = pos.y + rect.y;
-
-	positions[6] = pos.x;
-	positions[7] = pos.y + rect.y;
-
-	defaultShader.setVec4f("u_color", r, g, b, a);
-
-	glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 8, positions.data());
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(polygonVAO);
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+void ShapeRenderer::LineRenderer::end()
+{
+	lineShader.bind();
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_LINES, 0, verticesNum);
 	glBindVertexArray(0);
+	lineShader.unbind();
+}
+
+void ShapeRenderer::LineRenderer::updateVerticesData()
+{
+	lineShader.bind();
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(float), &vertices[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, verticesNum * sizeof(glm::vec4), &colors[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	lineShader.unbind();
+}
+
+void ShapeRenderer::LineRenderer::addLine(const float& x1, const float& y1, const float& x2, const float& y2,const float& r,const float& g,const float& b,const float& a)
+{
+	vertices[curIndex++] = x1;
+	vertices[curIndex++] = y1;
+	vertices[curIndex++] = x2;
+	vertices[curIndex++] = y2;
+	colors[verticesNum++] = glm::vec4(r, g, b, a);
+	colors[verticesNum++] = glm::vec4(r, g, b, a);
 }

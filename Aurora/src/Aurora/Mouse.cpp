@@ -1,8 +1,8 @@
 #include<Aurora/Mouse.hpp>
 
-glm::vec2 Mouse::pos;
-bool Mouse::leftDown;
-bool Mouse::rightDown;
+glm::vec2 Mouse::pos = glm::vec2(0, 0);
+bool Mouse::leftDown = false;
+bool Mouse::rightDown = false;
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -49,11 +49,4 @@ const bool& Mouse::isLeftDown()
 const bool& Mouse::isRightDown()
 {
 	return rightDown;
-}
-
-void Mouse::ini()
-{
-	pos = glm::vec2(0, 0);
-	leftDown = false;
-	rightDown = false;
 }

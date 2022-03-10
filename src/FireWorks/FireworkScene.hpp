@@ -40,9 +40,14 @@ public:
 
 	void render(SpriteRenderer& spriteRenderer,ShapeRenderer& shapeRenderer) override
 	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(1, 1, 1, 1);
 		shapeRenderer.begin();
-		shapeRenderer.drawRCLine(glm::vec2(100, 100), glm::vec2(200, 200), 10, 0, 0, 1, 1);
-		shapeRenderer.drawTriangle(glm::vec2(100, 100), glm::vec2(200, 100), glm::vec2(150, 200), 1, 0, 0, 1);
+		for (int i = 0; i < 80000; i++)
+		{
+			shapeRenderer.drawCircle(rand() % Graphics::getWidth(), rand() % Graphics::getHeight(), 50, 0, 0, 1);
+		}
+		shapeRenderer.drawCircle(Graphics::getWidth() / 2, Graphics::getHeight() / 2, 1, 0, 0, 1);
 		shapeRenderer.end();
 	}
 

@@ -16,7 +16,7 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 	}shaderenum = ShaderEnum::NONE;
 
 	std::stringstream ss[3];
-	
+
 	std::string line;
 
 	while (std::getline(stream, line))
@@ -39,12 +39,12 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 		}
 	}
 
-	std::cout << "["<<typeid(*this).name()<<"] " << filePath << " compile ";
+	std::cout << "[" << typeid(*this).name() << "] " << filePath << " compile ";
 
 	return std::vector<std::string>{ ss[0].str(), ss[1].str(), ss[2].str() };
 }
 
-unsigned int Shader::CompileShader(const std::string& source, GLenum type)
+unsigned int Shader::CompileShader(const std::string& source,const GLenum& type)
 {
 
 	unsigned int id = glCreateShader(type);
@@ -71,11 +71,13 @@ unsigned int Shader::CompileShader(const std::string& source, GLenum type)
 	return id;
 }
 
-unsigned int Shader::CreateShader(const std::vector<std::string> shaderSource)
+unsigned int Shader::CreateShader(const std::vector<std::string>& shaderSource)
 {
 	unsigned int program = glCreateProgram();
 
 	unsigned int vs = 0, fs = 0, gs = 0;
+
+	bool succeed = true;
 
 	for (int i = 0; i < shaderSource.size(); i++)
 	{
@@ -86,17 +88,26 @@ unsigned int Shader::CreateShader(const std::vector<std::string> shaderSource)
 		switch (i)
 		{
 		case 0UL:
-			vs = CompileShader(shaderSource[0], GL_VERTEX_SHADER);
+			if (!(vs = CompileShader(shaderSource[0], GL_VERTEX_SHADER)))
+			{
+				succeed = false;
+			}
 			glAttachShader(program, vs);
 			glDeleteShader(vs);
 			break;
 		case 1UL:
-			fs = CompileShader(shaderSource[1], GL_FRAGMENT_SHADER);
+			if (!(fs = CompileShader(shaderSource[1], GL_FRAGMENT_SHADER)))
+			{
+				succeed = false;
+			}
 			glAttachShader(program, fs);
 			glDeleteShader(fs);
 			break;
 		case 2UL:
-			gs = CompileShader(shaderSource[2], GL_GEOMETRY_SHADER);
+			if (!(gs = CompileShader(shaderSource[2], GL_GEOMETRY_SHADER)))
+			{
+				succeed = false;
+			}
 			glAttachShader(program, gs);
 			glDeleteShader(gs);
 			break;
@@ -108,7 +119,14 @@ unsigned int Shader::CreateShader(const std::vector<std::string> shaderSource)
 	glLinkProgram(program);
 	glValidateProgram(program);
 
-	std::cout << "success!\n";
+	if (succeed)
+	{
+		std::cout << "success!\n";
+	}
+	else
+	{
+		std::cout << "failed\n";
+	}
 
 	return program;
 }

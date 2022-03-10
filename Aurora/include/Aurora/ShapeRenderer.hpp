@@ -22,23 +22,88 @@ public:
 
 	void end();
 
-	void drawLine(const glm::vec2& start, const glm::vec2& end);
+	void drawLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a = 1.f);
 
-	void drawRCLine(const glm::vec2& start, const glm::vec2& end, const float& width, const float& r, const float& g, const float& b, const float& a);
-
-	void drawTriangle(const glm::vec2& p1, const glm::vec2& p2, const glm::vec2& p3, const float& r, const float& g, const float& b, const float& a);
-
-	void drawRect(const glm::vec2& pos, const glm::vec2 rect, const float& r, const float& g, const float& b, const float& a);
+	void drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a = 1.f);
 
 private:
 
-	std::vector<float> positions;
+	//同一时间最多画50000个圆和SpriteRenderer绘制方法类似
+	class CircleRenderer
+	{
+	public:
 
-	unsigned int polygonVAO;
+		CircleRenderer();
 
-	unsigned int polygonVBO;
+		~CircleRenderer();
 
-	Shader defaultShader;
+		void begin();
+
+		void end();
+
+		void updateCirclesData();
+
+		void addCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a);
+
+		unsigned int VAO;
+
+		unsigned int verticesVBO;
+
+		unsigned int circlePosVBO;
+
+		unsigned int circleColorVBO;
+
+		unsigned int circleLengthVBO;
+
+		std::vector<glm::vec2> circlePos;
+
+		std::vector<glm::vec4> circleColor;
+
+		std::vector<float> circleLength;
+		
+		int curIndex;
+
+		Shader circleShader;
+
+		static constexpr int maxCircleNum = 100000;
+
+	} circleRenderer;
+
+	class LineRenderer
+	{
+	public:
+
+		LineRenderer();
+
+		~LineRenderer();
+
+		void begin();
+
+		void end();
+
+		void updateVerticesData();
+
+		void addLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a);
+
+		unsigned int VAO;
+
+		unsigned int verticesVBO;
+
+		unsigned int colorVBO;
+
+		std::vector<float> vertices;
+
+		std::vector<glm::vec4> colors;
+
+		int curIndex;
+
+		int verticesNum;
+
+		Shader lineShader;
+
+		static constexpr int maxVerticesNum = 1000000;
+
+	} lineRenderer;
 
 };
 

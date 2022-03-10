@@ -42,10 +42,10 @@ private:
 	std::vector<std::string> ParseShader(const std::string& filePath);
 
 	//编译着色器
-	unsigned int CompileShader(const std::string& source, GLenum type);
+	unsigned int CompileShader(const std::string& source, const GLenum& type);
 
 	//创建着色器
-	unsigned int CreateShader(const std::vector<std::string> shaderSource);
+	unsigned int CreateShader(const std::vector<std::string>& shaderSource);
 
 };
 

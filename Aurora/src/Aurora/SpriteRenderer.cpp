@@ -1,7 +1,6 @@
 #include<Aurora/SpriteRenderer.hpp>
 
-SpriteRenderer::SpriteRenderer():
-	texturePool()
+SpriteRenderer::SpriteRenderer()
 {
 	textRenderShader.create("res\\shaders\\TextRender.shader");
 	instanceRenderShader.create("res\\shaders\\InstanceRender.shader");
