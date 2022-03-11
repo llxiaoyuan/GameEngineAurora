@@ -19,14 +19,21 @@ bool Aurora::iniEngine(const Configuration& config)
 		glfwWindowHint(GLFW_SAMPLES, config.multiSample);
 	}
 
-	if (config.mode == Configuration::DisplayMode::Normal)
+	switch (config.mode)
 	{
+	case Configuration::DisplayMode::Normal:
 		Graphics::screenWidth = config.screenWidth;
 		Graphics::screenHeight = config.screenHeight;
-	}
-	else
-	{
+		break;
+	case Configuration::DisplayMode::Wallpaper:
 		getSysResolution(Graphics::screenWidth, Graphics::screenHeight);
+		break;
+	case Configuration::DisplayMode::Record:
+		Graphics::screenWidth = config.screenWidth;
+		Graphics::screenHeight = config.screenHeight;
+		break;
+	default:
+		break;
 	}
 
 	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config.title.c_str(), NULL, NULL);
@@ -73,6 +80,10 @@ bool Aurora::iniEngine(const Configuration& config)
 		HWND bg = get_wallpaper_window();
 		SetParent(window, bg);
 		MoveWindow(window, 0, 0, Graphics::screenWidth, Graphics::screenHeight, 0);
+	}
+	else if (config.mode == Configuration::DisplayMode::Record)
+	{
+		glfwSwapInterval(0);
 	}
 
 	return true;

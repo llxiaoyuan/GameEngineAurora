@@ -13,7 +13,8 @@ public:
 	const enum class DisplayMode
 	{
 		Normal,
-		Wallpaper
+		Wallpaper,
+		Record
 	} mode;
 
 	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title, const DisplayMode& mode, const bool& useAudio, const int& multiSample = 0);

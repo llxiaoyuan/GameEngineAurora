@@ -22,6 +22,7 @@ void SpriteRenderer::begin()
 {
 	texturePool.clear();
 	bitmapTexturePool.clear();
+	renderTexturePool.clear();
 }
 
 void SpriteRenderer::end()
@@ -35,6 +36,15 @@ void SpriteRenderer::end()
 		texturePool[i]->drawInstance();
 		texturePool[i]->unbind();
 		texturePool[i]->checkOut();
+	}
+
+	for (size_t i = 0; i < renderTexturePool.size(); i++)
+	{
+		renderTexturePool[i]->updateMatrices();
+		renderTexturePool[i]->bind();
+		renderTexturePool[i]->drawInstance();
+		renderTexturePool[i]->unbind();
+		renderTexturePool[i]->checkOut();
 	}
 
 	textRenderShader.bind();
@@ -75,6 +85,13 @@ void SpriteRenderer::draw(Texture& texture, const float& x, const float& y, cons
 	texture.addModel(model);
 }
 
+void SpriteRenderer::draw(RenderTexture& renderTexture, const float& x, const float& y)
+{
+	renderTexturePoolAdd(renderTexture);
+	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0));
+	renderTexture.addModel(model);
+}
+
 void SpriteRenderer::texturePoolAdd(Texture& texture)
 {
 	if(!texture.isRegistered())
@@ -90,5 +107,14 @@ void SpriteRenderer::bitmapTexturePoolAdd(Texture& texture)
 	{
 		texture.checkIn();
 		bitmapTexturePool.push_back(&texture);
+	}
+}
+
+void SpriteRenderer::renderTexturePoolAdd(RenderTexture& renderTexture)
+{
+	if (!renderTexture.isRegistered())
+	{
+		renderTexture.checkIn();
+		renderTexturePool.push_back(&renderTexture);
 	}
 }

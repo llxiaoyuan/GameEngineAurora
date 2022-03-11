@@ -4,6 +4,7 @@
 #define _SHAPE_RENDERER_HPP_
 
 #include<glm/gtc/matrix_transform.hpp>
+#include<array>
 
 #include"Math.hpp"
 #include"Graphics.hpp"
@@ -55,17 +56,17 @@ private:
 
 		unsigned int circleLengthVBO;
 
-		std::vector<glm::vec2> circlePos;
+		static constexpr int maxCircleNum = 100000;
 
-		std::vector<glm::vec4> circleColor;
+		std::array<glm::vec2, maxCircleNum> circlePos;
 
-		std::vector<float> circleLength;
+		std::array<glm::vec4, maxCircleNum> circleColor;
+
+		std::array<float, maxCircleNum> circleLength;
 		
-		int curIndex;
+		int curCircleNum;
 
 		Shader circleShader;
-
-		static constexpr int maxCircleNum = 100000;
 
 	} circleRenderer;
 
@@ -91,17 +92,15 @@ private:
 
 		unsigned int colorVBO;
 
-		std::vector<float> vertices;
+		static constexpr int maxVerticesNum = 1000000;
 
-		std::vector<glm::vec4> colors;
+		std::array<glm::vec2, maxVerticesNum> vertices;
 
-		int curIndex;
+		std::array<glm::vec4, maxVerticesNum> colors;
 
-		int verticesNum;
+		int curVerticesNum;
 
 		Shader lineShader;
-
-		static constexpr int maxVerticesNum = 1000000;
 
 	} lineRenderer;
 

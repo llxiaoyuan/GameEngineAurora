@@ -11,6 +11,7 @@
 #include"Math.hpp"
 #include"Graphics.hpp"
 #include"Texture.hpp"
+#include"RenderTexture.hpp"
 #include"Actor.hpp"
 #include"Shader.hpp"
 
@@ -35,11 +36,15 @@ public:
 
 	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation);
 	
+	void draw(RenderTexture& renderTexture, const float& x, const float& y);
+
 	//向贴图池中增加贴图
 	void texturePoolAdd(Texture& texture);
 
 	//向文字贴图池中增加贴图
 	void bitmapTexturePoolAdd(Texture& texture);
+
+	void renderTexturePoolAdd(RenderTexture& renderTexture);
 
 	Shader textRenderShader;
 
@@ -52,6 +57,8 @@ private:
 
 	//文字的贴图池
 	std::vector<Texture*> bitmapTexturePool;
+
+	std::vector<RenderTexture*> renderTexturePool;
 
 };
 

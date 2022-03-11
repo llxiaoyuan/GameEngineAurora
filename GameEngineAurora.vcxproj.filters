@@ -1041,6 +1041,18 @@
     <ClInclude Include="Aurora\include\Aurora\Sound.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FourierDrawing\Epicycle.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FourierDrawing\json.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Aurora\include\Aurora\RenderTexture.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp">
@@ -1113,6 +1125,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\src\Aurora\Sound.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurora\src\Aurora\RenderTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

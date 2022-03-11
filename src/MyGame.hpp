@@ -9,6 +9,7 @@
 #include"DigitalRain/DigitalRainScene.hpp"
 #include"FireWorks/FireworkScene.hpp"
 #include"SteeringBehavior/SteeringBehaviorScene.hpp"
+#include"FourierDrawing/FourierDrawing.hpp"
 
 class MyGame :public Game
 {
@@ -21,7 +22,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new FireworkScene(&gsm));
+		gsm.push(new FourierDrawing(&gsm));
 	}
 
 	~MyGame()
