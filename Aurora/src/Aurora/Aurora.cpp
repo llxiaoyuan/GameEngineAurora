@@ -14,6 +14,10 @@ bool Aurora::iniEngine(const Configuration& config)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	if (config.multiSample)
+	{
+		glfwWindowHint(GLFW_SAMPLES, config.multiSample);
+	}
 
 	if (config.mode == Configuration::DisplayMode::Normal)
 	{
@@ -42,6 +46,13 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (config.multiSample)
+	{
+		glEnable(GL_MULTISAMPLE);
+	}
+
+	glLineWidth(1.5f);
 
 	game = nullptr;
 

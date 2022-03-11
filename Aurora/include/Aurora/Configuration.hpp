@@ -16,7 +16,7 @@ public:
 		Wallpaper
 	} mode;
 
-	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title, const DisplayMode& mode,const bool& useAudio);
+	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title, const DisplayMode& mode, const bool& useAudio, const int& multiSample = 0);
 
 	const int screenWidth;
 
@@ -25,6 +25,8 @@ public:
 	const std::string title;
 
 	const bool useAudio;
+
+	const int multiSample;
 
 };
 
