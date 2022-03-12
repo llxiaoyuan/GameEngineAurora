@@ -120,8 +120,8 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 			}
 		}
 
-		textures.push_back(Texture(buffer, width, height, bpp, true));
-		
+		textures.push_back(BitmapTexture(buffer, width, height, bpp));
+
 		delete[] buffer;
 	}
 
@@ -187,4 +187,3 @@ void BitmapFont::draw(SpriteRenderer& renderer, const char& context, const float
 	textures[character.index].addColor(r, g, b, a);
 	textures[character.index].addModel(model);
 }
-

@@ -19,7 +19,7 @@ public:
 
 	const double tPi = 6.28318530717958647692;
 
-	const double startX = 0;
+	const double startX = 100;
 
 	const double startY = 0;
 
@@ -43,6 +43,8 @@ public:
 
 	int intervalCount;
 
+	size_t curFrame;
+
 	const int interval;
 
 	FourierDrawing(GameSceneManager* gsm) :
@@ -50,14 +52,17 @@ public:
 		epicycles(nullptr),
 		renderTexture(1000, 1000),
 		intervalCount(0),
-		interval(5)
+		interval(5),
+		curFrame(0)
 	{
-		std::string filePath = "res\\FourierDrawingRes\\dft_data.json";
+		std::string filePath = "res\\FourierDrawingRes\\maomao.json";
 		std::ifstream ifs(filePath);
 		json dftData = json::parse(ifs);
 		ifs.close();
 
 		length = dftData.size();
+
+		std::cout << "Length is " << length << "\n";
 
 		double real;
 		double imag;
@@ -89,10 +94,7 @@ public:
 
 		lastPoint = glm::vec2(x, y);
 
-		std::cout << "firstPoint at " << x << " " << y << "\n";
-
-		t += 1.0;
-
+		curFrame++;
 	}
 
 	~FourierDrawing()
@@ -143,13 +145,25 @@ public:
 
 			renderTexture.bind();
 			shapeRenderer.begin();
-
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-
+			if (curFrame == length)
+			{
+				if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
+				{
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+				}
+			}
+			else
+			{
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+			}
 			shapeRenderer.end();
 			renderTexture.unbind();
 
@@ -175,13 +189,25 @@ public:
 
 			renderTexture.bind();
 			shapeRenderer.begin();
-
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-
+			if (curFrame == length)
+			{
+				if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
+				{
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+				}
+			}
+			else
+			{
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+			}
 			shapeRenderer.end();
 			renderTexture.unbind();
 
@@ -189,7 +215,7 @@ public:
 			lastPoint[1] = y;
 		}
 
-
+		curFrame++;
 	}
 
 };

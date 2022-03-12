@@ -22,7 +22,7 @@ public:
 	Texture(const std::string& path);
 
 	//专门用于从图集读取贴图
-	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp, const bool& isBitmapFontTexture);
+	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp);
 
 	//释放资源
 	void dispose() const;
@@ -57,15 +57,14 @@ private:
 
 	unsigned int instanceVBO;
 
-	unsigned int colorVBO;
-
 	unsigned int VAO;
 
 	unsigned int rendererID;
 
-	std::vector<glm::mat4> modelMatrices;
+	//默认的最大矩阵数 计算之后每个贴图占 1mb内存
+	static constexpr int defaultMaxMatricesNum = 16384;
 
-	std::vector<glm::vec4> colors;
+	std::vector<glm::mat4> modelMatrices;
 
 	int curIndex;
 
@@ -83,20 +82,11 @@ private:
 	//更新模型数据
 	void updateMatrices() const;
 
-	//更新颜色数据
-	void updateColors() const;
-
 	//增加模型,如有需要请先调用addColor
 	void addModel(const glm::mat4& model);
 
-	//增加颜色,如果需要先调用addColor再掉用addModel
-	void addColor(const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
-
 	//通过rendererID判断是否相等
 	bool operator==(const Texture& texture) const;
-
-	//默认的最大矩阵数 计算之后每个贴图占 1mb内存
-	static constexpr int defaultMaxMatricesNum = 16384;
 
 	//SpriteRenderer的draw方法调用此方法来记录已经在贴图池中的的贴图
 	void checkIn();

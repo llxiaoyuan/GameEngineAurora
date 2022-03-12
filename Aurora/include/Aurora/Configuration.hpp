@@ -17,7 +17,7 @@ public:
 		Record
 	} mode;
 
-	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title, const DisplayMode& mode, const bool& useAudio, const int& multiSample = 0);
+	Configuration(const int& screenWidth, const int& screenHeight, const std::string& title, const DisplayMode& mode, const bool& useAudio, const int& multiSample = 0, const size_t& frameTotal = 0, const size_t& interval = 0);
 
 	const int screenWidth;
 
@@ -28,6 +28,10 @@ public:
 	const bool useAudio;
 
 	const int multiSample;
+
+	const size_t frameTotal;
+
+	const size_t interval;
 
 };
 

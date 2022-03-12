@@ -7,7 +7,9 @@
 #include<vector>
 #include<fstream>
 #include<map>
+#include<array>
 
+#include"BitmapTexture.hpp"
 #include"SpriteRenderer.hpp"
 
 //位图字体类
@@ -56,7 +58,7 @@ private:
 	float scale;
 
 	//字体贴图
-	std::vector<Texture> textures;
+	std::vector<BitmapTexture> textures;
 
 	std::map<char, Character> keyMap;
 

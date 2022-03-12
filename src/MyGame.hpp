@@ -10,6 +10,7 @@
 #include"FireWorks/FireworkScene.hpp"
 #include"SteeringBehavior/SteeringBehaviorScene.hpp"
 #include"FourierDrawing/FourierDrawing.hpp"
+#include"LogoInterpreter/LogoInterpreterScene.hpp"
 
 class MyGame :public Game
 {
@@ -22,7 +23,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new FourierDrawing(&gsm));
+		gsm.push(new LogoInterpreterScene(&gsm));
 	}
 
 	~MyGame()

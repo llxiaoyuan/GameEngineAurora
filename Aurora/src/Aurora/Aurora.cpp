@@ -139,13 +139,14 @@ void Aurora::runWallpaper()
 		glfwSwapBuffers(window);
 		timeEnd = timer.now();
 		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+		glfwPollEvents();
 	}
 	glfwTerminate();
 }
 
 void Aurora::runRecord()
 {
-	VideoRecorder recorder(config->screenWidth, config->screenHeight, 600, 5);
+	VideoRecorder recorder(config->screenWidth, config->screenHeight, config->frameTotal, config->interval);
 	do
 	{
 		timeStart = timer.now();

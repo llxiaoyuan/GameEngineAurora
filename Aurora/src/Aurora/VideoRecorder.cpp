@@ -55,7 +55,7 @@ bool VideoRecorder::record()
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	}
 
-	frameRecorded++;
+	++frameRecorded;
 	++curIndex;
 	curIndex = curIndex % pboNum;
 

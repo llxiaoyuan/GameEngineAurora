@@ -53,8 +53,7 @@ void SpriteRenderer::end()
 
 	for (size_t i = 0; i < bitmapTexturePool.size(); i++)
 	{
-		bitmapTexturePool[i]->updateMatrices();
-		bitmapTexturePool[i]->updateColors();
+		bitmapTexturePool[i]->update();
 		bitmapTexturePool[i]->bind();
 		bitmapTexturePool[i]->drawInstance();
 		bitmapTexturePool[i]->unbind();
@@ -103,7 +102,7 @@ void SpriteRenderer::texturePoolAdd(Texture& texture)
 	}
 }
 
-void SpriteRenderer::bitmapTexturePoolAdd(Texture& texture)
+void SpriteRenderer::bitmapTexturePoolAdd(BitmapTexture& texture)
 {
 	if (!texture.isRegistered())
 	{

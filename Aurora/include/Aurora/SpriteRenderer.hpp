@@ -14,6 +14,7 @@
 #include"RenderTexture.hpp"
 #include"Actor.hpp"
 #include"Shader.hpp"
+#include"BitmapTexture.hpp"
 
 //ÌùÍ¼äÖÈ¾
 class SpriteRenderer
@@ -42,7 +43,7 @@ public:
 	void texturePoolAdd(Texture& texture);
 
 	//ÏòÎÄ×ÖÌùÍ¼³ØÖĞÔö¼ÓÌùÍ¼
-	void bitmapTexturePoolAdd(Texture& texture);
+	void bitmapTexturePoolAdd(BitmapTexture& texture);
 
 	void renderTexturePoolAdd(RenderTexture& renderTexture);
 
@@ -54,9 +55,9 @@ private:
 
 	//ÌùÍ¼³Ø
 	std::vector<Texture*> texturePool;
-
+	
 	//ÎÄ×ÖµÄÌùÍ¼³Ø
-	std::vector<Texture*> bitmapTexturePool;
+	std::vector<BitmapTexture*> bitmapTexturePool;
 
 	std::vector<RenderTexture*> renderTexturePool;
 

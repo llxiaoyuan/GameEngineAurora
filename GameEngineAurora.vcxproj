@@ -148,6 +148,7 @@
     <ClInclude Include="Aurora\include\Aurora\Animation.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Aurora.hpp" />
     <ClInclude Include="Aurora\include\Aurora\BitmapFont.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\BitmapTexture.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Camera.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Configuration.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Game.hpp" />
@@ -488,6 +489,10 @@
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />
     <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp" />
     <ClInclude Include="src\FourierDrawing\json.hpp" />
+    <ClInclude Include="src\LogoInterpreter\Command.hpp" />
+    <ClInclude Include="src\LogoInterpreter\Logo.hpp" />
+    <ClInclude Include="src\LogoInterpreter\LogoInterpreterScene.hpp" />
+    <ClInclude Include="src\LogoInterpreter\Parser.hpp" />
     <ClInclude Include="src\MyGame.hpp" />
     <ClInclude Include="src\SteeringBehavior\Character.hpp" />
     <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp" />
@@ -497,6 +502,7 @@
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Aurora.cpp" />
     <ClCompile Include="Aurora\src\Aurora\BitmapFont.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\BitmapTexture.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Camera.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Configuration.cpp" />
     <ClCompile Include="Aurora\src\Aurora\glad.c" />
