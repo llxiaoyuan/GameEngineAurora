@@ -23,12 +23,13 @@ public:
 		finished(false)
 	{
 		ifstream file;
-		file.open("res\\LogoInterpreterRes\\info.txt");
+		file.open("res\\LogoInterpreterRes\\info2.txt");
 		std::string commands;
 		std::getline(file, commands);
 		file.close();
 		logo.setText(commands);
 		setPos(-300, 300);
+		setScale(3.f);
 	}
 
 	~LogoInterpreterScene()

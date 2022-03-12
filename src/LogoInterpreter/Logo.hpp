@@ -14,8 +14,14 @@ float x;
 float y;
 float len = 0;
 float angle = 0;//Ω«∂»÷∆
+float scale = 1.f;
 bool pen = true;
 constexpr float tPi = 6.28318530717958647692f;
+
+void setScale(const float& scl)
+{
+	scale = scl;
+}
 
 void setPos(float xPos, float yPos)
 {
@@ -30,8 +36,8 @@ void rotate(float ang)
 
 void DrawLine(ShapeRenderer& renderer)
 {
-	float targetX = x + cos(angle / 360.f * tPi) * len;
-	float targetY = y + sin(angle / 360.f * tPi) * len;
+	float targetX = x + cos(angle / 360.f * tPi) * len * scale;
+	float targetY = y + sin(angle / 360.f * tPi) * len * scale;
 
 	if (pen) {
 

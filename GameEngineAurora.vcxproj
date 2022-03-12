@@ -496,6 +496,8 @@
     <ClInclude Include="src\MyGame.hpp" />
     <ClInclude Include="src\SteeringBehavior\Character.hpp" />
     <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp" />
+    <ClInclude Include="src\TimeTableCardioid\Cardioid.hpp" />
+    <ClInclude Include="src\TimeTableCardioid\TimeTableCardioidScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Actor.cpp" />

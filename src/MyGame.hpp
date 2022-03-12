@@ -11,6 +11,7 @@
 #include"SteeringBehavior/SteeringBehaviorScene.hpp"
 #include"FourierDrawing/FourierDrawing.hpp"
 #include"LogoInterpreter/LogoInterpreterScene.hpp"
+#include"TimeTableCardioid/TimeTableCardioidScene.hpp"
 
 class MyGame :public Game
 {
@@ -23,7 +24,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new LogoInterpreterScene(&gsm));
+		gsm.push(new TimeTableCardioidScene(&gsm));
 	}
 
 	~MyGame()
