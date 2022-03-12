@@ -35,7 +35,7 @@ public:
 	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY);
 
 	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation);
-	
+
 	void draw(RenderTexture& renderTexture, const float& x, const float& y);
 
 	//向贴图池中增加贴图

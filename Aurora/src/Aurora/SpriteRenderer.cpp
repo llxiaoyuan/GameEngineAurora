@@ -41,9 +41,11 @@ void SpriteRenderer::end()
 	for (size_t i = 0; i < renderTexturePool.size(); i++)
 	{
 		renderTexturePool[i]->updateMatrices();
-		renderTexturePool[i]->bind();
+		glBindVertexArray(renderTexturePool[i]->VAO);
+		glBindTexture(GL_TEXTURE_2D, renderTexturePool[i]->texColorBuffer);
 		renderTexturePool[i]->drawInstance();
-		renderTexturePool[i]->unbind();
+		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		renderTexturePool[i]->checkOut();
 	}
 

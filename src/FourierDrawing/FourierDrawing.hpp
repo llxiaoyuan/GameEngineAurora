@@ -44,7 +44,7 @@ public:
 	FourierDrawing(GameSceneManager* gsm) :
 		Scene(gsm),
 		epicycles(nullptr),
-		renderTexture(1000, 1000, 0, 0, 0, 0)
+		renderTexture(1000, 1000)
 	{
 		std::string filePath = "res\\FourierDrawingRes\\dft_data.json";
 		std::ifstream ifs(filePath);
@@ -85,15 +85,12 @@ public:
 
 		std::cout << "firstPoint at " << x << " " << y << "\n";
 
-		renderTexture.drawLine(0, 0, 500, 500, 255, 0, 0, 255);
-
 		t += 1.0;
 
 	}
 
 	~FourierDrawing()
 	{
-		renderTexture.dispose();
 		if (epicycles)
 		{
 			delete epicycles;
@@ -136,13 +133,19 @@ public:
 		}
 		shapeRenderer.end();
 
+		renderTexture.bind();
+		shapeRenderer.begin();
+
+		shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+		shapeRenderer.drawLine(lastPoint[0]+1, lastPoint[1], x+1, y, 0, 0, 0);
+		shapeRenderer.drawLine(lastPoint[0], lastPoint[1]+1, x, y+1, 0, 0, 0);
+		shapeRenderer.drawLine(lastPoint[0]-1, lastPoint[1], x-1, y, 0, 0, 0);
+		shapeRenderer.drawLine(lastPoint[0], lastPoint[1]-1, x, y-1, 0, 0, 0);
+
+		shapeRenderer.end();
+		renderTexture.unbind();
+
 		spriteRenderer.begin();
-		renderTexture.drawLine(lastPoint[0], lastPoint[1], x, y, 255, 0, 0, 255);
-		renderTexture.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 255, 0, 0, 255);
-		renderTexture.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 255, 0, 0, 255);
-		renderTexture.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 255, 0, 0, 255);
-		renderTexture.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 255, 0, 0, 255);
-		renderTexture.updatePixelData();
 		spriteRenderer.draw(renderTexture, 0, 0);
 		spriteRenderer.end();
 

@@ -5,46 +5,30 @@
 
 #include<glad/glad.h>
 #include<glm/glm.hpp>
-#include<array>
 #include<iostream>
-#include<vector>
-#include<stb_image/stb_image.h>
+#include<array>
 
 class RenderTexture
 {
 public:
 
-public:
+	RenderTexture(const int& width, const int& height, const float& r = 0, const float& g = 0, const float& b = 0, const float& a = 0);
 
-	RenderTexture(const int& width, const int& height, const int& r, const int& g, const int& b, const int& a);
+	~RenderTexture();
 
-	//释放资源
-	void dispose() const;
+	void bind() const;
 
-	//返回贴图宽
-	const int& getWidth() const;
-
-	//返回贴图高
-	const int& getHeight() const;
-
-	void updatePixelData() const;
-
-	void setPixel(const int& x, const int& y, const int& r, const int& g, const int& b, const int& a);
-
-	//算法来自http://www.roguebasin.com/index.php?title=Bresenham%27s_Line_Algorithm
-	void drawLine(int x1, int y1, const int& x2, const int& y2, const int& r, const int& g, const int& b, const int& a);
+	void unbind() const;
 
 private:
 
 	friend class SpriteRenderer;
 
-	//贴图宽
 	int width;
 
-	//贴图高
 	int height;
 
-	unsigned char* buffer;
+	unsigned int FBO;
 
 	unsigned int VAO;
 
@@ -52,25 +36,20 @@ private:
 
 	unsigned int instanceVBO;
 
-	unsigned int rendererID;
+	unsigned int texColorBuffer;
 
-	//默认的最大矩阵数 计算之后每个贴图占 1mb内存
+	unsigned int rbo;
+
 	static constexpr int defaultMaxMatricesNum = 16384;
 
 	std::array<glm::mat4, defaultMaxMatricesNum> modelMatrices;
 
-	int curIndex;
+	int curMatricesNum;
 
 	bool registered;
 
-	//绑定贴图
-	void bind() const;
-
 	//执行实例化渲染
 	void drawInstance() const;
-
-	//解绑贴图
-	void unbind() const;
 
 	//更新模型数据
 	void updateMatrices() const;
