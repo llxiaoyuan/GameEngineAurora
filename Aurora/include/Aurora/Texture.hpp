@@ -8,6 +8,7 @@
 #include<iostream>
 #include<stb_image/stb_image.h>
 #include<vector>
+#include<array>
 #include<glm/glm.hpp>
 
 

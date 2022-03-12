@@ -166,6 +166,7 @@
     <ClInclude Include="Aurora\include\Aurora\SpriteRenderer.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Texture.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Utility.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\VideoRecorder.hpp" />
     <ClInclude Include="Aurora\tools\glad\glad.h" />
     <ClInclude Include="Aurora\tools\GLFW\glfw3.h" />
     <ClInclude Include="Aurora\tools\GLFW\glfw3native.h" />
@@ -513,6 +514,7 @@
     <ClCompile Include="Aurora\src\Aurora\SpriteRenderer.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Texture.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Utility.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\VideoRecorder.cpp" />
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp" />
     <ClCompile Include="Aurora\tools\stb_image\stb_image.cpp" />
     <ClCompile Include="src\EngineTest.cpp" />

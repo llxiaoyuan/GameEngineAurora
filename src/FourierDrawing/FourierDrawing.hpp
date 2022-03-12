@@ -41,10 +41,16 @@ public:
 
 	glm::vec2 lastPoint;
 
+	int intervalCount;
+
+	const int interval;
+
 	FourierDrawing(GameSceneManager* gsm) :
 		Scene(gsm),
 		epicycles(nullptr),
-		renderTexture(1000, 1000)
+		renderTexture(1000, 1000),
+		intervalCount(0),
+		interval(5)
 	{
 		std::string filePath = "res\\FourierDrawingRes\\dft_data.json";
 		std::ifstream ifs(filePath);
@@ -120,37 +126,69 @@ public:
 		x = startX;
 		y = startY;
 
-		shapeRenderer.begin();
-		for (size_t i = 0; i < length; i++)
+		if (intervalCount++ == interval)
 		{
-			epicycles[i].set(t);
-			preX = x;
-			preY = y;
-			x += epicycles[i].re;
-			y += epicycles[i].im;
-			shapeRenderer.drawCircle(preX, preY, epicycles[i].length, 0, 0, 0);
-			shapeRenderer.drawLine(preX, preY, x, y, 0, 0, 0);
+			shapeRenderer.begin();
+			for (size_t i = 0; i < length; i++)
+			{
+				epicycles[i].set(t);
+				preX = x;
+				preY = y;
+				x += epicycles[i].re;
+				y += epicycles[i].im;
+				shapeRenderer.drawCircle(preX, preY, epicycles[i].length, 0, 0, 0);
+				shapeRenderer.drawLine(preX, preY, x, y, 0, 0, 0);
+			}
+			shapeRenderer.end();
+
+			renderTexture.bind();
+			shapeRenderer.begin();
+
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+
+			shapeRenderer.end();
+			renderTexture.unbind();
+
+			spriteRenderer.begin();
+			spriteRenderer.draw(renderTexture, 0, 0);
+			spriteRenderer.end();
+
+			lastPoint[0] = x;
+			lastPoint[1] = y;
+
+			intervalCount = 0;
 		}
-		shapeRenderer.end();
+		else
+		{
+			for (size_t i = 0; i < length; i++)
+			{
+				epicycles[i].set(t);
+				preX = x;
+				preY = y;
+				x += epicycles[i].re;
+				y += epicycles[i].im;
+			}
 
-		renderTexture.bind();
-		shapeRenderer.begin();
+			renderTexture.bind();
+			shapeRenderer.begin();
 
-		shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-		shapeRenderer.drawLine(lastPoint[0]+1, lastPoint[1], x+1, y, 0, 0, 0);
-		shapeRenderer.drawLine(lastPoint[0], lastPoint[1]+1, x, y+1, 0, 0, 0);
-		shapeRenderer.drawLine(lastPoint[0]-1, lastPoint[1], x-1, y, 0, 0, 0);
-		shapeRenderer.drawLine(lastPoint[0], lastPoint[1]-1, x, y-1, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
 
-		shapeRenderer.end();
-		renderTexture.unbind();
+			shapeRenderer.end();
+			renderTexture.unbind();
 
-		spriteRenderer.begin();
-		spriteRenderer.draw(renderTexture, 0, 0);
-		spriteRenderer.end();
+			lastPoint[0] = x;
+			lastPoint[1] = y;
+		}
 
-		lastPoint[0] = x;
-		lastPoint[1] = y;
 
 	}
 

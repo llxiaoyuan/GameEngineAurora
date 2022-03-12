@@ -99,7 +99,7 @@ void SpriteRenderer::texturePoolAdd(Texture& texture)
 	if(!texture.isRegistered())
 	{
 		texture.checkIn();
-		texturePool.push_back(&texture);
+		texturePool.emplace_back(&texture);
 	}
 }
 
@@ -108,7 +108,7 @@ void SpriteRenderer::bitmapTexturePoolAdd(Texture& texture)
 	if (!texture.isRegistered())
 	{
 		texture.checkIn();
-		bitmapTexturePool.push_back(&texture);
+		bitmapTexturePool.emplace_back(&texture);
 	}
 }
 
@@ -117,6 +117,6 @@ void SpriteRenderer::renderTexturePoolAdd(RenderTexture& renderTexture)
 	if (!renderTexture.isRegistered())
 	{
 		renderTexture.checkIn();
-		renderTexturePool.push_back(&renderTexture);
+		renderTexturePool.emplace_back(&renderTexture);
 	}
 }

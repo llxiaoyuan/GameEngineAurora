@@ -11,6 +11,7 @@
 #include<cstdlib>
 #include<memory>
 
+#include"VideoRecorder.hpp"
 #include"Music.hpp"
 #include"Graphics.hpp"
 #include"Keyboard.hpp"
@@ -29,7 +30,7 @@ public:
 	}
 
 	//初始化引擎
-	bool iniEngine(const Configuration& config);
+	bool iniEngine(const Configuration& configuration);
 
 	//初始化游戏
 	void iniGame(Game* game);
@@ -39,7 +40,11 @@ private:
 	GLFWwindow* window;
 
 	//游戏循环
-	void run();
+	void runGame();
+
+	void runWallpaper();
+
+	void runRecord();
 
 	Aurora() :window(nullptr) {}
 
@@ -48,6 +53,8 @@ private:
 	static Aurora instance;
 
 	std::shared_ptr<Game> game;
+
+	const Configuration* config;
 
 	std::chrono::steady_clock timer;
 

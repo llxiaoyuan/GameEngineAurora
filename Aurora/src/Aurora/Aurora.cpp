@@ -2,41 +2,43 @@
 
 Aurora Aurora::instance;
 
-bool Aurora::iniEngine(const Configuration& config)
+bool Aurora::iniEngine(const Configuration& configuration)
 {
+	config = &configuration;
+
 	if (!glfwInit())
 		return false;
 
-	if (config.mode == Configuration::DisplayMode::Wallpaper)
+	if (config->mode == Configuration::DisplayMode::Wallpaper)
 	{
 		glfwWindowHint(GLFW_DECORATED, 0);
 	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	if (config.multiSample)
+	if (config->multiSample)
 	{
-		glfwWindowHint(GLFW_SAMPLES, config.multiSample);
+		glfwWindowHint(GLFW_SAMPLES, config->multiSample);
 	}
 
-	switch (config.mode)
+	switch (config->mode)
 	{
 	case Configuration::DisplayMode::Normal:
-		Graphics::screenWidth = config.screenWidth;
-		Graphics::screenHeight = config.screenHeight;
+		Graphics::screenWidth = config->screenWidth;
+		Graphics::screenHeight = config->screenHeight;
 		break;
 	case Configuration::DisplayMode::Wallpaper:
 		getSysResolution(Graphics::screenWidth, Graphics::screenHeight);
 		break;
 	case Configuration::DisplayMode::Record:
-		Graphics::screenWidth = config.screenWidth;
-		Graphics::screenHeight = config.screenHeight;
+		Graphics::screenWidth = config->screenWidth;
+		Graphics::screenHeight = config->screenHeight;
 		break;
 	default:
 		break;
 	}
 
-	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config.title.c_str(), NULL, NULL);
+	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config->title.c_str(), NULL, NULL);
 
 	if (!window)
 	{
@@ -54,7 +56,7 @@ bool Aurora::iniEngine(const Configuration& config)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	if (config.multiSample)
+	if (config->multiSample)
 	{
 		glEnable(GL_MULTISAMPLE);
 	}
@@ -67,23 +69,24 @@ bool Aurora::iniEngine(const Configuration& config)
 
 	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
 
-	if (config.useAudio)
+	if (config->useAudio)
 	{
 		Music::ini();
 	}
 
 	Keyboard::ini();
 
-	if (config.mode == Configuration::DisplayMode::Wallpaper)
+	if (config->mode == Configuration::DisplayMode::Wallpaper)
 	{
-		HWND window = FindWindowA(NULL, config.title.c_str());
+		HWND window = FindWindowA(NULL, config->title.c_str());
 		HWND bg = get_wallpaper_window();
 		SetParent(window, bg);
 		MoveWindow(window, 0, 0, Graphics::screenWidth, Graphics::screenHeight, 0);
 	}
-	else if (config.mode == Configuration::DisplayMode::Record)
+	else if (config->mode == Configuration::DisplayMode::Record)
 	{
 		glfwSwapInterval(0);
+		glfwHideWindow(window);
 	}
 
 	return true;
@@ -92,13 +95,26 @@ bool Aurora::iniEngine(const Configuration& config)
 void Aurora::iniGame(Game* game)
 {
 	this->game = game->clone();
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetCursorPosCallback(window, cursor_position_callback);
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
-	run();
+	switch (config->mode)
+	{
+	case Configuration::DisplayMode::Normal:
+		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPosCallback(window, cursor_position_callback);
+		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		runGame();
+		break;
+	case Configuration::DisplayMode::Wallpaper:
+		runWallpaper();
+		break;
+	case Configuration::DisplayMode::Record:
+		runRecord();
+		break;
+	default:
+		break;
+	}
 }
 
-void Aurora::run()
+void Aurora::runGame()
 {
 	while (!glfwWindowShouldClose(window))
 	{
@@ -112,6 +128,36 @@ void Aurora::run()
 	}
 	glfwTerminate();
 }
+
+void Aurora::runWallpaper()
+{
+	while (!glfwWindowShouldClose(window))
+	{
+		timeStart = timer.now();
+		game->update(Graphics::deltaTime);
+		game->render();
+		glfwSwapBuffers(window);
+		timeEnd = timer.now();
+		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+	}
+	glfwTerminate();
+}
+
+void Aurora::runRecord()
+{
+	VideoRecorder recorder(config->screenWidth, config->screenHeight, 600, 5);
+	do
+	{
+		timeStart = timer.now();
+		game->update(Graphics::deltaTime);
+		game->render();
+		timeEnd = timer.now();
+		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+	} while (recorder.record());
+	glfwTerminate();
+}
+
+
 
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
