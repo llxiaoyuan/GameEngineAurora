@@ -29,6 +29,14 @@ void ShapeRenderer::drawLine(const float& x1, const float& y1, const float& x2, 
 	lineRenderer.addLine(x1, y1, x2, y2, r, g, b, a);
 }
 
+void ShapeRenderer::drawRect(const Rect& rect,const float& r, const float& g, const float& b, const float& a)
+{
+	lineRenderer.addLine(rect.getX(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY(), r, g, b, a);
+	lineRenderer.addLine(rect.getX() + rect.getWidth(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight(), r, g, b, a);
+	lineRenderer.addLine(rect.getX(), rect.getY() + rect.getHeight(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight(), r, g, b, a);
+	lineRenderer.addLine(rect.getX(), rect.getY(), rect.getX(), rect.getY() + rect.getHeight(), r, g, b, a);
+}
+
 void ShapeRenderer::drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a)
 {
 	circleRenderer.addCircle(x, y, length, r, g, b, a);

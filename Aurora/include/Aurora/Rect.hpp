@@ -21,10 +21,10 @@ public:
 	bool in(const glm::vec2& dot) const;
 
 	//返回x坐标
-	const float& getX();
+	const float& getX() const;
 
 	//返回y坐标
-	const float& getY();
+	const float& getY() const;
 
 	//获取宽
 	const float& getWidth() const;

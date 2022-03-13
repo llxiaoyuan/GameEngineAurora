@@ -32,12 +32,12 @@ bool Rect::in(const glm::vec2& dot) const
 	return (dot[0] > x && dot[1] > y && dot[0] < x + width && dot[1] < y + height);
 }
 
-const float& Rect::getX()
+const float& Rect::getX() const
 {
 	return x;
 }
 
-const float& Rect::getY()
+const float& Rect::getY() const
 {
 	return y;
 }

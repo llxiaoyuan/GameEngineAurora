@@ -9,6 +9,7 @@
 #include"Math.hpp"
 #include"Graphics.hpp"
 #include"Shader.hpp"
+#include"Rect.hpp"
 
 //Õº–Œ‰÷»æ
 class ShapeRenderer
@@ -24,6 +25,8 @@ public:
 	void end();
 
 	void drawLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a = 1.f);
+
+	void drawRect(const Rect& rect, const float& r, const float& g, const float& b, const float& a);
 
 	void drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a = 1.f);
 

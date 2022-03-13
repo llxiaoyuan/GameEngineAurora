@@ -45,10 +45,8 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
 		shapeRenderer.begin();
-		for (int i = 0; i < 80000; i++)
-		{
-			shapeRenderer.drawCircle(rand() % Graphics::getWidth(), rand() % Graphics::getHeight(), 50, 0, 0, 1);
-		}
+		Rect rect(100, 100, 100, 100);
+		shapeRenderer.drawRect(rect, 0, 1, 1, 1);
 		shapeRenderer.end();
 	}
 
