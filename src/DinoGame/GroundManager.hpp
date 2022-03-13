@@ -4,34 +4,31 @@
 #include<Aurora/Utility.hpp>
 #include<string>
 
-class Ground :public Actor
+class Ground
 {
 public:
 
-	Texture* texture;
+	int index;
 
-	Ground(Texture* texture, float x, float y) :
-		texture(texture)
+	Ground(int index, float x, float y) :
+		index(index)
 	{
 		position = glm::vec3(x, y, 0);
 	}
 
-	void update(const float& dt) override
+	void update(const float& dt)
 	{
-		position[0] -= 600 * dt;
+		position.x -= 600.f * dt;
 	}
 
-	void render(SpriteRenderer& renderer) override
-	{
-		renderer.draw(*texture, position[0], position[1]);
-	}
+	glm::vec3 position;
 };
 
 class GroundManager
 {
 public:
 
-	std::vector<Texture> groundTextures;
+	Texture groundTextures[3];
 
 	std::vector<Ground> grounds;
 
@@ -39,11 +36,13 @@ public:
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			groundTextures.push_back(Texture("res\\DinoGameRes\\textures\\land" + std::to_string(i+1) + ".png"));
+			groundTextures[i] = Texture("res\\DinoGameRes\\textures\\land" + std::to_string(i + 1) + ".png");
 		}
-		for (int i = 0; i < 3; i++)
+
+		for (int i = 0; i < 2; i++)
 		{
-			grounds.push_back(Ground(&groundTextures[0], (float)1920 * i, (float)35));
+			int nextIndex = rand() % 3;
+			grounds.emplace_back(Ground(nextIndex, (float)1920 * i, (float)35));
 		}
 	}
 
@@ -57,22 +56,24 @@ public:
 
 	void update(float dt)
 	{
-		
 		for (int i = 0; i < grounds.size(); i++)
 		{
 			grounds[i].update(dt);
-			if (grounds[i].getX() < -1925.f)
+			if (grounds[i].position.x < -1925.f)
 			{
-				float maxX=0;
+				float maxX = grounds[i].position.x;
 				for (int i2 = 0; i2 < grounds.size(); i2++)
 				{
-					if (grounds[i2].getX() > maxX)
+					if (grounds[i2].position.x > maxX)
 					{
-						maxX = grounds[i2].getX();
+						maxX = grounds[i2].position.x;
 					}
 				}
-				grounds[i].setX(maxX + 1920.f);
-				grounds[i].texture = &groundTextures[0];
+				int nextIndex = rand() % 3;
+				grounds[i].position.x = maxX + groundTextures[1].getWidth();
+
+				grounds[i].index = nextIndex;
+
 			}
 		}
 	}
@@ -81,7 +82,7 @@ public:
 	{
 		for (int i = 0; i < grounds.size(); i++)
 		{
-			grounds[i].render(renderer);
+			renderer.draw(groundTextures[grounds[i].index], grounds[i].position.x, grounds[i].position.y);
 		}
 	}
 

@@ -35,7 +35,7 @@ public:
 
 	std::shared_ptr<Scene> clone()
 	{
-		return std::make_shared<std::remove_reference<decltype(*this)>::type>(*this);
+		return std::make_shared<MyScene>(*this);
 	}
 
 	void handleinput() override
@@ -56,8 +56,8 @@ public:
 			cloudManager.update(dt);
 			groundManager.update(dt);
 			obstacleManager.update(dt);
-			isGameEnded = dinoCollided();
-			
+			//isGameEnded = dinoCollided();
+
 		}
 	}
 

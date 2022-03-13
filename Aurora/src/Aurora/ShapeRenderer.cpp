@@ -7,7 +7,7 @@ ShapeRenderer::ShapeRenderer()
 
 ShapeRenderer::~ShapeRenderer()
 {
-
+	std::cout << "[class ShapeRenderer] release!\n";
 }
 
 void ShapeRenderer::begin()
@@ -29,7 +29,7 @@ void ShapeRenderer::drawLine(const float& x1, const float& y1, const float& x2, 
 	lineRenderer.addLine(x1, y1, x2, y2, r, g, b, a);
 }
 
-void ShapeRenderer::drawRect(const Rect& rect,const float& r, const float& g, const float& b, const float& a)
+void ShapeRenderer::drawRect(const Rect& rect, const float& r, const float& g, const float& b, const float& a)
 {
 	lineRenderer.addLine(rect.getX(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY(), r, g, b, a);
 	lineRenderer.addLine(rect.getX() + rect.getWidth(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight(), r, g, b, a);
@@ -43,7 +43,7 @@ void ShapeRenderer::drawCircle(const float& x, const float& y, const float& leng
 }
 
 ShapeRenderer::CircleRenderer::CircleRenderer() :
-	curCircleNum(0)
+	curCircleNum(0), circlePos(new glm::vec2[maxCircleNum]), circleColor(new glm::vec4[maxCircleNum]), circleLength(new float[maxCircleNum])
 {
 	circleShader.create("res\\shaders\\CircleShader.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
@@ -107,6 +107,18 @@ ShapeRenderer::CircleRenderer::~CircleRenderer()
 	glDeleteBuffers(1, &circlePosVBO);
 	glDeleteBuffers(1, &circleColorVBO);
 	glDeleteBuffers(1, &circleLengthVBO);
+	if (circlePos)
+	{
+		delete[] circlePos;
+	}
+	if (circleColor)
+	{
+		delete[] circleColor;
+	}
+	if (circleLength)
+	{
+		delete[] circleLength;
+	}
 }
 
 void ShapeRenderer::CircleRenderer::begin()
@@ -127,11 +139,11 @@ void ShapeRenderer::CircleRenderer::updateCirclesData()
 {
 	circleShader.bind();
 	glBindBuffer(GL_ARRAY_BUFFER, circlePosVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curCircleNum * sizeof(glm::vec2), &circlePos[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curCircleNum * sizeof(glm::vec2), circlePos);
 	glBindBuffer(GL_ARRAY_BUFFER, circleColorVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curCircleNum * sizeof(glm::vec4), &circleColor[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curCircleNum * sizeof(glm::vec4), circleColor);
 	glBindBuffer(GL_ARRAY_BUFFER, circleLengthVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curCircleNum * sizeof(float), &circleLength[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curCircleNum * sizeof(float), circleLength);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	circleShader.unbind();
 }
@@ -148,7 +160,7 @@ void ShapeRenderer::CircleRenderer::addCircle(const float& x, const float& y, co
 }
 
 ShapeRenderer::LineRenderer::LineRenderer() :
-	 curVerticesNum(0)
+	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum])
 {
 	lineShader.create("res\\shaders\\LineShader.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
@@ -156,13 +168,13 @@ ShapeRenderer::LineRenderer::LineRenderer() :
 	lineShader.bind();
 	lineShader.setMatrix4fv("proj", proj);
 	lineShader.unbind();
-	
+
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glGenBuffers(1, &verticesVBO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * maxVerticesNum, nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
 
@@ -181,6 +193,14 @@ ShapeRenderer::LineRenderer::~LineRenderer()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &verticesVBO);
 	glDeleteBuffers(1, &colorVBO);
+	if (vertices)
+	{
+		delete[] vertices;
+	}
+	if (colors)
+	{
+		delete[] colors;
+	}
 }
 
 void ShapeRenderer::LineRenderer::begin()
@@ -201,14 +221,14 @@ void ShapeRenderer::LineRenderer::updateVerticesData()
 {
 	lineShader.bind();
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(glm::vec2), &vertices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(glm::vec2), vertices);
 	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(glm::vec4), &colors[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(glm::vec4), colors);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	lineShader.unbind();
 }
 
-void ShapeRenderer::LineRenderer::addLine(const float& x1, const float& y1, const float& x2, const float& y2,const float& r,const float& g,const float& b,const float& a)
+void ShapeRenderer::LineRenderer::addLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a)
 {
 	vertices[curVerticesNum] = glm::vec2(x1, y1);
 	colors[curVerticesNum++] = glm::vec4(r, g, b, a);

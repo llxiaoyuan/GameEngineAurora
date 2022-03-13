@@ -120,7 +120,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 			}
 		}
 
-		textures.push_back(BitmapTexture(buffer, width, height, bpp));
+		textures.emplace_back(BitmapTexture(buffer, width, height, bpp));
 
 		delete[] buffer;
 	}

@@ -7,7 +7,6 @@
 #include<vector>
 #include<fstream>
 #include<map>
-#include<array>
 
 #include"BitmapTexture.hpp"
 #include"SpriteRenderer.hpp"

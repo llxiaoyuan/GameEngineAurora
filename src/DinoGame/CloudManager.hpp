@@ -17,12 +17,12 @@ public:
 
 	void update(const float& dt) override
 	{
-		position[0] -= 120 * dt;
+		position.x -= 120 * dt;
 	}
 
 	void render(SpriteRenderer& renderer) override
 	{
-		renderer.draw(*texture, position[0], position[1]);
+		renderer.draw(*texture, position.x, position.y);
 	}
 };
 

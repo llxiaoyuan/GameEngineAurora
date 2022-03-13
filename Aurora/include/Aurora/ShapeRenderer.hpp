@@ -4,7 +4,6 @@
 #define _SHAPE_RENDERER_HPP_
 
 #include<glm/gtc/matrix_transform.hpp>
-#include<array>
 
 #include"Math.hpp"
 #include"Graphics.hpp"
@@ -61,11 +60,11 @@ private:
 
 		static constexpr int maxCircleNum = 100000;
 
-		std::array<glm::vec2, maxCircleNum> circlePos;
+		glm::vec2* circlePos;
 
-		std::array<glm::vec4, maxCircleNum> circleColor;
+		glm::vec4* circleColor;
 
-		std::array<float, maxCircleNum> circleLength;
+		float* circleLength;
 		
 		int curCircleNum;
 
@@ -97,9 +96,9 @@ private:
 
 		static constexpr int maxVerticesNum = 1000000;
 
-		std::array<glm::vec2, maxVerticesNum> vertices;
+		glm::vec2* vertices;
 
-		std::array<glm::vec4, maxVerticesNum> colors;
+		glm::vec4* colors;
 
 		int curVerticesNum;
 

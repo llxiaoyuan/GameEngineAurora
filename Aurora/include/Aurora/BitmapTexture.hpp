@@ -3,7 +3,6 @@
 #ifndef _BITMAP_TEXTURE_HPP_
 #define _BITMAP_TEXTURE_HPP_
 
-#include<array>
 #include<string>
 #include<glad/glad.h>
 #include<glm/glm.hpp>
@@ -46,11 +45,11 @@ private:
 	//默认的最大矩阵数
 	static constexpr int defaultMaxMatricesNum = 1000;
 
-	std::array<glm::mat4, defaultMaxMatricesNum> modelMatrices;
+	glm::mat4* modelMatrices;
 
-	std::array<glm::vec4, defaultMaxMatricesNum> colors;
+	glm::vec4* colors;
 
-	int curIndex;
+	int curMatricesNum;
 
 	bool registered;
 

@@ -53,7 +53,7 @@ public:
 
 	~GameSceneManager()
 	{
-		std::cout << "[" << typeid(*this).name() << "] release!\n";
+		std::cout << "[class GameSceneManager] release!\n";
 	}
 
 	void push(Scene* scene)

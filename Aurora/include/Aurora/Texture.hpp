@@ -7,10 +7,8 @@
 #include<string>
 #include<iostream>
 #include<stb_image/stb_image.h>
-#include<vector>
-#include<array>
 #include<glm/glm.hpp>
-
+#include<vector>
 
 class Texture
 {
@@ -64,7 +62,7 @@ private:
 	//默认的最大矩阵数 计算之后每个贴图占 1mb内存
 	static constexpr int defaultMaxMatricesNum = 16384;
 
-	std::vector<glm::mat4> modelMatrices;
+	glm::mat4* modelMatrices;
 
 	int curIndex;
 
@@ -84,9 +82,6 @@ private:
 
 	//增加模型,如有需要请先调用addColor
 	void addModel(const glm::mat4& model);
-
-	//通过rendererID判断是否相等
-	bool operator==(const Texture& texture) const;
 
 	//SpriteRenderer的draw方法调用此方法来记录已经在贴图池中的的贴图
 	void checkIn();

@@ -17,7 +17,7 @@ public:
 
 	virtual ~Game() 
 	{
-		std::cout << "[" << typeid(*this).name() << "] release!\n";
+		std::cout << "[class Game] release!\n";
 	}
 
 	virtual std::shared_ptr<Game> clone() = 0;

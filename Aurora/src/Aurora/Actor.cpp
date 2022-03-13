@@ -7,8 +7,8 @@ const glm::vec3& Actor::getPosition() const
 
 void Actor::setPosition(const float& x, const float& y)
 {
-	position[0] = x;
-	position[1] = y;
+	position.x = x;
+	position.y = y;
 }
 
 void Actor::setPosition(const glm::vec3& pos)
@@ -18,20 +18,20 @@ void Actor::setPosition(const glm::vec3& pos)
 
 void Actor::setX(const float& x)
 {
-	position[0] = x;
+	position.x = x;
 }
 
 void Actor::setY(const float& y)
 {
-	position[1] = y;
+	position.y = y;
 }
 
 const float& Actor::getX() const
 {
-	return position[0];
+	return position.x;
 }
 
 const float& Actor::getY() const
 {
-	return position[1];
+	return position.y;
 }

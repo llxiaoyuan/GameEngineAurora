@@ -24,7 +24,7 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new FireworkScene(&gsm));
+		gsm.push(new FourierDrawing(&gsm));
 	}
 
 	~MyGame()

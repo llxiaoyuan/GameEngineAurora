@@ -1,7 +1,7 @@
 #include<Aurora/RenderTexture.hpp>
 
 RenderTexture::RenderTexture(const int& _width, const int& _height, const float& r, const float& g, const float& b, const float& a) :
-	FBO(0), width(_width), height(_height), VAO(0), VBO(0), instanceVBO(0), texColorBuffer(0), curMatricesNum(0), registered(false)
+	FBO(0), width(_width), height(_height), VAO(0), VBO(0), instanceVBO(0), texColorBuffer(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
 {
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -28,13 +28,13 @@ RenderTexture::RenderTexture(const int& _width, const int& _height, const float&
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	std::array<float, 16> positions = { 0,0,0,0,(float)width,0,1.f,0,(float)width,(float)height,1.f,1.f,0,(float)height,0,1.f };
+	float positions[] = { 0,0,0,0,(float)width,0,1.f,0,(float)width,(float)height,1.f,1.f,0,(float)height,0,1.f };
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), positions.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 16 * sizeof(float), positions, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0 * sizeof(float)));
 	glEnableVertexAttribArray(1);
@@ -69,6 +69,10 @@ RenderTexture::~RenderTexture()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &instanceVBO);
+	if (modelMatrices)
+	{
+		delete[] modelMatrices;
+	}
 }
 
 void RenderTexture::bind() const
@@ -89,7 +93,7 @@ void RenderTexture::drawInstance() const
 void RenderTexture::updateMatrices() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curMatricesNum * sizeof(glm::mat4), &modelMatrices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curMatricesNum * sizeof(glm::mat4), modelMatrices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

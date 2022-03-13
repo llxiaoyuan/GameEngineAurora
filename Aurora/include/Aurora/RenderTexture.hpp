@@ -6,7 +6,6 @@
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 #include<iostream>
-#include<array>
 
 class RenderTexture
 {
@@ -42,7 +41,7 @@ private:
 
 	static constexpr int defaultMaxMatricesNum = 16384;
 
-	std::array<glm::mat4, defaultMaxMatricesNum> modelMatrices;
+	glm::mat4* modelMatrices;
 
 	int curMatricesNum;
 
