@@ -12,7 +12,7 @@ class VideoRecorder
 {
 public:
 
-	VideoRecorder(const int& width, const int& height,const size_t& frameTotal,const size_t& interval);
+	VideoRecorder(const int& width, const int& height,const size_t& totalFrame,const int& frameRate);
 
 	~VideoRecorder();
 
@@ -28,7 +28,7 @@ private:
 
 	size_t frameRecorded;
 
-	const size_t frameTotal;
+	const size_t totalFrame;
 
 	const int width;
 
@@ -39,10 +39,6 @@ private:
 	unsigned char* pixels;
 
 	FILE* stream;
-
-	size_t intervalCount;
-
-	const size_t interval;
 
 };
 

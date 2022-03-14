@@ -146,14 +146,12 @@ void Aurora::runWallpaper()
 
 void Aurora::runRecord()
 {
-	VideoRecorder recorder(config->screenWidth, config->screenHeight, config->frameTotal, config->interval);
+	VideoRecorder recorder(config->screenWidth, config->screenHeight, Graphics::config.totalFrame, Graphics::config.frameRate);
 	do
 	{
-		timeStart = timer.now();
-		game->update(Graphics::deltaTime);
+		game->update(1/(float)Graphics::config.frameRate);
 		game->render();
-		timeEnd = timer.now();
-		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+		Graphics::deltaTime = 1 / (float)Graphics::config.frameRate;
 	} while (recorder.record());
 	glfwTerminate();
 }

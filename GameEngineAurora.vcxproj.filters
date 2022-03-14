@@ -1053,9 +1053,6 @@
     <ClInclude Include="Aurora\include\Aurora\RenderTexture.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\include\Aurora\VideoRecorder.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Aurora\include\Aurora\BitmapTexture.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -1075,6 +1072,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\TimeTableCardioid\Cardioid.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Aurora\include\Aurora\VideoRecorder.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1154,10 +1154,10 @@
     <ClCompile Include="Aurora\src\Aurora\RenderTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\src\Aurora\VideoRecorder.cpp">
+    <ClCompile Include="Aurora\src\Aurora\BitmapTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\src\Aurora\BitmapTexture.cpp">
+    <ClCompile Include="Aurora\src\Aurora\VideoRecorder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

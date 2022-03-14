@@ -7,6 +7,12 @@ class Graphics
 {
 public:
 
+	struct RecordConfig
+	{
+		size_t totalFrame;
+		int frameRate;
+	};
+
 	//获取变化的时间
 	static const float& getDeltaTime();
 
@@ -18,6 +24,8 @@ public:
 
 	//获取帧数
 	static const float& getFPS();
+
+	static void setRecordConfig(const RecordConfig& config);
 
 private:
 
@@ -36,6 +44,8 @@ private:
 
 	//变化的时间
 	static float deltaTime;
+
+	static RecordConfig config;
 
 	friend class Aurora;
 

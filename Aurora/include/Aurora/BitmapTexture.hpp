@@ -43,7 +43,7 @@ private:
 	unsigned int rendererID;
 
 	//默认的最大矩阵数
-	static constexpr int defaultMaxMatricesNum = 1000;
+	static constexpr int defaultMaxMatricesNum = 1200;
 
 	glm::mat4* modelMatrices;
 

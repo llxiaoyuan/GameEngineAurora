@@ -12,6 +12,8 @@ float Graphics::FPS = 0;
 
 int Graphics::screenHeight;
 
+Graphics::RecordConfig Graphics::config;
+
 const float& Graphics::getDeltaTime()
 {
 	return deltaTime;
@@ -38,4 +40,9 @@ const float& Graphics::getFPS()
 		frameDuration = 0;
 	}
 	return FPS;
+}
+
+void Graphics::setRecordConfig(const RecordConfig& _config)
+{
+	config = _config;
 }

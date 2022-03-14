@@ -41,8 +41,6 @@ public:
 
 	glm::vec2 lastPoint;
 
-	int intervalCount;
-
 	size_t curFrame;
 
 	const int interval;
@@ -51,11 +49,10 @@ public:
 		Scene(gsm),
 		epicycles(nullptr),
 		renderTexture(1000, 1000),
-		intervalCount(0),
 		interval(5),
 		curFrame(0)
 	{
-		std::string filePath = "res\\FourierDrawingRes\\dft_data.json";
+		std::string filePath = "res\\FourierDrawingRes\\maomao.json";
 		std::ifstream ifs(filePath);
 		json dftData = json::parse(ifs);
 		ifs.close();
@@ -125,38 +122,73 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
 
+		renderTexture.bind();
+		shapeRenderer.begin();
+
+		for (int intervalCount = 0; intervalCount < interval; intervalCount++)
+		{
+			x = startX;
+			y = startY;
+
+			for (size_t i = 0; i < length; i++)
+			{
+				epicycles[i].set(t);
+				preX = x;
+				preY = y;
+				x += epicycles[i].re;
+				y += epicycles[i].im;
+			}
+
+			if (curFrame++ == length)
+			{
+				if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
+				{
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+				}
+			}
+			else
+			{
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+			}
+
+			lastPoint[0] = x;
+			lastPoint[1] = y;
+
+			t += 1.0;
+		}
+
+		shapeRenderer.end();
+		renderTexture.unbind();
+
 		x = startX;
 		y = startY;
 
-		if (intervalCount++ == interval)
+		shapeRenderer.begin();
+		for (size_t i = 0; i < length; i++)
 		{
-			shapeRenderer.begin();
-			for (size_t i = 0; i < length; i++)
-			{
-				epicycles[i].set(t);
-				preX = x;
-				preY = y;
-				x += epicycles[i].re;
-				y += epicycles[i].im;
-				shapeRenderer.drawCircle(preX, preY, epicycles[i].length, 0, 0, 0);
-				shapeRenderer.drawLine(preX, preY, x, y, 0, 0, 0);
-			}
-			shapeRenderer.end();
+			epicycles[i].set(t);
+			preX = x;
+			preY = y;
+			x += epicycles[i].re;
+			y += epicycles[i].im;
+			shapeRenderer.drawCircle(preX, preY, epicycles[i].length, 0, 0, 0);
+			shapeRenderer.drawLine(preX, preY, x, y, 0, 0, 0);
+		}
+		shapeRenderer.end();
 
-			renderTexture.bind();
-			shapeRenderer.begin();
-			if (curFrame == length)
-			{
-				if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
-				{
-					shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-				}
-			}
-			else
+		renderTexture.bind();
+		shapeRenderer.begin();
+		if (curFrame++ == length)
+		{
+			if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
 			{
 				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
 				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
@@ -164,58 +196,26 @@ public:
 				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
 				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
 			}
-			shapeRenderer.end();
-			renderTexture.unbind();
-
-			spriteRenderer.begin();
-			spriteRenderer.draw(renderTexture, 0, 0);
-			spriteRenderer.end();
-
-			lastPoint[0] = x;
-			lastPoint[1] = y;
-
-			intervalCount = 0;
 		}
 		else
 		{
-			for (size_t i = 0; i < length; i++)
-			{
-				epicycles[i].set(t);
-				preX = x;
-				preY = y;
-				x += epicycles[i].re;
-				y += epicycles[i].im;
-			}
-
-			renderTexture.bind();
-			shapeRenderer.begin();
-			if (curFrame == length)
-			{
-				if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
-				{
-					shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-					shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-				}
-			}
-			else
-			{
-				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-			}
-			shapeRenderer.end();
-			renderTexture.unbind();
-
-			lastPoint[0] = x;
-			lastPoint[1] = y;
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
 		}
+		shapeRenderer.end();
+		renderTexture.unbind();
 
-		curFrame++;
+		spriteRenderer.begin();
+		spriteRenderer.draw(renderTexture, 0, 0);
+		spriteRenderer.end();
+
+		lastPoint[0] = x;
+		lastPoint[1] = y;
+
+
 	}
 
 };

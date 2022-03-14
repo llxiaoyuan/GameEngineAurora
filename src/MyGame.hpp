@@ -24,7 +24,8 @@ public:
 
 	MyGame()
 	{
-		gsm.push(new FourierDrawing(&gsm));
+		gsm.push(new DigitalRainScene(&gsm));
+		Graphics::setRecordConfig({ 2000ULL,165 });
 	}
 
 	~MyGame()

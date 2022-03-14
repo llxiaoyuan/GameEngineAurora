@@ -30,7 +30,7 @@ private:
 
 	//贴图每一帧的时间
 	const float frameDuration;
-
+	
 };
 
 #endif // !_ANIMATION_HPP_

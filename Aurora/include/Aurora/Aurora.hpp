@@ -46,9 +46,9 @@ private:
 
 	void runRecord();
 
-	Aurora() :window(nullptr) {}
+	Aurora() :window(nullptr), config(nullptr) {}
 
-	Aurora(const Aurora&) :window(nullptr) {}
+	Aurora(const Aurora&) :window(nullptr), config(nullptr) {}
 
 	static Aurora instance;
 
