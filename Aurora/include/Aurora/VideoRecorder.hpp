@@ -7,6 +7,7 @@
 #include<string.h>
 #include<string>
 #include<iostream>
+#include<chrono>
 
 class VideoRecorder
 {
@@ -39,6 +40,14 @@ private:
 	unsigned char* pixels;
 
 	FILE* stream;
+
+	float frameTime;
+
+	std::chrono::steady_clock timer;
+
+	std::chrono::steady_clock::time_point timeStart;
+
+	std::chrono::steady_clock::time_point timeEnd;
 
 };
 

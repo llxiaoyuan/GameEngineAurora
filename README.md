@@ -29,3 +29,4 @@ Times Tables Cardioid: https://www.bilibili.com/video/BV1KR4y1V7r4?spm_id_from=3
 
 3.12 今天累死了不想动了赶紧打几把星际
 
+3.15 今天优化了渲染参数，但是发现速度还是不够，经过测试发现瓶颈就在fwrite函数上面，经过测试在1920x1080 60FPS的渲染下平均每帧渲染的时间需要足足8ms每秒渲染114帧，在1000x1000 60FPS下帧平均时间为4ms每秒渲染180FPS，得出瓶颈出在视频编码上，解决这个问题很难。
