@@ -14,19 +14,16 @@ class Texture
 {
 public:
 
-	Texture();
+	Texture() = delete;
 
-	//从文件中读取贴图
-	Texture(const std::string& path);
+	Texture(const Texture&) = delete;
 
-	//专门用于从图集读取贴图
-	Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp);
+	static Texture* createFromFile(const std::string& path);
 
-	//释放资源
-	void dispose() const;
+	~Texture();
 
 	//从图集中读取贴图
-	static std::vector<Texture> loadSplit(const std::string& path, const int& width, const int& height, const int& count);
+	static std::vector<Texture*> loadSplit(const std::string& path, const int& width, const int& height, const int& count);
 
 	//返回贴图宽
 	const int& getWidth() const;
@@ -67,6 +64,12 @@ private:
 	int curIndex;
 
 	bool registered;
+
+	//从文件中读取贴图
+	Texture(const std::string& path);
+
+	//专门用于从图集读取贴图
+	Texture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp);
 
 	//绑定贴图
 	void bind() const;

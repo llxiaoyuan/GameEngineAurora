@@ -11,7 +11,7 @@ class LogoInterpreterScene :public Scene
 {
 public:
 
-	RenderTexture renderTexture;
+	RenderTexture* renderTexture;
 
 	bool finished;
 
@@ -19,7 +19,7 @@ public:
 
 	LogoInterpreterScene(GameSceneManager* gsm) :
 		Scene(gsm),
-		renderTexture(1650, 1050, 1, 1, 1, 1),
+		renderTexture(RenderTexture::create(1650, 1050, 1, 1, 1, 1)),
 		finished(false)
 	{
 		ifstream file;
@@ -34,7 +34,7 @@ public:
 
 	~LogoInterpreterScene()
 	{
-
+		delete renderTexture;
 	}
 
 	std::shared_ptr<Scene> clone()
@@ -52,24 +52,24 @@ public:
 
 	}
 
-	void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override
+	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
 		if (!finished)
 		{
-			renderTexture.bind();
-			shapeRenderer.begin();
+			renderTexture->bind();
+			shapeRenderer->begin();
 			logo.Draw(shapeRenderer);
-			shapeRenderer.end();
-			renderTexture.unbind();
+			shapeRenderer->end();
+			renderTexture->unbind();
 			finished = true;
 		}
 		else
 		{
-			spriteRenderer.begin();
-			spriteRenderer.draw(renderTexture, 0, 0);
-			spriteRenderer.end();
+			spriteRenderer->begin();
+			spriteRenderer->draw(renderTexture, 0, 0);
+			spriteRenderer->end();
 		}
 	}
 };

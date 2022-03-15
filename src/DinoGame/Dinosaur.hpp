@@ -12,9 +12,9 @@ public:
 
 	Rect rect;
 
-	Animation runAnimation;
-	Texture collideTexture;
-	Texture jumpingTexture;
+	Animation* runAnimation;
+	Texture* collideTexture;
+	Texture* jumpingTexture;
 
 	bool isJumping;
 	bool collided;
@@ -28,7 +28,7 @@ public:
 	glm::vec3 speed;
 
 	Dinosaur():
-		runAnimation(0.07f),
+		runAnimation(Animation::create(0.07f)),
 		speed(glm::vec3(0,0,0)),
 		gravityConst(3000),
 		isJumping(false),
@@ -36,19 +36,20 @@ public:
 		runStateTime(0),
 		jumpSound(Music::load("res\\DinoGameRes\\music\\jump.mp3", false))
 	{
-		std::vector<Texture> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
-		collideTexture=Texture(buffers[0]);
-		jumpingTexture=Texture(buffers[1]);
+		std::vector<Texture*> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
+		collideTexture=buffers[0];
+		jumpingTexture=buffers[1];
 		rect = Rect(100, 50, 50, 65);
 		position = glm::vec3(100, 50, 0);
-		runAnimation.addTexture(buffers[2]);
-		runAnimation.addTexture(buffers[3]);
+		runAnimation->addTexture(buffers[2]);
+		runAnimation->addTexture(buffers[3]);
 	}
 
 	~Dinosaur()
 	{
-		collideTexture.dispose();
-		jumpingTexture.dispose();
+		delete collideTexture;
+		delete jumpingTexture;
+		delete runAnimation;
 	}
 
 	void handleinput()
@@ -91,21 +92,21 @@ public:
 		}
 	}
 
-	void render(SpriteRenderer& renderer) override
+	void render(SpriteRenderer* const renderer) override
 	{
 		if (collided)
 		{
-			renderer.draw(collideTexture, position[0], position[1]);
+			renderer->draw(collideTexture, position[0], position[1]);
 		}
 		else
 		{
 			if (isJumping)
 			{
-				renderer.draw(jumpingTexture, position[0], position[1]);
+				renderer->draw(jumpingTexture, position[0], position[1]);
 			}
 			else
 			{
-				renderer.draw(runAnimation.getTexture(runStateTime), position[0], position[1]);
+				renderer->draw(runAnimation->getTexture(runStateTime), position[0], position[1]);
 			}
 		}
 	}

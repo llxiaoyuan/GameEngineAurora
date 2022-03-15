@@ -61,6 +61,11 @@ RenderTexture::RenderTexture(const int& _width, const int& _height, const float&
 	glBindVertexArray(0);
 }
 
+RenderTexture* RenderTexture::create(const int& width, const int& height, const float& r, const float& g, const float& b, const float& a)
+{
+	return new RenderTexture(width, height, r, g, b, a);
+}
+
 RenderTexture::~RenderTexture()
 {
 	glDeleteFramebuffers(1, &FBO);

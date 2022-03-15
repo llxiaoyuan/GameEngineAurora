@@ -16,7 +16,7 @@ class BitmapFont
 {
 public:
 
-	BitmapFont(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize = -1);
+	static BitmapFont* create(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize = -1);
 
 	~BitmapFont();
 
@@ -41,11 +41,13 @@ public:
 	//获取缩放比例
 	const float& getScale() const;
 
-	void draw(SpriteRenderer& renderer, const std::string& context, const float& x, const float& y, const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
+	void draw(SpriteRenderer* const renderer, const std::string& context, const float& x, const float& y, const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
 
-	void draw(SpriteRenderer& renderer, const char& context, const float& x, const float& y, const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
+	void draw(SpriteRenderer* const renderer, const char& context, const float& x, const float& y, const float& r = 1.f, const float& g = 1.f, const float& b = 1.f, const float& a = 1.f);
 
 private:
+
+	BitmapFont(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize = -1);
 
 	//字体大小
 	int fontSize;
@@ -57,7 +59,7 @@ private:
 	float scale;
 
 	//字体贴图
-	std::vector<BitmapTexture> textures;
+	std::vector<BitmapTexture*> textures;
 
 	std::map<char, Character> keyMap;
 

@@ -44,17 +44,14 @@ public:
 	{
 		if (isFlashing)
 		{
-			flashTimer.update();
-			if (flashTimer.reached())
+			if (flashTimer.update())
 			{
 				visible = !visible;
-				flashTimer.restart();
 				flashTime--;
 				if (flashTime == 0)
 				{
 					isFlashing = false;
 					flashTime = 6;
-					flashTimer.restart();
 					visible = true;
 				}
 			}
@@ -63,10 +60,8 @@ public:
 
 		if (score < 99999)
 		{
-			scoreUpTimer.update();
-			if (scoreUpTimer.reached())
+			if (scoreUpTimer.update())
 			{
-				scoreUpTimer.restart();
 				score++;
 				if (score % 100 == 0)
 				{

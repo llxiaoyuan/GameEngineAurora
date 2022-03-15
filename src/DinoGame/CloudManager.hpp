@@ -20,9 +20,9 @@ public:
 		position.x -= 120 * dt;
 	}
 
-	void render(SpriteRenderer& renderer) override
+	void render(SpriteRenderer* const renderer) override
 	{
-		renderer.draw(*texture, position.x, position.y);
+		renderer->draw(texture, position.x, position.y);
 	}
 };
 
@@ -30,7 +30,7 @@ class CloudManager
 {
 public:
 
-	Texture cloudTexture;
+	Texture* cloudTexture;
 
 	std::vector<Cloud> clouds;
 
@@ -41,14 +41,14 @@ public:
 	CloudManager():
 		timeToNextSpawn(Utility::rFloat()*3+1.f),
 		timeToNextSpawnCount(0),
-		cloudTexture("res\\DinoGameRes\\textures\\cloud.png")
+		cloudTexture(Texture::createFromFile("res\\DinoGameRes\\textures\\cloud.png"))
 	{
 
 	}
 
 	~CloudManager()
 	{
-		cloudTexture.dispose();
+		delete cloudTexture;
 	}
 
 	void update(float dt)
@@ -59,7 +59,7 @@ public:
 		{
 			timeToNextSpawnCount = 0;
 			timeToNextSpawn = Utility::rFloat() * 9 + 1.f;
-			clouds.push_back(Cloud(&cloudTexture, 1000, 140 + Utility::rFloat() * 350));
+			clouds.push_back(Cloud(cloudTexture, 1000, 140 + Utility::rFloat() * 350));
 		}
 
 		for (int i = 0; i < clouds.size(); i++)
@@ -68,7 +68,7 @@ public:
 		}
 	}
 
-	void render(SpriteRenderer& renderer)
+	void render(SpriteRenderer* const renderer)
 	{
 		for (int i = 0; i < clouds.size(); i++)
 		{

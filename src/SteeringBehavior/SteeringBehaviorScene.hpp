@@ -14,11 +14,11 @@ public:
 
 	std::vector<Character> characters;
 
-	Texture arrow;
+	Texture* arrow;
 
 	SteeringBehaviorScene(GameSceneManager* gsm):
 		Scene(gsm),
-		arrow("res\\SteeringBehaviorRes\\arrow.png")
+		arrow(Texture::createFromFile("res\\SteeringBehaviorRes\\arrow.png"))
 	{
 		for (size_t i = 0; i < 1000; i++)
 		{
@@ -28,7 +28,7 @@ public:
 
 	~SteeringBehaviorScene()
 	{
-		arrow.dispose();
+		delete arrow;
 	}
 
 	// Í¨¹ý Scene ¼Ì³Ð
@@ -41,7 +41,7 @@ public:
 	virtual void update(const float& dt) override;
 
 
-	virtual void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override;
+	virtual void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override;
 
 
 };

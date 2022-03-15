@@ -50,14 +50,12 @@ public:
 
 	void update(const float& dt)
 	{
-		time.update();
-		if (time.reached()) {
+		if (time.update()) {
 			for (size_t i = len - 1ULL; i > 0; i--)
 			{
 				character[i] = character[i - 1ULL];
 			}
 			character[0] = rand() % 94 + 33;
-			time.restart();
 			y -= stride;
 		}
 	}

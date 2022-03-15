@@ -15,10 +15,7 @@ public:
 	Timer(const float& timeLimit);
 
 	//更新时间
-	void update();
-
-	//是否到达预定时间
-	bool reached();
+	bool update();
 
 	//重新开始计时
 	void restart();

@@ -1,6 +1,6 @@
 #include<Aurora/BitmapTexture.hpp>
 
-BitmapTexture::BitmapTexture(unsigned char* buffer, const int& width, const int& height, const int& bpp) :
+BitmapTexture::BitmapTexture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp) :
 	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), curMatricesNum(0), registered(false), colorVBO(0), modelMatrices(new glm::mat4[defaultMaxMatricesNum]), colors(new glm::vec4[defaultMaxMatricesNum])
 {
 	glGenTextures(1, &rendererID);
@@ -53,7 +53,7 @@ BitmapTexture::BitmapTexture(unsigned char* buffer, const int& width, const int&
 	glBindVertexArray(0);
 }
 
-void BitmapTexture::dispose()
+BitmapTexture::~BitmapTexture()
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);

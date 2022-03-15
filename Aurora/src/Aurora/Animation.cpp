@@ -6,20 +6,25 @@ Animation::Animation(const float& frameDuration) :
 	
 }
 
+Animation* Animation::create(const float& frameDuration)
+{
+	return new Animation(frameDuration);
+}
+
 Animation::~Animation()
 {
 	for (size_t i = 0; i < textures.size(); i++)
 	{
-		textures[i].dispose();
+		delete textures[i];
 	}
 }
 
-void Animation::addTexture(const Texture& texture)
+void Animation::addTexture(Texture* const texture)
 {
 	textures.push_back(texture);
 }
 
-Texture& Animation::getTexture(const float& stateTime)
+Texture* Animation::getTexture(const float& stateTime)
 {
 	return textures[(size_t)(stateTime / frameDuration) % textures.size()];
 }

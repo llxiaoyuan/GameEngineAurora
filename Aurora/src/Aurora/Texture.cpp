@@ -1,8 +1,8 @@
 #include<Aurora/Texture.hpp>
 
-Texture::Texture() :
-	VAO(0), VBO(0), instanceVBO(0), bpp(0), height(0), width(0), rendererID(0), curIndex(0), registered(false), modelMatrices(nullptr)
+Texture* Texture::createFromFile(const std::string& path)
 {
+	return new Texture(path);
 }
 
 Texture::Texture(const std::string& path)
@@ -66,7 +66,7 @@ Texture::Texture(const std::string& path)
 
 }
 
-Texture::Texture(unsigned char* buffer, const int& width, const int& height, const int& bpp) :
+Texture::Texture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp) :
 	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), curIndex(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
 {
 	glGenTextures(1, &rendererID);
@@ -112,7 +112,7 @@ Texture::Texture(unsigned char* buffer, const int& width, const int& height, con
 
 }
 
-void Texture::dispose() const
+Texture::~Texture()
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
@@ -141,7 +141,7 @@ void Texture::unbind() const
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-std::vector<Texture> Texture::loadSplit(const std::string& path, const int& width, const int& height, const int& count)
+std::vector<Texture*> Texture::loadSplit(const std::string& path, const int& width, const int& height, const int& count)
 {
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* localBuffer;
@@ -152,7 +152,7 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 
 	localBuffer = stbi_load(path.c_str(), &bitmapWidth, &bitmapHeight, &bpp, 4);
 
-	std::vector<Texture> results;
+	std::vector<Texture*> results;
 
 	for (int i = 0; i < count; i++)
 	{
@@ -171,7 +171,7 @@ std::vector<Texture> Texture::loadSplit(const std::string& path, const int& widt
 			}
 		}
 
-		results.emplace_back(Texture(tempBuffer, width, height, bpp));
+		results.emplace_back(new Texture(tempBuffer, width, height, bpp));
 
 		delete[] tempBuffer;
 	}

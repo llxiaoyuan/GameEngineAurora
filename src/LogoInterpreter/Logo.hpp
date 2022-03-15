@@ -34,18 +34,18 @@ void rotate(float ang)
 	angle += ang;
 }
 
-void DrawLine(ShapeRenderer& renderer)
+void DrawLine(ShapeRenderer* const renderer)
 {
 	float targetX = x + cos(angle / 360.f * tPi) * len * scale;
 	float targetY = y + sin(angle / 360.f * tPi) * len * scale;
 
 	if (pen) {
 
-		renderer.drawLine(x, y, targetX, targetY, 0, 0, 0);
-		renderer.drawLine(x + 1, y, targetX + 1, targetY, 0, 0, 0);
-		renderer.drawLine(x, y + 1, targetX, targetY + 1, 0, 0, 0);
-		renderer.drawLine(x - 1, y, targetX - 1, targetY, 0, 0, 0);
-		renderer.drawLine(x, y - 1, targetX, targetY - 1, 0, 0, 0);
+		renderer->drawLine(x, y, targetX, targetY, 0, 0, 0);
+		renderer->drawLine(x + 1, y, targetX + 1, targetY, 0, 0, 0);
+		renderer->drawLine(x, y + 1, targetX, targetY + 1, 0, 0, 0);
+		renderer->drawLine(x - 1, y, targetX - 1, targetY, 0, 0, 0);
+		renderer->drawLine(x, y - 1, targetX, targetY - 1, 0, 0, 0);
 
 	}
 
@@ -79,11 +79,11 @@ public:
 		setPos(0, 0);
 	}
 
-	void Draw(ShapeRenderer& renderer);
+	void Draw(ShapeRenderer* const renderer);
 
 };
 
-void execute(vector<Command> commands,ShapeRenderer& renderer)
+void execute(vector<Command> commands,ShapeRenderer* const renderer)
 {
 	for (size_t i = 0; i < commands.size(); i++)
 	{
@@ -126,7 +126,7 @@ void execute(vector<Command> commands,ShapeRenderer& renderer)
 	}
 }
 
-void Logo::Draw(ShapeRenderer& renderer)
+void Logo::Draw(ShapeRenderer* const renderer)
 {
 	Parser parser(text);
 	

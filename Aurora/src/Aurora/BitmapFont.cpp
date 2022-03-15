@@ -120,7 +120,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 			}
 		}
 
-		textures.emplace_back(BitmapTexture(buffer, width, height, bpp));
+		textures.emplace_back(new BitmapTexture(buffer, width, height, bpp));
 
 		delete[] buffer;
 	}
@@ -132,12 +132,17 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 	std::cout << "[" << typeid(*this).name() << "] " << "font load complete!\n";
 }
 
+BitmapFont* BitmapFont::create(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize)
+{
+	return new BitmapFont(bitmapPath, configFilePath, fontSize);
+}
+
 BitmapFont::~BitmapFont()
 {
 	std::cout << "[" << typeid(*this).name() << "] release!\n";
 	for (int i = 0; i < textures.size(); i++)
 	{
-		textures[i].dispose();
+		delete textures[i];
 	}
 }
 
@@ -162,28 +167,28 @@ const float& BitmapFont::getScale() const
 	return scale;
 }
 
-void BitmapFont::draw(SpriteRenderer& renderer, const std::string& context, const float& x, const float& y, const float& r, const float& g, const float& b, const float& a)
+void BitmapFont::draw(SpriteRenderer* const renderer, const std::string& context, const float& x, const float& y, const float& r, const float& g, const float& b, const float& a)
 {
 	float currentX = x;
 	for (int i = 0; i < context.size(); i++)
 	{
 		const BitmapFont::Character& character = getCharacter(context[i]);
-		renderer.bitmapTexturePoolAdd(textures[character.index]);
+		renderer->bitmapTexturePoolAdd(textures[character.index]);
 		const float currentY = y + character.yoffset;
 		glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0));
 		model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
-		textures[character.index].addColor(r, g, b, a);
-		textures[character.index].addModel(model);
+		textures[character.index]->addColor(r, g, b, a);
+		textures[character.index]->addModel(model);
 		currentX += character.xadvance * getScale();
 	}
 }
 
-void BitmapFont::draw(SpriteRenderer& renderer, const char& context, const float& x, const float& y, const float& r, const float& g, const float& b, const float& a)
+void BitmapFont::draw(SpriteRenderer* const renderer, const char& context, const float& x, const float& y, const float& r, const float& g, const float& b, const float& a)
 {
 	const BitmapFont::Character& character = getCharacter(context);
-	renderer.bitmapTexturePoolAdd(textures[character.index]);
+	renderer->bitmapTexturePoolAdd(textures[character.index]);
 	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x + character.xoffset, y + character.yoffset, 0));
 	model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
-	textures[character.index].addColor(r, g, b, a);
-	textures[character.index].addModel(model);
+	textures[character.index]->addColor(r, g, b, a);
+	textures[character.index]->addModel(model);
 }

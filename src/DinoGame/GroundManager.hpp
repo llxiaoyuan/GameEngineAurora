@@ -28,7 +28,7 @@ class GroundManager
 {
 public:
 
-	Texture groundTextures[3];
+	Texture* groundTextures[3];
 
 	std::vector<Ground> grounds;
 
@@ -36,7 +36,7 @@ public:
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			groundTextures[i] = Texture("res\\DinoGameRes\\textures\\land" + std::to_string(i + 1) + ".png");
+			groundTextures[i] = Texture::createFromFile("res\\DinoGameRes\\textures\\land" + std::to_string(i + 1) + ".png");
 		}
 
 		for (int i = 0; i < 2; i++)
@@ -50,7 +50,7 @@ public:
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			groundTextures[i].dispose();
+			delete groundTextures[i];
 		}
 	}
 
@@ -70,7 +70,7 @@ public:
 					}
 				}
 				int nextIndex = rand() % 3;
-				grounds[i].position.x = maxX + groundTextures[1].getWidth();
+				grounds[i].position.x = maxX + groundTextures[1]->getWidth();
 
 				grounds[i].index = nextIndex;
 
@@ -78,11 +78,11 @@ public:
 		}
 	}
 
-	void render(SpriteRenderer& renderer)
+	void render(SpriteRenderer* const renderer)
 	{
 		for (int i = 0; i < grounds.size(); i++)
 		{
-			renderer.draw(groundTextures[grounds[i].index], grounds[i].position.x, grounds[i].position.y);
+			renderer->draw(groundTextures[grounds[i].index], grounds[i].position.x, grounds[i].position.y);
 		}
 	}
 

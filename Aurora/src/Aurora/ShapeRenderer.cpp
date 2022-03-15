@@ -5,6 +5,11 @@ ShapeRenderer::ShapeRenderer()
 
 }
 
+ShapeRenderer* ShapeRenderer::create()
+{
+	return new ShapeRenderer();
+}
+
 ShapeRenderer::~ShapeRenderer()
 {
 	std::cout << "[class ShapeRenderer] release!\n";

@@ -11,11 +11,15 @@ class BitmapTexture
 {
 public:
 
-	BitmapTexture(unsigned char* buffer, const int& width, const int& height, const int& bpp);
+	BitmapTexture() = delete;
 
-	void dispose();
+	BitmapTexture(const BitmapTexture&) = delete;
+
+	~BitmapTexture();
 
 private:
+
+	BitmapTexture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp);
 
 	friend class SpriteRenderer;
 

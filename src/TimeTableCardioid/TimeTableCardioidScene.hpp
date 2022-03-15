@@ -89,18 +89,18 @@ public:
 		d1 += 50ULL;
 	}
 
-	void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override
+	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
 		color = hsv(hue);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 0, 0, 0);
-		shapeRenderer.begin();
-		shapeRenderer.drawCircle(c.center[0], c.center[1], c.radius, 1, 1, 1, 1);
+		shapeRenderer->begin();
+		shapeRenderer->drawCircle(c.center[0], c.center[1], c.radius, 1, 1, 1, 1);
 		for (size_t i = 0; i < c.points.size(); i++)
 		{
-			shapeRenderer.drawLine(c.points[i].x, c.points[i].y, c.points[(size_t)(i * d1 / d2) % c.points.size()].x, c.points[(size_t)(i * d1 / d2) % c.points.size()].y, color.r, color.g, color.b, 1);
+			shapeRenderer->drawLine(c.points[i].x, c.points[i].y, c.points[(size_t)(i * d1 / d2) % c.points.size()].x, c.points[(size_t)(i * d1 / d2) % c.points.size()].y, color.r, color.g, color.b, 1);
 		}
-		shapeRenderer.end();
+		shapeRenderer->end();
 		if (frameCount++ == frameLimit)
 		{
 			hue++;

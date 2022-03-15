@@ -15,7 +15,9 @@ class ShapeRenderer
 {
 public:
 
-	ShapeRenderer();
+	static ShapeRenderer* create();
+
+	ShapeRenderer(const ShapeRenderer&) = delete;
 
 	~ShapeRenderer();
 
@@ -30,6 +32,8 @@ public:
 	void drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a = 1.f);
 
 private:
+
+	ShapeRenderer();
 
 	//同一时间最多画50000个圆和SpriteRenderer绘制方法类似
 	class CircleRenderer

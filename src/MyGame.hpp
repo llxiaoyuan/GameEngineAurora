@@ -17,19 +17,25 @@ class MyGame :public Game
 {
 public:
 
-	GameSceneManager gsm;
-	SpriteRenderer spriteRenderer;
-	ShapeRenderer shapeRenderer;
+	GameSceneManager* gsm;
+	SpriteRenderer* spriteRenderer;
+	ShapeRenderer* shapeRenderer;
 
 
-	MyGame()
+	MyGame():
+		gsm(GameSceneManager::create()),
+		spriteRenderer(SpriteRenderer::create()),
+		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm.push(new FourierDrawing(&gsm));
+		gsm->push(new MyScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 
 	~MyGame()
 	{
+		delete gsm;
+		delete spriteRenderer;
+		delete shapeRenderer;
 		std::cout << "[" << typeid(*this).name() << "] release!\n";
 	}
 
@@ -40,12 +46,12 @@ public:
 
 	void update(const float& dt) override
 	{
-		gsm.update(dt);
+		gsm->update(dt);
 	}
 
 	void render() override
 	{
-		gsm.render(spriteRenderer,shapeRenderer);
+		gsm->render(spriteRenderer,shapeRenderer);
 	}
 
 };

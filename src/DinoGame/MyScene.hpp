@@ -18,9 +18,9 @@ public:
 
 	MyScene(GameSceneManager* gsm) :
 		Scene(gsm),
-		font("res\\DinoGameRes\\font\\Game.png", "res\\DinoGameRes\\font\\Game.fnt"),
+		font(BitmapFont::create("res\\DinoGameRes\\font\\Game.png", "res\\DinoGameRes\\font\\Game.fnt")),
 		isGameEnded(false),
-		gameOverTexture("res\\DinoGameRes\\textures\\Gameover.png"),
+		gameOverTexture(Texture::createFromFile("res\\DinoGameRes\\textures\\Gameover.png")),
 		gameOverSound(Music::load("res\\DinoGameRes\\music\\hit.ogg", false))
 	{
 		score = 0;
@@ -30,7 +30,8 @@ public:
 	~MyScene()
 	{
 		std::cout << "[" << typeid(*this).name() << "] release!\n";
-		gameOverTexture.dispose();
+		delete gameOverTexture;
+		delete font;
 	}
 
 	std::shared_ptr<Scene> clone()
@@ -61,11 +62,11 @@ public:
 		}
 	}
 
-	void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override
+	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
-		spriteRenderer.begin();
+		spriteRenderer->begin();
 		cloudManager.render(spriteRenderer);
 		groundManager.render(spriteRenderer);
 		obstacleManager.render(spriteRenderer);
@@ -73,9 +74,9 @@ public:
 		dino.render(spriteRenderer);
 		if (isGameEnded)
 		{
-			spriteRenderer.draw(gameOverTexture, Graphics::getWidth() / 2.f, Graphics::getHeight() / 2.f, gameOverTexture.getWidth() / 2.f, gameOverTexture.getHeight() / 2.f);
+			spriteRenderer->draw(gameOverTexture, Graphics::getWidth() / 2.f, Graphics::getHeight() / 2.f, gameOverTexture->getWidth() / 2.f, gameOverTexture->getHeight() / 2.f);
 		}
-		spriteRenderer.end();
+		spriteRenderer->end();
 	}
 
 private:
@@ -90,27 +91,27 @@ private:
 
 	CloudManager cloudManager;
 
-	Texture gameOverTexture;
+	Texture* gameOverTexture;
 
 	Dinosaur dino;
 
-	BitmapFont font;
+	BitmapFont* font;
 
 	Score score;
 
 	int hiScore;
 
-	void printScore(SpriteRenderer& renderer)
+	void printScore(SpriteRenderer* renderer)
 	{
-		font.draw(renderer, "HI", 660, 490, 0, 1, 1, 1);
+		font->draw(renderer, "HI", 660, 490, 0, 1, 1, 1);
 		std::string strScore = std::to_string(hiScore);
 		float x = 820 - (float)strScore.size() * 20;
-		font.draw(renderer, strScore, x, 490);
+		font->draw(renderer, strScore, x, 490);
 		if (score.visible)
 		{
 			strScore = std::to_string(score);
 			x = 940 - (float)strScore.size() * 20;
-			font.draw(renderer, strScore, x, 490);
+			font->draw(renderer, strScore, x, 490);
 		}
 
 	}

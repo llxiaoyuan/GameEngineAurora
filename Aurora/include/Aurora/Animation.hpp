@@ -13,20 +13,26 @@ class Animation
 {
 public:
 
-	Animation(const float& frameDuration);
+	Animation() = delete;
+
+	Animation(const Animation&) = delete;
+
+	static Animation* create(const float& frameDuration);
 
 	~Animation();
 
 	//增加贴图
-	void addTexture(const Texture& texture);
+	void addTexture(Texture* const texture);
 
 	//根据stateTime返回此时的贴图
-	Texture& getTexture(const float& stateTime);
+	Texture* getTexture(const float& stateTime);
 
 	//动画贴图
-	std::vector<Texture> textures;
+	std::vector<Texture*> textures;
 
 private:
+
+	Animation(const float& frameDuration);
 
 	//贴图每一帧的时间
 	const float frameDuration;

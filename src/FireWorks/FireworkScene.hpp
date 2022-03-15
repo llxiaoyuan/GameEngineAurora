@@ -40,14 +40,14 @@ public:
 
 	float ang = 0;
 
-	void render(SpriteRenderer& spriteRenderer,ShapeRenderer& shapeRenderer) override
+	void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
-		shapeRenderer.begin();
+		shapeRenderer->begin();
 		Rect rect(100, 100, 100, 100);
-		shapeRenderer.drawRect(rect, 0, 1, 1, 1);
-		shapeRenderer.end();
+		shapeRenderer->drawRect(rect, 0, 1, 1, 1);
+		shapeRenderer->end();
 	}
 
 private:

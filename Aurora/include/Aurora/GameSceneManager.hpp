@@ -37,7 +37,7 @@ public:
 	virtual void update(const float& dt) = 0;
 
 	//äÖÈ¾
-	virtual void render(SpriteRenderer& spriteRenderer,ShapeRenderer& shapeRenderer) = 0;
+	virtual void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer) = 0;
 
 };
 
@@ -46,9 +46,9 @@ class GameSceneManager
 {
 public:
 
-	GameSceneManager()
+	static GameSceneManager* create()
 	{
-
+		return new GameSceneManager();
 	}
 
 	~GameSceneManager()
@@ -77,12 +77,17 @@ public:
 		scenes.back()->update(dt);
 	}
 
-	void render(SpriteRenderer& spriteRenderer,ShapeRenderer& shapeRenderer)
+	void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer)
 	{
 		scenes.back()->render(spriteRenderer, shapeRenderer);
 	}
 
 private:
+
+	GameSceneManager()
+	{
+
+	}
 
 	std::vector<std::shared_ptr<Scene>> scenes;
 

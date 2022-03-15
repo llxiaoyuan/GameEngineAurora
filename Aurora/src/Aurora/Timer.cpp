@@ -12,14 +12,18 @@ Timer::Timer(const float& timeLimit):
 
 }
 
-void Timer::update()
+bool Timer::update()
 {
 	curTime += Graphics::getDeltaTime();
-}
-
-bool Timer::reached()
-{
-	return curTime >= timeLimit;
+	if (curTime >= timeLimit)
+	{
+		curTime = 0;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Timer::restart()

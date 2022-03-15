@@ -21,7 +21,9 @@ class SpriteRenderer
 {
 public:
 
-	SpriteRenderer();
+	static SpriteRenderer* create();
+
+	SpriteRenderer(const SpriteRenderer&) = delete;
 
 	~SpriteRenderer();
 
@@ -31,27 +33,29 @@ public:
 	//在这一刻SpriteRenderer会绘制所有的文字及贴图
 	void end();
 
-	void draw(Texture& texture, const float& x, const float& y);
+	void draw(Texture* const texture, const float& x, const float& y);
 
-	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY);
+	void draw(Texture* const texture, const float& x, const float& y, const float& originX, const float& originY);
 
-	void draw(Texture& texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation);
+	void draw(Texture* const texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation);
 
-	void draw(RenderTexture& renderTexture, const float& x, const float& y);
+	void draw(RenderTexture* const renderTexture, const float& x, const float& y);
 
 	//向贴图池中增加贴图
-	void texturePoolAdd(Texture& texture);
+	void texturePoolAdd(Texture* const texture);
 
 	//向文字贴图池中增加贴图
-	void bitmapTexturePoolAdd(BitmapTexture& texture);
+	void bitmapTexturePoolAdd(BitmapTexture* const texture);
 
-	void renderTexturePoolAdd(RenderTexture& renderTexture);
+	void renderTexturePoolAdd(RenderTexture* const renderTexture);
 
 	Shader textRenderShader;
 
 	Shader instanceRenderShader;
 
 private:
+
+	SpriteRenderer();
 
 	//贴图池
 	std::vector<Texture*> texturePool;

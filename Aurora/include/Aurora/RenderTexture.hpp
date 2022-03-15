@@ -11,7 +11,11 @@ class RenderTexture
 {
 public:
 
-	RenderTexture(const int& width, const int& height, const float& r = 0, const float& g = 0, const float& b = 0, const float& a = 0);
+	static RenderTexture* create(const int& width, const int& height, const float& r = 0, const float& g = 0, const float& b = 0, const float& a = 0);
+
+	RenderTexture() = delete;
+
+	RenderTexture(const RenderTexture&) = delete;
 
 	~RenderTexture();
 
@@ -46,6 +50,8 @@ private:
 	int curMatricesNum;
 
 	bool registered;
+
+	RenderTexture(const int& width, const int& height, const float& r = 0, const float& g = 0, const float& b = 0, const float& a = 0);
 
 	//Ö´ÐÐÊµÀý»¯äÖÈ¾
 	void drawInstance() const;
