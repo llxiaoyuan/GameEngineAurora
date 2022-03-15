@@ -155,6 +155,7 @@
     <ClInclude Include="Aurora\include\Aurora\GameSceneManager.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Graphics.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Keyboard.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\ParticleSystem.hpp" />
     <ClInclude Include="Aurora\include\Aurora\RenderTexture.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Sound.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Timer.hpp" />
@@ -494,6 +495,7 @@
     <ClInclude Include="src\LogoInterpreter\LogoInterpreterScene.hpp" />
     <ClInclude Include="src\LogoInterpreter\Parser.hpp" />
     <ClInclude Include="src\MyGame.hpp" />
+    <ClInclude Include="src\ParticleSystemTest\ParticleSystemTestScene.hpp" />
     <ClInclude Include="src\SteeringBehavior\Character.hpp" />
     <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp" />
     <ClInclude Include="src\TimeTableCardioid\Cardioid.hpp" />
@@ -510,6 +512,7 @@
     <ClCompile Include="Aurora\src\Aurora\glad.c" />
     <ClCompile Include="Aurora\src\Aurora\Graphics.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Keyboard.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\ParticleSystem.cpp" />
     <ClCompile Include="Aurora\src\Aurora\RenderTexture.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Sound.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Timer.cpp" />

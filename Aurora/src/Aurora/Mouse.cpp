@@ -6,8 +6,7 @@ bool Mouse::rightDown = false;
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	Mouse::pos[0] = (float)xpos;
-	Mouse::pos[1] = (float)ypos;
+	Mouse::pos = glm::vec2(xpos, Graphics::getHeight() - ypos);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)

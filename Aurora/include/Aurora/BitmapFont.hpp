@@ -18,6 +18,8 @@ public:
 
 	static BitmapFont* create(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize = -1);
 
+	BitmapFont(const BitmapFont&) = delete;
+
 	~BitmapFont();
 
 	//×Ö·ûÐÅÏ¢

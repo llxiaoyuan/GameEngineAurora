@@ -12,6 +12,7 @@
 #include"FourierDrawing/FourierDrawing.hpp"
 #include"LogoInterpreter/LogoInterpreterScene.hpp"
 #include"TimeTableCardioid/TimeTableCardioidScene.hpp"
+#include"ParticleSystemTest/ParticleSystemTestScene.hpp"
 
 class MyGame :public Game
 {
@@ -27,7 +28,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new MyScene(gsm));
+		gsm->push(new ParticleSystemTestScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 

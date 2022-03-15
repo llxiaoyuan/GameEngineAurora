@@ -6,6 +6,8 @@
 #include<glm/glm.hpp>
 #include<GLFW/glfw3.h>
 
+#include"Graphics.hpp"
+
 // Û±Í¿‡
 class Mouse
 {

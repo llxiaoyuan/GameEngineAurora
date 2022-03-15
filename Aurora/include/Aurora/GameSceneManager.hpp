@@ -51,6 +51,8 @@ public:
 		return new GameSceneManager();
 	}
 
+	GameSceneManager(const GameSceneManager&) = delete;
+
 	~GameSceneManager()
 	{
 		std::cout << "[class GameSceneManager] release!\n";

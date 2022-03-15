@@ -13,6 +13,10 @@ class VideoRecorder
 {
 public:
 
+	VideoRecorder() = delete;
+
+	VideoRecorder(const VideoRecorder&) = delete;
+
 	VideoRecorder(const int& width, const int& height,const size_t& totalFrame,const int& frameRate);
 
 	~VideoRecorder();

@@ -61,6 +61,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		glEnable(GL_MULTISAMPLE);
 	}
 
+	glPointSize(1.5f);
 	glLineWidth(1.5f);
 
 	game = nullptr;
