@@ -91,6 +91,8 @@ public:
 
 		lastPoint = glm::vec2(x, y);
 
+		t += 1.0;
+
 		curFrame++;
 	}
 
@@ -114,13 +116,58 @@ public:
 
 	void update(const float& dt) override
 	{
-		t += 1.0;
+		
 	}
 
 	void render(SpriteRenderer& spriteRenderer, ShapeRenderer& shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(1, 1, 1, 1);
+
+		x = startX;
+		y = startY;
+
+		shapeRenderer.begin();
+		for (size_t i = 0; i < length; i++)
+		{
+			epicycles[i].set(t);
+			preX = x;
+			preY = y;
+			x += epicycles[i].re;
+			y += epicycles[i].im;
+			shapeRenderer.drawCircle(preX, preY, epicycles[i].length, 0, 0, 0);
+			shapeRenderer.drawLine(preX, preY, x, y, 0, 0, 0);
+		}
+		shapeRenderer.end();
+
+		renderTexture.bind();
+		shapeRenderer.begin();
+		if (curFrame++ == length)
+		{
+			if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
+			{
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+			}
+		}
+		else
+		{
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
+			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
+		}
+		shapeRenderer.end();
+		renderTexture.unbind();
+
+		lastPoint[0] = x;
+		lastPoint[1] = y;
+
+		t += 1.0;
 
 		renderTexture.bind();
 		shapeRenderer.begin();
@@ -168,53 +215,9 @@ public:
 		shapeRenderer.end();
 		renderTexture.unbind();
 
-		x = startX;
-		y = startY;
-
-		shapeRenderer.begin();
-		for (size_t i = 0; i < length; i++)
-		{
-			epicycles[i].set(t);
-			preX = x;
-			preY = y;
-			x += epicycles[i].re;
-			y += epicycles[i].im;
-			shapeRenderer.drawCircle(preX, preY, epicycles[i].length, 0, 0, 0);
-			shapeRenderer.drawLine(preX, preY, x, y, 0, 0, 0);
-		}
-		shapeRenderer.end();
-
-		renderTexture.bind();
-		shapeRenderer.begin();
-		if (curFrame++ == length)
-		{
-			if (glm::length(lastPoint - glm::vec2(x, y)) < 50.f)
-			{
-				shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-				shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-			}
-		}
-		else
-		{
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1], x, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0] + 1, lastPoint[1], x + 1, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] + 1, x, y + 1, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0] - 1, lastPoint[1], x - 1, y, 0, 0, 0);
-			shapeRenderer.drawLine(lastPoint[0], lastPoint[1] - 1, x, y - 1, 0, 0, 0);
-		}
-		shapeRenderer.end();
-		renderTexture.unbind();
-
 		spriteRenderer.begin();
 		spriteRenderer.draw(renderTexture, 0, 0);
 		spriteRenderer.end();
-
-		lastPoint[0] = x;
-		lastPoint[1] = y;
-
 
 	}
 

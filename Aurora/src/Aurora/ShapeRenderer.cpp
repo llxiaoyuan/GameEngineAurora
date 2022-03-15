@@ -162,7 +162,7 @@ void ShapeRenderer::CircleRenderer::addCircle(const float& x, const float& y, co
 ShapeRenderer::LineRenderer::LineRenderer() :
 	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum])
 {
-	lineShader.create("res\\shaders\\LineShader.shader");
+	lineShader.create("res\\shaders\\ShapeShader.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	lineShader.bind();

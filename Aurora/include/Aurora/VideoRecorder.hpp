@@ -37,8 +37,6 @@ private:
 
 	const int byteNum;
 
-	unsigned char* pixels;
-
 	FILE* stream;
 
 	float frameTime;
