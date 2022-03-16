@@ -13,6 +13,10 @@ class Mouse
 {
 public:
 
+	Mouse() = delete;
+
+	Mouse(const Mouse&) = delete;
+
 	//获取鼠标位置
 	static const glm::vec2& getPosition();
 

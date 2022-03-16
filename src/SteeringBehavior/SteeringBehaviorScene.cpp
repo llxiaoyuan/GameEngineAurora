@@ -1,8 +1,8 @@
 #include "SteeringBehaviorScene.hpp"
 
-std::shared_ptr<Scene> SteeringBehaviorScene::clone()
+std::unique_ptr<Scene> SteeringBehaviorScene::clone()
 {
-    return std::make_shared<SteeringBehaviorScene>(*this);
+    return std::make_unique<SteeringBehaviorScene>(*this);
 }
 
 void SteeringBehaviorScene::handleinput()
@@ -15,7 +15,7 @@ void SteeringBehaviorScene::update(const float& dt)
     for (size_t i = 0; i < characters.size(); i++)
     {
         characters[i].flock(characters);
-        characters[i].update(dt*100.f);
+        characters[i].update(dt*200.f);
     }
 }
 

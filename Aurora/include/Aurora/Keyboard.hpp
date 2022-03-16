@@ -12,6 +12,10 @@ class Keyboard
 {
 public:
 
+	Keyboard() = delete;
+
+	Keyboard(const Keyboard&) = delete;
+
 	//可获取状态的按键
 	enum Key
 	{

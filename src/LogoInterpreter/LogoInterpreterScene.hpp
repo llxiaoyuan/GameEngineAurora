@@ -37,9 +37,9 @@ public:
 		delete renderTexture;
 	}
 
-	std::shared_ptr<Scene> clone()
+	std::unique_ptr<Scene> clone()
 	{
-		return std::make_shared<LogoInterpreterScene>(*this);
+		return std::make_unique<LogoInterpreterScene>(*this);
 	}
 
 	void handleinput() override

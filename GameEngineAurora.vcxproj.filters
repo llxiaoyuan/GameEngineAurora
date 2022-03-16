@@ -1083,6 +1083,12 @@
     <ClInclude Include="src\ParticleSystemTest\ParticleSystemTestScene.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\DoomFire\DoomFireScene.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DoomFire\MyParticleSystem.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp">

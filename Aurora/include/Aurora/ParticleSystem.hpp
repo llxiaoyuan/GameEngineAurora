@@ -26,11 +26,11 @@ class ParticleSystem
 {
 public:
 
-	ParticleSystem();
+	ParticleSystem(const float& particleSize,const int& maxParticleNumber);
 
 	~ParticleSystem();
 
-	void update(const float& dt);
+	virtual void update(const float& dt);
 
 	void render();
 
@@ -48,11 +48,11 @@ public:
 		float lifeTimeRemaining;
 	};
 
-	long long findFirstParticle();
+	int findFirstParticle();
+
+	const int maxParticleNumber;
 
 	Particle* particles;
-
-	static constexpr long long maxParticleNumber = 5000;
 
 	unsigned int VAO;
 
@@ -61,6 +61,8 @@ public:
 	unsigned int colorVBO;
 
 	Shader shader;
+
+	const float particleSize;
 
 };
 

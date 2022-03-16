@@ -52,7 +52,7 @@ private:
 
 	static Aurora instance;
 
-	std::shared_ptr<Game> game;
+	std::unique_ptr<Game> game;
 
 	const Configuration* config;
 

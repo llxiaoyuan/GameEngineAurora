@@ -13,6 +13,7 @@
 #include"LogoInterpreter/LogoInterpreterScene.hpp"
 #include"TimeTableCardioid/TimeTableCardioidScene.hpp"
 #include"ParticleSystemTest/ParticleSystemTestScene.hpp"
+#include"DoomFire/DoomFireScene.hpp"
 
 class MyGame :public Game
 {
@@ -28,8 +29,8 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new ParticleSystemTestScene(gsm));
-		Graphics::setRecordConfig({ 6000ULL,60 });
+		gsm->push(new DoomFireScene(gsm));
+		Graphics::setRecordConfig({ 600ULL,27 });
 	}
 
 	~MyGame()
@@ -40,9 +41,9 @@ public:
 		std::cout << "[" << typeid(*this).name() << "] release!\n";
 	}
 
-	std::shared_ptr<Game> clone() override
+	std::unique_ptr<Game> clone() override
 	{
-		return std::make_shared<MyGame>(*this);
+		return std::make_unique<MyGame>(*this);
 	}
 
 	void update(const float& dt) override

@@ -3,15 +3,14 @@
 #ifndef _GAME_SCENE_MANAGER_HPP_
 #define _GAME_SCENE_MANAGER_HPP_
 
-#include<vector>
+#include<stack>
 #include<type_traits>
+#include<memory>
 
 #include"SpriteRenderer.hpp"
 #include"ShapeRenderer.hpp"
 
 class GameSceneManager;
-class SpriteRenderer;
-class ShapeRenderer;
 
 //场景
 class Scene
@@ -28,7 +27,7 @@ public:
 
 	virtual ~Scene() {}
 
-	virtual std::shared_ptr<Scene> clone() = 0;
+	virtual std::unique_ptr<Scene> clone() = 0;
 
 	//处理输入
 	virtual void handleinput() = 0;
@@ -60,38 +59,38 @@ public:
 
 	void push(Scene* scene)
 	{
-		scenes.push_back(scene->clone());
+		scenes.push(scene->clone());
 	}
 
 	void pop()
 	{
-		scenes.pop_back();
+		scenes.pop();
 	}
 
 	void set(Scene* scene)
 	{
-		scenes.pop_back();
-		scenes.push_back(scene->clone());
+		scenes.pop();
+		scenes.push(scene->clone());
 	}
 
 	void update(const float& dt)
 	{
-		scenes.back()->update(dt);
+		scenes.top()->update(dt);
 	}
 
 	void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer)
 	{
-		scenes.back()->render(spriteRenderer, shapeRenderer);
+		scenes.top()->render(spriteRenderer, shapeRenderer);
 	}
 
 private:
 
 	GameSceneManager()
 	{
-
+		
 	}
 
-	std::vector<std::shared_ptr<Scene>> scenes;
+	std::stack<std::unique_ptr<Scene>> scenes;
 
 };
 

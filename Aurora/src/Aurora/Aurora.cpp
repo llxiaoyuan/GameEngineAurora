@@ -13,10 +13,13 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	{
 		glfwWindowHint(GLFW_DECORATED, 0);
 	}
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	if (config->multiSample)
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+	if (config->multiSample && config->multiSample % 2 == 0)
 	{
 		glfwWindowHint(GLFW_SAMPLES, config->multiSample);
 	}
@@ -55,7 +58,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	
 	if (config->multiSample)
 	{
 		glEnable(GL_MULTISAMPLE);
@@ -89,7 +92,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		glfwSwapInterval(0);
 		glfwHideWindow(window);
 	}
-
+	
 	return true;
 }
 
@@ -150,7 +153,7 @@ void Aurora::runRecord()
 	VideoRecorder recorder(config->screenWidth, config->screenHeight, Graphics::config.totalFrame, Graphics::config.frameRate);
 	do
 	{
-		game->update(1/(float)Graphics::config.frameRate);
+		game->update(1 / (float)Graphics::config.frameRate);
 		game->render();
 		Graphics::deltaTime = 1 / (float)Graphics::config.frameRate;
 	} while (recorder.record());

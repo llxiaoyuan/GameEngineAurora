@@ -97,5 +97,7 @@ private:
 
 };
 
+using TexturePtr = Texture*;
+
 
 #endif // !_TEXTURE_BUFFER_HPP_

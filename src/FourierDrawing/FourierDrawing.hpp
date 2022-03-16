@@ -105,9 +105,9 @@ public:
 		}
 	}
 
-	std::shared_ptr<Scene> clone() override
+	std::unique_ptr<Scene> clone() override
 	{
-		return std::make_shared<FourierDrawing>(*this);
+		return std::make_unique<FourierDrawing>(*this);
 	}
 
 	void handleinput() override

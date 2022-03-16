@@ -7,6 +7,10 @@ class Graphics
 {
 public:
 
+	Graphics() = delete;
+
+	Graphics(const Graphics&) = delete;
+
 	struct RecordConfig
 	{
 		size_t totalFrame;

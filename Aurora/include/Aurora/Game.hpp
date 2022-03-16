@@ -20,7 +20,7 @@ public:
 		std::cout << "[class Game] release!\n";
 	}
 
-	virtual std::shared_ptr<Game> clone() = 0;
+	virtual std::unique_ptr<Game> clone() = 0;
 
 	//¸üÐÂ
 	virtual void update(const float& dt) = 0;

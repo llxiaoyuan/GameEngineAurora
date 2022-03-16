@@ -27,7 +27,13 @@ public:
 
 	void drawLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a = 1.f);
 
-	void drawRect(const Rect& rect, const float& r, const float& g, const float& b, const float& a);
+	void drawFilledTriangle(const float& x1, const float& y1, const float& x2, const float& y2, const float& x3, const float& y3, const float& r, const float& g, const float& b, const float& a = 1.f);
+
+	void drawRect(const Rect& rect, const float& r, const float& g, const float& b, const float& a=1.f);
+
+	void drawRect(const float& x, const float& y, const float& width, const float& height, const float& r, const float& g, const float& b, const float& a = 1.f);
+
+	void drawFilledRect(const float& x, const float& y, const float& width, const float& height, const float& r, const float& g, const float& b, const float& a = 1.f);
 
 	void drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a = 1.f);
 
@@ -69,7 +75,7 @@ private:
 		glm::vec4* circleColor;
 
 		float* circleLength;
-		
+
 		int curCircleNum;
 
 		Shader circleShader;
@@ -110,6 +116,39 @@ private:
 
 	} lineRenderer;
 
+	class TriangleRenderer
+	{
+	public:
+
+		TriangleRenderer();
+
+		~TriangleRenderer();
+
+		void begin();
+
+		void end();
+
+		void updateVerticesData();
+
+		void addVertex(const float& x1, const float& y1, const float& r, const float& g, const float& b, const float& a);
+
+		unsigned int VAO;
+
+		unsigned int verticesVBO;
+
+		unsigned int colorVBO;
+
+		static constexpr int maxVerticesNum = 1000000;
+
+		glm::vec2* vertices;
+
+		glm::vec4* colors;
+
+		int curVerticesNum;
+
+		Shader triangleShader;
+
+	} triangleRenderer;
 };
 
 

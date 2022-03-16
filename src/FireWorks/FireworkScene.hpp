@@ -23,9 +23,9 @@ public:
 		
 	}
 
-	std::shared_ptr<Scene> clone()
+	std::unique_ptr<Scene> clone()
 	{
-		return std::make_shared<std::remove_reference<decltype(*this)>::type>(*this);
+		return std::make_unique<FireworkScene>(*this);
 	}
 
 	void handleinput() override

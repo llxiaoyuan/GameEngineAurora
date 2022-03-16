@@ -14,7 +14,7 @@ public:
 
 	std::vector<Character> characters;
 
-	Texture* arrow;
+	TexturePtr arrow;
 
 	SteeringBehaviorScene(GameSceneManager* gsm):
 		Scene(gsm),
@@ -32,7 +32,7 @@ public:
 	}
 
 	// Í¨¹ý Scene ¼Ì³Ð
-	virtual std::shared_ptr<Scene> clone() override;
+	virtual std::unique_ptr<Scene> clone() override;
 
 
 	virtual void handleinput() override;

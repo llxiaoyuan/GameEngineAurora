@@ -485,6 +485,8 @@
     <ClInclude Include="src\DinoGame\MyScene.hpp" />
     <ClInclude Include="src\DinoGame\ObstacleManager.hpp" />
     <ClInclude Include="src\DinoGame\Score.hpp" />
+    <ClInclude Include="src\DoomFire\DoomFireScene.hpp" />
+    <ClInclude Include="src\DoomFire\MyParticleSystem.hpp" />
     <ClInclude Include="src\FireWorks\FireworkScene.hpp" />
     <ClInclude Include="src\FireWorks\Star.hpp" />
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />

@@ -34,9 +34,9 @@ public:
 		delete font;
 	}
 
-	std::shared_ptr<Scene> clone()
+	std::unique_ptr<Scene> clone()
 	{
-		return std::make_shared<MyScene>(*this);
+		return std::make_unique<MyScene>(*this);
 	}
 
 	void handleinput() override
