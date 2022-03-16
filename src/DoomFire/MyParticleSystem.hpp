@@ -70,7 +70,7 @@ public:
 
 	void update(const float& dt) override
 	{
-		for (int i = Graphics::getWidth() / (int)particleSize; i < maxParticleNumber; i++)
+		for (int i = 0; i < maxParticleNumber; i++)
 		{
 			spreadFire(i);
 		}
@@ -83,7 +83,7 @@ public:
 		sumTime += dt;
 		if (sumTime < 10.f)
 		{
-			for (int i = Graphics::getWidth() / (int)particleSize; i < 2 * Graphics::getWidth() / (int)particleSize; i++)
+			for (int i = 0; i < Graphics::getWidth() / (int)particleSize; i++)
 			{
 				if (++indices[i] == 37)
 				{
@@ -93,7 +93,7 @@ public:
 		}
 		else
 		{
-			for (int i = Graphics::getWidth() / (int)particleSize; i < 2 * Graphics::getWidth() / (int)particleSize; i++)
+			for (int i = 0; i <  Graphics::getWidth() / (int)particleSize; i++)
 			{
 				if (--indices[i] == -1)
 				{
