@@ -22,7 +22,6 @@
 
 第九个是Times Tables Cardioid 学自Mathologer的视频 https://www.youtube.com/watch?v=qhbuKbxJsk8&t
 
-第四个是群聚行为模拟 高考结束的暑假用SFML写的，也搬到了自己的游戏引擎上来
 ## 相关演示视频
 数字雨: https://www.bilibili.com/video/BV1bZ4y1r7r9?spm_id_from=333.999.0.0
 
