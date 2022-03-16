@@ -70,21 +70,19 @@ void ParticleSystem::update(const float& dt)
 			particles[i].color.w = 0;
 			continue;
 		}
-		//particles[i].lifeTimeRemaining -= dt;
+		particles[i].lifeTimeRemaining -= dt;
 
-		//const glm::vec2 center = Mouse::getPosition();
+		const glm::vec2 center = Mouse::getPosition();
 
-		const glm::vec2 center = glm::vec2(Graphics::getWidth() / 2, Graphics::getHeight() / 2);
+		//const glm::vec2 center = glm::vec2(Graphics::getWidth() / 2, Graphics::getHeight() / 2);
 
 		const glm::vec2 dst = center - particles[i].pos;
 
 		const float length = glm::length(dst);
 
-		const float factor = Utility::rFloat();
+		const float forceX = 50000 * dst.x / (length * length + 100.f);
 
-		const float forceX = 500000 * dst.x / (length * length + 100.f);
-
-		const float forceY = 500000 * dst.y / (length * length + 100.f);
+		const float forceY = 50000 * dst.y / (length * length + 100.f);
 
 		particles[i].vel += glm::vec2(forceX, forceY) * dt;
 
@@ -131,7 +129,7 @@ void ParticleSystem::emit(const ParticleParams& parameters)
 		particles[index].avtive = true;
 		particles[index].pos = glm::vec2(Graphics::getWidth() / 2 + 500, Graphics::getHeight() / 2);
 		float rads = Utility::rFloat() * Math::two_pi;
-		particles[index].vel = glm::vec2(200 * cosf(rads), 200);
+		particles[index].vel = glm::vec2(200 * cosf(rads), 200 * sinf(rads));
 		particles[index].lifeTime = 10;
 		particles[index].lifeTimeRemaining = 10;
 		particles[index].color = glm::vec4(Utility::rFloat(), Utility::rFloat(), Utility::rFloat(), 1);

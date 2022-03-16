@@ -1,5 +1,5 @@
 VERTEX
-#version 330 core
+#version 430 core
 
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec2 circlePos;
@@ -17,7 +17,7 @@ void main()
 };
 
 FRAGMENT
-#version 330 core
+#version 430 core
 
 in vec4 MyCircleColor;
 
