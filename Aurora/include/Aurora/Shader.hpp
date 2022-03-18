@@ -23,17 +23,21 @@ public:
 	//从文件创建着色器
 	void create(const std::string& filePath);
 
-	//绑定
 	void bind() const;
 
-	//解绑
 	void unbind() const;
 
-	//设置矩阵参数
-	void setMatrix4fv(const char* name, const glm::mat4& mat) const;
+	int getUniformLocation(const char* name);
 
-	//设置向量参数
+	void setMatrix4fv(const char* name, const glm::mat4& mat) const;
+	
+	void setVec1i(const int& location, const int& value) const;
+
+	void setVec1f(const int& location, const float& value) const;
+
 	void setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w) const;
+
+	void setVec4f(const int& location, const float& x, const float& y, const float& z, const float& w) const;
 
 private:
 

@@ -156,6 +156,7 @@
     <ClInclude Include="Aurora\include\Aurora\Graphics.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Keyboard.hpp" />
     <ClInclude Include="Aurora\include\Aurora\ParticleSystem.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\ParticleSystemCompute.hpp" />
     <ClInclude Include="Aurora\include\Aurora\RenderTexture.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Sound.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Timer.hpp" />
@@ -515,6 +516,7 @@
     <ClCompile Include="Aurora\src\Aurora\Graphics.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Keyboard.cpp" />
     <ClCompile Include="Aurora\src\Aurora\ParticleSystem.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\ParticleSystemCompute.cpp" />
     <ClCompile Include="Aurora\src\Aurora\RenderTexture.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Sound.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Timer.cpp" />

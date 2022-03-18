@@ -101,7 +101,7 @@ void ParticleSystem::update(const float& dt)
 
 			particles[i].vel -= glm::vec2(forceX, forceY) * dt;
 		}
-		
+
 		particles[i].vel *= 0.99f;
 
 		particles[i].pos += particles[i].vel * dt;

@@ -26,7 +26,7 @@ class ParticleSystem
 {
 public:
 
-	ParticleSystem(const float& particleSize,const int& maxParticleNumber);
+	ParticleSystem(const float& particleSize, const int& maxParticleNumber);
 
 	~ParticleSystem();
 

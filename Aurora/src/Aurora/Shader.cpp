@@ -6,7 +6,7 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 
 	if (stream.fail())
 	{
-		std::cout << "FAILURE\n";
+		std::cout << "[class Shader] " << filePath << " load failed\n";
 		return std::vector<std::string>{};
 	}
 
@@ -39,7 +39,10 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 		}
 		else
 		{
-			ss[(int)shaderenum] << line << '\n';
+			if ((int)shaderenum >= 0)
+			{
+				ss[(int)shaderenum] << line << '\n';
+			}
 		}
 	}
 
@@ -120,8 +123,8 @@ unsigned int Shader::CreateShader(const std::vector<std::string>& shaderSource)
 			{
 				succeed = false;
 			}
-			glAttachShader(program, gs);
-			glDeleteShader(gs);
+			glAttachShader(program, cs);
+			glDeleteShader(cs);
 		default:
 			break;
 		}
@@ -168,13 +171,35 @@ void Shader::unbind() const
 	glUseProgram(0);
 }
 
+int Shader::getUniformLocation(const char* name)
+{
+	int location;
+	location = glGetUniformLocation(programID, name);
+	return location;
+}
+
 void Shader::setMatrix4fv(const char* name, const glm::mat4& mat) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(programID, name), 1, GL_FALSE, &mat[0][0]);
 }
 
+void Shader::setVec1i(const int& location, const int& value) const
+{
+	glUniform1i(location, value);
+}
+
+void Shader::setVec1f(const int& location, const float& value) const
+{
+	glUniform1f(location, value);
+}
+
 void Shader::setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w) const
 {
 	glUniform4f(glGetUniformLocation(programID, name), x, y, z, w);
+}
+
+void Shader::setVec4f(const int& location, const float& x, const float& y, const float& z, const float& w) const
+{
+	glUniform4f(location, x, y, z, w);
 }
 

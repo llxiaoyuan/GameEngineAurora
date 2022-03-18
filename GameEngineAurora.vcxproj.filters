@@ -1089,6 +1089,9 @@
     <ClInclude Include="src\DoomFire\MyParticleSystem.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Aurora\include\Aurora\ParticleSystemCompute.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp">
@@ -1173,6 +1176,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\src\Aurora\ParticleSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurora\src\Aurora\ParticleSystemCompute.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

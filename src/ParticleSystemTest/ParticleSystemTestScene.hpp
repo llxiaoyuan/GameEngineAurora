@@ -2,13 +2,14 @@
 
 #include<Aurora/GameSceneManager.hpp>
 #include<Aurora/ParticleSystem.hpp>
+#include<Aurora/ParticleSystemCompute.hpp>
 
 class ParticleSystemTestScene :public Scene
 {
 public:
 
 	ParticleSystemTestScene(GameSceneManager* gsm) :
-		Scene(gsm), particleSystem(1.5f, 5000)
+		Scene(gsm), particleSystemCompute(1.5f, 5000)
 	{
 		
 	}
@@ -30,17 +31,16 @@ public:
 
 	void update(const float& dt) override
 	{
-		particleSystem.update(dt);
+		particleSystemCompute.update(dt);
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 0, 0, 1);
-		particleSystem.render();
-
+		particleSystemCompute.render();
 	}
 
-	ParticleSystem particleSystem;
+	ParticleSystemCompute particleSystemCompute;
 
 };
