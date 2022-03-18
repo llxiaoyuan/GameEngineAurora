@@ -29,7 +29,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new DoomFireScene(gsm));
+		gsm->push(new ParticleSystemTestScene(gsm));
 		Graphics::setRecordConfig({ 600ULL,27 });
 	}
 

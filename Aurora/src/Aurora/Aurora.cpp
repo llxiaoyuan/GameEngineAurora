@@ -41,7 +41,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		break;
 	}
 
-	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config->title.c_str(), NULL, NULL);
+	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config->title.c_str(), nullptr, nullptr);
 
 	if (!window)
 	{
@@ -55,8 +55,9 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
-
+	
 	std::cout << "[class Aurora] " << glGetString(GL_VERSION) << "\n";
+	std::cout << "[class Aurora] " << glGetString(GL_RENDERER) << "\n";
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -84,7 +85,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 
 	if (config->mode == Configuration::DisplayMode::Wallpaper)
 	{
-		HWND window = FindWindowA(NULL, config->title.c_str());
+		HWND window = FindWindowA(nullptr, config->title.c_str());
 		HWND bg = get_wallpaper_window();
 		SetParent(window, bg);
 		MoveWindow(window, 0, 0, Graphics::screenWidth, Graphics::screenHeight, 0);
@@ -166,13 +167,13 @@ void Aurora::runRecord()
 
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
-	HWND p = FindWindowEx(hwnd, NULL, L"SHELLDLL_DefView", NULL);
+	HWND p = FindWindowEx(hwnd, nullptr, L"SHELLDLL_DefView", nullptr);
 	HWND* ret = (HWND*)lParam;
 
 	if (p)
 	{
 		// Gets the WorkerW Window after the current one.
-		*ret = FindWindowEx(NULL, hwnd, L"WorkerW", NULL);
+		*ret = FindWindowEx(nullptr, hwnd, L"WorkerW", nullptr);
 	}
 	return true;
 }
@@ -180,7 +181,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 HWND get_wallpaper_window()
 {
 	// Fetch the Progman window
-	HWND progman = FindWindow(L"ProgMan", NULL);
+	HWND progman = FindWindow(L"ProgMan", nullptr);
 	// Send 0x052C to Progman. This message directs Progman to spawn a 
 	// WorkerW behind the desktop icons. If it is already there, nothing 
 	// happens.

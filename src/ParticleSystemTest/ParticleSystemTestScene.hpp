@@ -10,7 +10,7 @@ public:
 	ParticleSystemTestScene(GameSceneManager* gsm) :
 		Scene(gsm), particleSystem(1.5f, 5000)
 	{
-
+		
 	}
 
 	~ParticleSystemTestScene()

@@ -12,10 +12,10 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 
 	enum class ShaderEnum
 	{
-		NONE = -1, VERTEX, FRAGMENT, GEOMETRY
+		NONE = -1, VERTEX, FRAGMENT, GEOMETRY, COMPUTE
 	}shaderenum = ShaderEnum::NONE;
 
-	std::stringstream ss[3];
+	std::stringstream ss[4];
 
 	std::string line;
 
@@ -33,6 +33,10 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 		{
 			shaderenum = ShaderEnum::GEOMETRY;
 		}
+		else if (line == "COMPUTE")
+		{
+			shaderenum = ShaderEnum::COMPUTE;
+		}
 		else
 		{
 			ss[(int)shaderenum] << line << '\n';
@@ -41,10 +45,10 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 
 	std::cout << "[" << typeid(*this).name() << "] " << filePath << " compile ";
 
-	return std::vector<std::string>{ ss[0].str(), ss[1].str(), ss[2].str() };
+	return std::vector<std::string>{ ss[0].str(), ss[1].str(), ss[2].str(), ss[3].str() };
 }
 
-unsigned int Shader::CompileShader(const std::string& source,const GLenum& type)
+unsigned int Shader::CompileShader(const std::string& source, const GLenum& type)
 {
 
 	unsigned int id = glCreateShader(type);
@@ -75,7 +79,7 @@ unsigned int Shader::CreateShader(const std::vector<std::string>& shaderSource)
 {
 	unsigned int program = glCreateProgram();
 
-	unsigned int vs = 0, fs = 0, gs = 0;
+	unsigned int vs = 0, fs = 0, gs = 0, cs = 0;
 
 	bool succeed = true;
 
@@ -111,6 +115,13 @@ unsigned int Shader::CreateShader(const std::vector<std::string>& shaderSource)
 			glAttachShader(program, gs);
 			glDeleteShader(gs);
 			break;
+		case 3UL:
+			if (!(cs = CompileShader(shaderSource[3], GL_COMPUTE_SHADER)))
+			{
+				succeed = false;
+			}
+			glAttachShader(program, gs);
+			glDeleteShader(gs);
 		default:
 			break;
 		}

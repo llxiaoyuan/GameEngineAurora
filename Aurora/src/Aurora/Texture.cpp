@@ -2,7 +2,13 @@
 
 Texture* Texture::createFromFile(const std::string& path)
 {
-	return new Texture(path);
+	Texture* const texture = new Texture(path);
+	if (texture->rendererID)
+	{
+		return texture;
+	}
+	delete texture;
+	return nullptr;
 }
 
 Texture::Texture(const std::string& path)
