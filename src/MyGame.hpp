@@ -29,8 +29,8 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new ParticleSystemTestScene(gsm));
-		Graphics::setRecordConfig({ 600ULL,27 });
+		gsm->push(new FireworkScene(gsm));
+		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 
 	~MyGame()

@@ -29,9 +29,15 @@ ParticleSystemCompute::ParticleSystemCompute(const float& particleSize, const in
 
 	glm::vec4* positions = (glm::vec4*)glMapBufferRange(GL_ARRAY_BUFFER, 0, sizeof(glm::vec4) * maxParticleNumber, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
+	glm::vec2 center(Graphics::getWidth() / 2, Graphics::getHeight() / 2);
+
+	std::vector<float> thetas(maxParticleNumber);
+
 	for (int i = 0; i < maxParticleNumber; i++)
 	{
-		positions[i] = glm::vec4(Utility::rFloat() * Graphics::getWidth(), Utility::rFloat() * Graphics::getHeight(), 0, 1);
+		float theta = Utility::rFloat() * Math::two_pi;
+		thetas[i] = theta;
+		positions[i] = glm::vec4(100 * cosf(theta) + center.x, 500 * sinf(theta) + center.y, 0, 1);
 	}
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -62,7 +68,8 @@ ParticleSystemCompute::ParticleSystemCompute(const float& particleSize, const in
 
 	for (int i = 0; i < maxParticleNumber; i++)
 	{
-		velocities[i] = glm::vec4(0, 0, 0, 0);
+		glm::vec2 vel = 600.f * glm::vec2(cosf(thetas[i] + Math::half_pi), sinf(thetas[i] + Math::half_pi));
+		velocities[i] = glm::vec4(vel, 0, 0);
 	}
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -96,16 +103,16 @@ void ParticleSystemCompute::update(const float& dt)
 
 	glBindImageTexture(1, tbos[1], 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
 
-	if (dt > 0.01f)
+	if (dt >= 0.01f)
 	{
-		computeShader.setVec1f(dtLocation, 0.01f);
+		computeShader.setVec1f(dtLocation, 0.012f);
 	}
 	else
 	{
 		computeShader.setVec1f(dtLocation, dt);
 	}
 
-	if (Mouse::isLeftDown())
+	/*if (Mouse::isLeftDown())
 	{
 		computeShader.setVec1i(stateLocation, 0);
 	}
@@ -116,9 +123,9 @@ void ParticleSystemCompute::update(const float& dt)
 	else
 	{
 		computeShader.setVec1i(stateLocation, -1);
-	}
+	}*/
 
-	computeShader.setVec4f(mousePosLocation, Mouse::getPosition().x, Mouse::getPosition().y, 0, 0);
+	//computeShader.setVec4f(mousePosLocation, Mouse::getPosition().x, Mouse::getPosition().y, 0, 0);
 
 	glDispatchCompute(10000, 1, 1);
 

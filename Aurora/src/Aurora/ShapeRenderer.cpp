@@ -18,12 +18,18 @@ ShapeRenderer::~ShapeRenderer()
 void ShapeRenderer::begin()
 {
 	circleRenderer.begin();
+	rcLineRenderer.begin();
 	lineRenderer.begin();
 	triangleRenderer.begin();
 }
 
 void ShapeRenderer::end()
 {
+	if (rcLineRenderer.curVerticesNum)
+	{
+		rcLineRenderer.updateVerticesData();
+		rcLineRenderer.end();
+	}
 	if (lineRenderer.curVerticesNum)
 	{
 		lineRenderer.updateVerticesData();
@@ -44,6 +50,11 @@ void ShapeRenderer::end()
 void ShapeRenderer::drawLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a)
 {
 	lineRenderer.addLine(x1, y1, x2, y2, r, g, b, a);
+}
+
+void ShapeRenderer::drawRCLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& width, const float& r, const float& g, const float& b, const float& a)
+{
+	rcLineRenderer.addLine(x1, y1, x2, y2, width, r, g, b, a);
 }
 
 void ShapeRenderer::drawFilledTriangle(const float& x1, const float& y1, const float& x2, const float& y2, const float& x3, const float& y3, const float& r, const float& g, const float& b, const float& a)
@@ -274,7 +285,7 @@ void ShapeRenderer::LineRenderer::addLine(const float& x1, const float& y1, cons
 	colors[curVerticesNum++] = glm::vec4(r, g, b, a);
 }
 
-ShapeRenderer::TriangleRenderer::TriangleRenderer():
+ShapeRenderer::TriangleRenderer::TriangleRenderer() :
 	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum])
 {
 	triangleShader.create("res\\shaders\\ShapeShader.shader");
@@ -344,5 +355,95 @@ void ShapeRenderer::TriangleRenderer::updateVerticesData()
 void ShapeRenderer::TriangleRenderer::addVertex(const float& x1, const float& y1, const float& r, const float& g, const float& b, const float& a)
 {
 	vertices[curVerticesNum] = glm::vec2(x1, y1);
+	colors[curVerticesNum++] = glm::vec4(r, g, b, a);
+}
+
+ShapeRenderer::RCLineRenderer::RCLineRenderer() :
+	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]), widthArray(new float[maxVerticesNum])
+{
+	rcLineShader.create("res\\shaders\\RCLineRender.shader");
+	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+
+	rcLineShader.bind();
+	rcLineShader.setMatrix4fv("proj", proj);
+	rcLineShader.unbind();
+
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glGenBuffers(1, &verticesVBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * maxVerticesNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
+
+	glGenBuffers(1, &colorVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * maxVerticesNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
+
+	glGenBuffers(1, &widthVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, widthVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * maxVerticesNum, nullptr, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+ShapeRenderer::RCLineRenderer::~RCLineRenderer()
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &verticesVBO);
+	glDeleteBuffers(1, &colorVBO);
+	glDeleteBuffers(1, &widthVBO);
+	if (vertices)
+	{
+		delete[] vertices;
+	}
+	if (colors)
+	{
+		delete[] colors;
+	}
+	if (widthArray)
+	{
+		delete[] widthArray;
+	}
+}
+
+void ShapeRenderer::RCLineRenderer::begin()
+{
+	curVerticesNum = 0;
+}
+
+void ShapeRenderer::RCLineRenderer::end()
+{
+	rcLineShader.bind();
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_LINES, 0, curVerticesNum);
+	glBindVertexArray(0);
+	rcLineShader.unbind();
+}
+
+void ShapeRenderer::RCLineRenderer::updateVerticesData()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(glm::vec2), vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(glm::vec4), colors);
+	glBindBuffer(GL_ARRAY_BUFFER, widthVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curVerticesNum * sizeof(float), widthArray);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void ShapeRenderer::RCLineRenderer::addLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& width, const float& r, const float& g, const float& b, const float& a)
+{
+	vertices[curVerticesNum] = glm::vec2(x1, y1);
+	widthArray[curVerticesNum] = width;
+	colors[curVerticesNum++] = glm::vec4(r, g, b, a);
+	vertices[curVerticesNum] = glm::vec2(x2, y2);
+	widthArray[curVerticesNum] = width;
 	colors[curVerticesNum++] = glm::vec4(r, g, b, a);
 }

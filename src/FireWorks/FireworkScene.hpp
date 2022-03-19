@@ -8,6 +8,8 @@
 #include<string>
 #include<cstdlib>
 
+#include<Aurora/Mouse.hpp>
+
 class FireworkScene :public Scene
 {
 public:
@@ -43,10 +45,9 @@ public:
 	void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(1, 1, 1, 1);
+		glClearColor(0, 0, 0, 1);
 		shapeRenderer->begin();
-		Rect rect(100, 100, 100, 100);
-		shapeRenderer->drawRect(rect, 0, 1, 1, 1);
+		shapeRenderer->drawRCLine(200, 200, Mouse::getPosition().x, Mouse::getPosition().y, 80, 1, 0, 0);
 		shapeRenderer->end();
 	}
 

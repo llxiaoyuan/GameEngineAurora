@@ -10,7 +10,7 @@ uniform float dt = 0.01;
 
 uniform int state = -1;
 
-uniform vec4 mousePos = vec4(500, 500, 0, 1);
+uniform vec4 mousePos = vec4(960, 540, 0, 1);
 
 void main(void)
 {
@@ -19,32 +19,17 @@ void main(void)
 
 	vec3 dst = mousePos.xyz - pos.xyz;
 
-	if (state == 0)
-	{
-		float len = length(dst);
+	float len = length(dst);
 
-		float forceX = 500000 * dst.x / (len * len + 100.0);
+	float forceX = 500000 * dst.x / (len * len + 100.0);
 
-		float forceY = 500000 * dst.y / (len * len + 100.0);
+	float forceY = 500000 * dst.y / (len * len + 100.0);
 
-		vec3 acc = vec3(forceX, forceY, 0);
+	vec3 acc = vec3(forceX, forceY, 0);
 
-		vel.xyz += acc * dt;
-	}
-	else if (state == 1)
-	{
-		float len = length(dst);
+	vel.xyz += acc * dt;
 
-		float forceX = 500000 * dst.x / (len * len + 100.0);
-
-		float forceY = 500000 * dst.y / (len * len + 100.0);
-
-		vec3 acc = vec3(forceX, forceY, 0);
-
-		vel.xyz -= acc * dt;
-	}
-
-	vel.xyz *= 0.99;
+	//vel.xyz *= 0.999;
 
 	pos.xyz += vel.xyz * dt;
 

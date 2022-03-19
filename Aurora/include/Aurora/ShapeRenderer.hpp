@@ -27,9 +27,11 @@ public:
 
 	void drawLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& r, const float& g, const float& b, const float& a = 1.f);
 
+	void drawRCLine(const float& x1, const float& y1, const float& x2, const float& y2, const float& width, const float& r, const float& g, const float& b, const float& a = 1.f);
+
 	void drawFilledTriangle(const float& x1, const float& y1, const float& x2, const float& y2, const float& x3, const float& y3, const float& r, const float& g, const float& b, const float& a = 1.f);
 
-	void drawRect(const Rect& rect, const float& r, const float& g, const float& b, const float& a=1.f);
+	void drawRect(const Rect& rect, const float& r, const float& g, const float& b, const float& a = 1.f);
 
 	void drawRect(const float& x, const float& y, const float& width, const float& height, const float& r, const float& g, const float& b, const float& a = 1.f);
 
@@ -104,7 +106,7 @@ private:
 
 		unsigned int colorVBO;
 
-		static constexpr int maxVerticesNum = 1000000;
+		static constexpr int maxVerticesNum = 500000;
 
 		glm::vec2* vertices;
 
@@ -115,6 +117,43 @@ private:
 		Shader lineShader;
 
 	} lineRenderer;
+
+	class RCLineRenderer
+	{
+	public:
+
+		RCLineRenderer();
+
+		~RCLineRenderer();
+
+		void begin();
+
+		void end();
+
+		void updateVerticesData();
+
+		void addLine(const float& x1, const float& y1, const float& x2, const float& y2,const float& wdith, const float& r, const float& g, const float& b, const float& a);
+
+		unsigned int VAO;
+
+		unsigned int verticesVBO;
+
+		unsigned int colorVBO;
+
+		unsigned int widthVBO;
+
+		static constexpr int maxVerticesNum = 500000;
+
+		glm::vec2* vertices;
+
+		glm::vec4* colors;
+
+		float* widthArray;
+
+		int curVerticesNum;
+
+		Shader rcLineShader;
+	} rcLineRenderer;
 
 	class TriangleRenderer
 	{
@@ -138,7 +177,7 @@ private:
 
 		unsigned int colorVBO;
 
-		static constexpr int maxVerticesNum = 1000000;
+		static constexpr int maxVerticesNum = 500000;
 
 		glm::vec2* vertices;
 
