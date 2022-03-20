@@ -21,6 +21,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 
 	if (config->multiSample && config->multiSample % 2 == 0)
 	{
+		std::cout << "[class Aurora] multisample level " << config->multiSample << "\n";
 		glfwWindowHint(GLFW_SAMPLES, config->multiSample);
 	}
 
@@ -66,9 +67,6 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	{
 		glEnable(GL_MULTISAMPLE);
 	}
-
-	glPointSize(1.5f);
-	glLineWidth(1.5f);
 
 	game = nullptr;
 

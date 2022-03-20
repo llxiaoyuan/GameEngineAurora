@@ -59,26 +59,26 @@ void main() {
 	EmitVertex();
 	gl_Position = proj * gl_in[0].gl_Position;
 	EmitVertex();
-	theta += 3.1415926535 / 16;
+	theta += 3.1415926535 / 8;
 	gl_Position = proj * (gl_in[0].gl_Position + width * vec4(cos(theta), sin(theta), 0.0, 0.0));
 	EmitVertex();
 	gl_Position = proj * gl_in[0].gl_Position;
 	EmitVertex();
 
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 7; i++)
 	{
-		theta += 3.1415926535 / 16;
+		theta += 3.1415926535 / 8;
 		gl_Position = proj * (gl_in[0].gl_Position + width * vec4(cos(theta), sin(theta), 0.0, 0.0));
 		EmitVertex();
 		gl_Position = proj * gl_in[0].gl_Position;
 		EmitVertex();
 	}
 
-	theta -= 3.1415926535 / 16;
+	theta -= 3.1415926535 / 8;
 
-	for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 9; i++)
 	{
-		theta += 3.1415926535 / 16;
+		theta += 3.1415926535 / 8;
 		gl_Position = proj * (gl_in[1].gl_Position + width * vec4(cos(theta), sin(theta), 0.0, 0.0));
 		EmitVertex();
 		gl_Position = proj * gl_in[0].gl_Position;

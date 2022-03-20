@@ -1092,6 +1092,15 @@
     <ClInclude Include="Aurora\include\Aurora\ParticleSystemCompute.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\FireWorks\Spark.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FireWorks\Color.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FireWorks\Shell.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp">
