@@ -295,6 +295,12 @@ ShapeRenderer::TriangleRenderer::TriangleRenderer() :
 	triangleShader.setMatrix4fv("proj", proj);
 	triangleShader.unbind();
 
+	radialGradientShader.create("res\\shaders\\RadialGradient.shader");
+
+	radialGradientShader.bind();
+	radialGradientShader.setMatrix4fv("proj", proj);
+	radialGradientShader.unbind();
+
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glGenBuffers(1, &verticesVBO);

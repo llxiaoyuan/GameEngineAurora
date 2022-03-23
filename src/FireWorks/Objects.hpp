@@ -21,7 +21,7 @@ class Star
 {
 public:
 
-	static constexpr float drawWidth = 1.5f;
+	static constexpr float drawWidth = 1.7f;
 
 	static constexpr float airDrag = 0.98f;
 

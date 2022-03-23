@@ -187,6 +187,8 @@ private:
 
 		Shader triangleShader;
 
+		Shader radialGradientShader;
+
 	} triangleRenderer;
 };
 
