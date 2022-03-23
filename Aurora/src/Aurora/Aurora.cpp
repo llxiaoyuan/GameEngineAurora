@@ -9,6 +9,8 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	if (!glfwInit())
 		return false;
 
+	std::cout << "[class Aurora] glfwInit complete!\n";
+
 	if (config->mode == Configuration::DisplayMode::Wallpaper)
 	{
 		glfwWindowHint(GLFW_DECORATED, 0);

@@ -11,7 +11,7 @@
 #include<cstdlib>
 #include<list>
 
-#include"Shell.h"
+#include"Objects.hpp"
 
 class FireworkScene :public Scene
 {
@@ -19,12 +19,10 @@ public:
 
 	FireworkScene(GameSceneManager* gsm) :
 		Scene(gsm),
-		speed(0),
 		timer(1.f)
 	{
 		Star::active = &starActive;
 		Star::pool = &starPool;
-		
 		Spark::active = &sparkActive;
 		Spark::pool = &sparkPool;
 	}
@@ -50,7 +48,7 @@ public:
 		if (timer.update())
 		{
 			std::cout << "Launch\n";
-			myShell.launch(Mouse::getPosition().x, Mouse::getPosition().y);
+			(new Shell(ShellConfiguration({ 1.f,1 })))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
 		}
 
 		const float width = Graphics::getWidth();
@@ -196,11 +194,9 @@ public:
 
 private:
 
-	float speed;
-
 	static constexpr float GRAVITY = 0.9f;
 
-	Shell myShell;
+	float speed;
 
 	Timer timer;
 

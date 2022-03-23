@@ -493,9 +493,8 @@
     <ClInclude Include="src\DoomFire\MyParticleSystem.hpp" />
     <ClInclude Include="src\FireWorks\Color.hpp" />
     <ClInclude Include="src\FireWorks\FireworkScene.hpp" />
-    <ClInclude Include="src\FireWorks\Shell.h" />
-    <ClInclude Include="src\FireWorks\Spark.hpp" />
-    <ClInclude Include="src\FireWorks\Star.hpp" />
+    <ClInclude Include="src\FireWorks\Objects.hpp" />
+    <ClInclude Include="src\FireWorks\ShellConfig.hpp" />
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />
     <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp" />
     <ClInclude Include="src\FourierDrawing\json.hpp" />
@@ -539,6 +538,8 @@
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp" />
     <ClCompile Include="Aurora\tools\stb_image\stb_image.cpp" />
     <ClCompile Include="src\EngineTest.cpp" />
+    <ClCompile Include="src\FireWorks\Color.cpp" />
+    <ClCompile Include="src\FireWorks\Objects.cpp" />
     <ClCompile Include="src\SteeringBehavior\SteeringBehaviorScene.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1026,9 +1026,6 @@
     <ClInclude Include="src\FireWorks\FireworkScene.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\FireWorks\Star.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="src\MyGame.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -1092,13 +1089,13 @@
     <ClInclude Include="Aurora\include\Aurora\ParticleSystemCompute.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\FireWorks\Spark.hpp">
+    <ClInclude Include="src\FireWorks\Objects.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FireWorks\ShellConfig.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\FireWorks\Color.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FireWorks\Shell.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1188,6 +1185,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\src\Aurora\ParticleSystemCompute.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FireWorks\Objects.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FireWorks\Color.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
