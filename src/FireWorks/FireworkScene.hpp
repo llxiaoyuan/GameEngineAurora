@@ -40,7 +40,7 @@ public:
 
 	void handleinput() override
 	{
-		
+
 	}
 
 	void update(const float& dt) override
@@ -48,7 +48,7 @@ public:
 		if (timer.update())
 		{
 			std::cout << "Launch\n";
-			(new Shell(ShellConfiguration({ 1.f,1 })))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
+			(new Shell(getShellConfig(ShellType::crysanthemumShell)))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
 		}
 
 		const float width = Graphics::getWidth();
@@ -58,7 +58,6 @@ public:
 		const float starDrag = 1.f - (1.f - Star::airDrag) * speed;
 		const float starDragHeavy = 1.f - (1.f - Star::airDragHeavy) * speed;
 		const float sparkDrag = 1.f - (1.f - Spark::airDrag) * speed;
-
 		const float gAcc = dt * GRAVITY;
 
 		for (std::list<Star*>::iterator it = Star::active->begin(); it != Star::active->end();)
@@ -102,10 +101,10 @@ public:
 					star->y += cosf(star->spinAngle) * star->spinRadius * speed;
 				}
 
-				if (star->sparkFreq) 
+				if (star->sparkFreq)
 				{
 					star->sparkTimer -= dt;
-					while (star->sparkTimer < 0) 
+					while (star->sparkTimer < 0)
 					{
 						star->sparkTimer += star->sparkFreq * 0.75f + star->sparkFreq * burnRateInverse * 4.f;
 						Spark::add(
@@ -176,7 +175,7 @@ public:
 		for (std::list<Star*>::iterator it = Star::active->begin(); it != Star::active->end(); it++)
 		{
 			Star* const star = *it;
-			if (star->visible)
+			if (!(star->color == Color::Invisible)&&star->visible)
 			{
 				shapeRenderer->drawRCLine(star->preX, star->preY, star->x, star->y, Star::drawWidth, star->color.r, star->color.g, star->color.b, star->color.a);
 				shapeRenderer->drawLine(star->x - star->speedX * 1.6f, star->y - star->speedY * 1.6f, star->x, star->y, 1, 1, 1, 1);

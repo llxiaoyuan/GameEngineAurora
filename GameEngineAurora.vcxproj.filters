@@ -1193,6 +1193,9 @@
     <ClCompile Include="src\FireWorks\Color.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\FireWorks\ShellConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Aurora\tools\glm\detail\func_common.inl">

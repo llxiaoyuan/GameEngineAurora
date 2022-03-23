@@ -1,6 +1,11 @@
 #pragma once
 
+#ifndef _SHELLCONFIG_HPP_
+#define _SHELLCONFIG_HPP_
+
 #include"Color.hpp"
+
+#include<Aurora/Math.hpp>
 
 enum class Glitter
 {
@@ -9,7 +14,7 @@ enum class Glitter
 
 struct ShellConfiguration
 {
-	float shellSize = 3.f;
+	float shellSize = 0.f;
 
 	float spreadSize = 0.f;
 
@@ -21,15 +26,17 @@ struct ShellConfiguration
 
 	float starDensity = 0.f;
 
+	Glitter glitter;
+
 	Color color;
 
 	Color secondColor;
 
 	Color glitterColor;
 
-	Glitter glitter;
-
 	Color pistilColor;
+
+	Color strobeColor;
 
 	bool streamers = false;
 
@@ -49,11 +56,15 @@ struct ShellConfiguration
 
 	bool fallingLeaves = false;
 
+	bool isGhostShell = false;
+
+	bool strobe = false;
+
+	bool haveStrobeColor = false;
+
 	static float globalShellSize;
 
 };
-
-float ShellConfiguration::globalShellSize = 3.f;
 
 enum class ShellType
 {
@@ -71,77 +82,28 @@ enum class ShellType
 	horsetailShell
 };
 
-ShellConfiguration getShellConfig(ShellType type)
-{
-	switch (type)
-	{
-	case ShellType::random:
-		type = (ShellType)(rand() % 11 + 1);
-	case ShellType::crysanthemumShell:
-		return crysanthemumShell();
-	case ShellType::ghostShell:
-		break;
-	case ShellType::strobeShell:
-		break;
-	case ShellType::palmShell:
-		break;
-	case ShellType::ringShell:
-		break;
-	case ShellType::crossetteShell:
-		break;
-	case ShellType::floralShell:
-		break;
-	case ShellType::fallingLeavesShell:
-		break;
-	case ShellType::willowShell:
-		break;
-	case ShellType::crackleShell:
-		break;
-	case ShellType::horsetailShell:
-		break;
-	default:
-		break;
-	}
-}
+ShellConfiguration crysanthemumShell();
 
-ShellConfiguration crysanthemumShell()
-{
-	ShellConfiguration config;
+ShellConfiguration ghostShell();
 
-	const bool glitter = Utility::rFloat() < 0.25f;
+ShellConfiguration strobeShell();
 
-	const bool singleColor = Utility::rFloat() < 0.72f;
+ShellConfiguration palmShell();
 
-	if (singleColor)
-	{
-		config.color = Color::random();
-	}
-	else
-	{
-		config.haveSecondColor = true;
-		config.color = Color::random();
-		config.secondColor = Color::random();
-	}
+ShellConfiguration ringShell();
 
-	const bool pistil = singleColor && Utility::rFloat() < 0.42f;
+ShellConfiguration crossetteShell();
 
-	config.shellSize = ShellConfiguration::globalShellSize;
+ShellConfiguration floralShell();
 
-	config.spreadSize = 300.f + config.shellSize * 100.f;
+ShellConfiguration fallingLeavesShell();
 
-	config.starLife = 0.9f + config.shellSize * 0.2f;
+ShellConfiguration willowShell();
 
-	config.starDensity = 1.2f;
+ShellConfiguration crackleShell();
 
-	config.glitter = glitter ? Glitter::light : Glitter::none;
+ShellConfiguration horsetailShell();
 
-	config.glitterColor = Utility::rFloat() > 0.5f ? Color{ 1,1,1,1 } : Color::Gold;
+ShellConfiguration getShellConfig(ShellType type);
 
-	config.pistil = pistil;
-
-	config.pistilColor = Color::random();
-
-	config.streamers = !pistil && Utility::rFloat() < 0.42f;
-
-	return config;
-}
+#endif // !_SHELLCONFIG_HPP_

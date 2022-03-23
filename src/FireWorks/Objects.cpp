@@ -4,6 +4,8 @@ Star* Star::global;
 
 Shell* Shell::global;
 
+Shell* Shell::inner;
+
 std::list<Star*>* Star::active = nullptr;
 
 std::list<Star*>* Star::pool = nullptr;
@@ -16,6 +18,12 @@ float global_sparkFreq;
 float global_sparkSpeed;
 float global_sparkLife;
 float global_sparkLifeVariation;
+
+float global_ringStartAngle;
+float global_ringSquash;
+
+float global_x;
+float global_y;
 
 void createParticleArc(const float& start, const float& arcLength, const int& count, const float& randomness, void (*particleFactory)(const float&))
 {
@@ -195,15 +203,14 @@ void Star::returnInstance(Star* const star)
 	global = star;
 	if (star->onDeath)
 	{
-		std::cout << "Call onDeath\n";
 		star->onDeath();
 	}
 	else if (star->shell)
 	{
 		Shell::global = star->shell;
-		std::cout << "Call Burst\n";
 		star->shell->burst();
 		delete star->shell;
+		star->shell = nullptr;
 	}
 	pool->push_back(star);
 }
@@ -269,20 +276,55 @@ void Spark::free()
 Shell::Shell(const ShellConfiguration& config) :
 	comet(nullptr)
 {
-	starLifeVariation = config.starLifeVariation || 0.125f;
-	color = config.color;
-	glitterColor = config.glitterColor;
-	starLife = config.starLife;
-	starCount = config.starCount;
+	shellSize = config.shellSize;
+
 	spreadSize = config.spreadSize;
+
+	starCount = config.starCount;
+
+	starLife = config.starLife;
+
+	starLifeVariation = config.starLifeVariation;
+
+	starDensity = config.starDensity;
+
 	glitter = config.glitter;
-	pistil = config.pistil;
+
+	color = config.color;
+
+	secondColor = config.secondColor;
+
+	glitterColor = config.glitterColor;
+
 	pistilColor = config.pistilColor;
+
+	strobeColor = config.strobeColor;
+
 	streamers = config.streamers;
+
 	crossette = config.crossette;
+
 	floral = config.floral;
+
 	crackle = config.crackle;
+
 	horseTail = config.horseTail;
+
+	pistil = config.pistil;
+
+	ring = config.ring;
+
+	haveSecondColor = config.haveSecondColor;
+
+	fallingLeaves = config.fallingLeaves;
+
+	strobe = config.strobe;
+
+	haveStrobeColor = config.haveStrobeColor;
+
+	starLifeVariation = config.starLifeVariation || 0.125f;
+
+	isGhostShell = config.isGhostShell;
 
 	if (!starCount)
 	{
@@ -296,13 +338,24 @@ void Shell::launch(const float& launchWidth, const float& launchHeight)
 {
 	const float launchVelocity = powf(launchHeight * 0.04f, 0.64f);
 
+	Color targetColor;
+
+	if (isGhostShell)
+	{
+		targetColor = Color::Invisible;
+	}
+	else
+	{
+		targetColor = Color::random();
+	}
+
 	Star* const comet = Star::add(
 		launchWidth,
 		0,
-		Color::random(),
+		targetColor,
 		0,
-		launchVelocity,
-		launchVelocity * 0.4f
+		launchVelocity * (horseTail ? 1.2f : 1.0f),
+		launchVelocity * (horseTail ? 0.1f : 0.4f)
 	);
 
 	this->comet = comet;
@@ -314,29 +367,24 @@ void Shell::launch(const float& launchWidth, const float& launchHeight)
 	comet->sparkLife = 0.32f;
 	comet->sparkLifeVariation = 3.f;
 
-	/*if (this.glitter == = 'willow' || this.fallingLeaves) {
-		comet.sparkFreq = 20 / quality;
-		comet.sparkSpeed = 0.5;
-		comet.sparkLife = 500;
-	}*/
-
+	if (glitter == Glitter::willow || fallingLeaves)
 	{
-		int r = comet->color.r * 255;
-		int g = comet->color.g * 255;
-		int b = comet->color.b * 255;
-		if (r == 0 && g == 0 && b == 0)
-		{
-			comet->sparkColor = Color::Gold;
-		}
+		comet->sparkFreq = 0.006f;
+		comet->sparkSpeed = 0.5f;
+		comet->sparkLife = 0.5f;
 	}
 
-	/*if (Utility::rFloat() > 0.4f)
+	if (color == Color::Invisible)
+	{
+		comet->sparkColor = Color::Gold;
+	}
+
+	if (Utility::rFloat() > 0.4f && horseTail)
 	{
 		comet->haveSecondColor = true;
 		comet->secondColor = Color::Invisible;
-		comet->transitionTime = powf(Utility::rFloat(), 1.5f) * .7f + .5f;
-	}*/
-
+		comet->transitionTime = powf(Utility::rFloat(), 1.5f) * 0.7f + 0.5f;
+	}
 
 }
 
@@ -390,17 +438,32 @@ void Shell::burst()
 	{
 		const float speed = Shell::global->spreadSize / 96;
 
-		const float standardInitialSpeed = 700.f / 1800.f;
+		const float standardInitialSpeed = Shell::global->spreadSize / 1800.f;
+
+		float local_speedOffX;
+
+		float local_speedOffY;
+
+		if (Shell::global->horseTail && Shell::global->comet)
+		{
+			local_speedOffX = Shell::global->comet->speedX;
+			local_speedOffY = Shell::global->comet->speedY;
+		}
+		else
+		{
+			local_speedOffX = 0;
+			local_speedOffY = standardInitialSpeed;
+		}
 
 		Star* star = Star::add(
 			Star::global->x,
 			Star::global->y,
-			Color::random(),
+			Shell::global->color,
 			anlge,
 			speedMult * speed,
 			Shell::global->starLife + Utility::rFloat() * Shell::global->starLifeVariation,
-			Shell::global->horseTail ? Shell::global->comet && Shell::global->comet->speedX : 0,
-			Shell::global->horseTail ? Shell::global->comet && Shell::global->comet->speedY : standardInitialSpeed
+			local_speedOffX,
+			local_speedOffY
 		);
 
 		if (Shell::global->haveSecondColor)
@@ -409,7 +472,16 @@ void Shell::burst()
 			star->secondColor = Shell::global->secondColor;
 		}
 
-		
+		if (Shell::global->strobe)
+		{
+			star->transitionTime = Shell::global->starLife * (Utility::rFloat() * 0.08f + 0.46f);
+			star->strobe = true;
+			star->strobeFreq = Utility::rFloat() * 0.02f + 0.04f;
+			if (Shell::global->haveStrobeColor)
+			{
+				star->secondColor = Shell::global->strobeColor;
+			}
+		}
 
 		if (Shell::global->crossette)
 		{
@@ -428,7 +500,141 @@ void Shell::burst()
 			star->onDeath = fallingLeavesEffect;
 		}
 
+		if (Shell::global->glitter != Glitter::none)
+		{
+			star->sparkFreq = global_sparkFreq;
+			star->sparkSpeed = global_sparkSpeed;
+			star->sparkLife = global_sparkLife;
+			star->sparkLifeVariation = global_sparkLifeVariation;
+			star->sparkColor = Shell::global->glitterColor;
+			star->sparkTimer = Utility::rFloat() * star->sparkFreq;
+		}
+
 	};
 
-	createBurst(30, particleFactory);
+	if (Shell::global->ring)
+	{
+		global_ringStartAngle = Utility::rFloat() * Math::pi;
+		global_ringSquash = powf(Utility::rFloat(), 2) * 0.85f + 0.15f;
+
+		auto particleFactory = [](const float& angle)
+		{
+			const float speed = Shell::global->spreadSize / 96;
+			const float initSpeedX = sinf(angle) * speed * global_ringSquash;
+			const float initSpeedY = cosf(angle) * speed;
+			const float newSpeed = sqrtf(initSpeedX * initSpeedX + initSpeedY * initSpeedY);
+			const float newAngle = atan2f(initSpeedY, initSpeedX) + Math::half_pi + global_ringStartAngle;
+			Star* const star = Star::add(
+				Star::global->x,
+				Star::global->y,
+				Shell::global->color,
+				newAngle,
+				newSpeed,
+				Shell::global->starLife + Utility::rFloat() * Shell::global->starLife * Shell::global->starLifeVariation
+			);
+
+			if (Shell::global->glitter != Glitter::none)
+			{
+				star->sparkFreq = global_sparkFreq;
+				star->sparkSpeed = global_sparkSpeed;
+				star->sparkLife = global_sparkLife;
+				star->sparkLifeVariation = global_sparkLifeVariation;
+				star->sparkColor = Shell::global->glitterColor;
+				star->sparkTimer = Utility::rFloat() * star->sparkFreq;
+			}
+		};
+		createParticleArc(0, Math::two_pi, starCount, 0, particleFactory);
+	}
+	else
+	{
+		createBurst(starCount, particleFactory);
+	}
+
+	if (pistil)
+	{
+		ShellConfiguration innerConfig;
+		innerConfig.spreadSize = spreadSize * 0.5f;
+		innerConfig.starLife = starLife * 0.6f;
+		innerConfig.starLifeVariation = starLifeVariation;
+		innerConfig.starDensity = 1.4f;
+		innerConfig.color = pistilColor;
+		innerConfig.glitter = Glitter::light;
+		innerConfig.glitterColor = Utility::rFloat() > 0.5f ? Color::Gold : Color::White;
+		Shell* innerShell = new Shell(innerConfig);
+		Shell::inner = innerShell;
+		global_x = comet->x;
+		global_y = comet->y;
+		innerShell->burstInner();
+		delete innerShell;
+		Shell::inner = nullptr;
+	}
+	if (streamers)
+	{
+		ShellConfiguration innerConfig;
+		innerConfig.spreadSize = spreadSize * 0.9f;
+		innerConfig.starLife = starLife * 0.8f;
+		innerConfig.starLifeVariation = starLifeVariation;
+		innerConfig.starCount = floorf(fmaxf(6, spreadSize / 45.f));
+		innerConfig.color = Color::White;
+		innerConfig.glitter = Glitter::streamer;
+		Shell* innerShell = new Shell(innerConfig);
+		Shell::inner = innerShell;
+		global_x = comet->x;
+		global_y = comet->y;
+		innerShell->burstInner();
+		delete innerShell;
+		Shell::inner = nullptr;
+	}
+
+}
+
+void Shell::burstInner()
+{
+	switch (Shell::inner->glitter)
+	{
+	case Glitter::light:
+		global_sparkFreq = 0.4f;
+		global_sparkSpeed = 0.3f;
+		global_sparkLife = 0.3f;
+		global_sparkLifeVariation = 2.f;
+		break;
+	case Glitter::streamer:
+		global_sparkFreq = 0.032f;
+		global_sparkSpeed = 1.05f;
+		global_sparkLife = 0.62f;
+		global_sparkLifeVariation = 2.f;
+		break;
+	default:
+		break;
+	}
+
+	global_sparkFreq /= 3.f;
+
+	auto particleFactory = [](const float& anlge, const float& speedMult)
+	{
+		const float speed = Shell::inner->spreadSize / 96;
+
+		const float standardInitialSpeed = Shell::inner->spreadSize / 1800.f;
+
+		Star* star = Star::add(
+			global_x,
+			global_y,
+			Shell::inner->color,
+			anlge,
+			speedMult * speed,
+			Shell::inner->starLife + Utility::rFloat() * Shell::inner->starLifeVariation,
+			0,
+			standardInitialSpeed
+		);
+
+		star->sparkFreq = global_sparkFreq;
+		star->sparkSpeed = global_sparkSpeed;
+		star->sparkLife = global_sparkLife;
+		star->sparkLifeVariation = global_sparkLifeVariation;
+		star->sparkColor = Shell::inner->glitterColor;
+		star->sparkTimer = Utility::rFloat() * star->sparkFreq;
+
+	};
+
+	createBurst(starCount, particleFactory);
 }

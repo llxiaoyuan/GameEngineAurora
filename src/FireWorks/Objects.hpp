@@ -158,15 +158,17 @@ public:
 
 	float starDensity = 0.f;
 
+	Glitter glitter;
+
 	Color color;
 
 	Color secondColor;
 
 	Color glitterColor;
 
-	Glitter glitter;
-
 	Color pistilColor;
+
+	Color strobeColor;
 
 	bool streamers = false;
 
@@ -180,11 +182,21 @@ public:
 
 	bool pistil = false;
 
+	bool ring = false;
+
 	bool haveSecondColor = false;
 
 	bool fallingLeaves = false;
 
+	bool strobe = false;
+
+	bool haveStrobeColor = false;
+
+	bool isGhostShell = false;
+
 	static Shell* global;
+
+	static Shell* inner;
 
 	Shell() = delete;
 
@@ -193,6 +205,8 @@ public:
 	void launch(const float& launchWidth, const float& launchHeight);
 
 	void burst();
+
+	void burstInner();
 
 };
 

@@ -540,6 +540,7 @@
     <ClCompile Include="src\EngineTest.cpp" />
     <ClCompile Include="src\FireWorks\Color.cpp" />
     <ClCompile Include="src\FireWorks\Objects.cpp" />
+    <ClCompile Include="src\FireWorks\ShellConfig.cpp" />
     <ClCompile Include="src\SteeringBehavior\SteeringBehaviorScene.cpp" />
   </ItemGroup>
   <ItemGroup>
