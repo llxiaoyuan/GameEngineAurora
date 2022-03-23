@@ -303,10 +303,14 @@ ShellConfiguration horsetailShell()
 
 ShellConfiguration getShellConfig(ShellType type)
 {
-	switch (type)
+
+	if (type == ShellType::random)
 	{
-	case ShellType::random:
 		type = (ShellType)(rand() % 11 + 1);
+	}
+
+	switch (type)
+	{	
 	case ShellType::crysanthemumShell:
 		return crysanthemumShell();
 	case ShellType::ghostShell:

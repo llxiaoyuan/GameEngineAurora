@@ -26,13 +26,23 @@ public:
 	//»ñÈ¡ÓÒ¼ü×´Ì¬
 	static const bool& isRightDown();
 
+	static const bool& isLeftRepeat();
+
+	static const bool& isRightRepeat();
+
+	static void reFresh();
+
 private:
 
 	static glm::vec2 pos;
 
 	static bool leftDown;
 
+	static bool leftRepeat;
+
 	static bool rightDown;
+
+	static bool rightRepeat;
 
 	friend class Aurora;
 	

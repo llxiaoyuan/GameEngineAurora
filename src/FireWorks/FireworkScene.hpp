@@ -45,10 +45,10 @@ public:
 
 	void update(const float& dt) override
 	{
-		if (timer.update())
+		if (Mouse::isLeftDown())
 		{
 			std::cout << "Launch\n";
-			(new Shell(getShellConfig(ShellType::crysanthemumShell)))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
+			(new Shell(getShellConfig(ShellType::random)))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
 		}
 
 		const float width = Graphics::getWidth();
