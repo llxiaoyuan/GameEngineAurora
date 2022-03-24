@@ -35,14 +35,14 @@ void createParticleArc(const float& start, const float& arcLength, const int& co
 	{
 		for (float angle = start; angle < end; angle += angleDelta)
 		{
-			particleFactory(angle + Utility::rFloat() * angleDelta * randomness);
+			particleFactory(angle + Random::Float() * angleDelta * randomness);
 		}
 	}
 	else
 	{
 		for (float angle = start; angle > end; angle += angleDelta)
 		{
-			particleFactory(angle + Utility::rFloat() * angleDelta * randomness);
+			particleFactory(angle + Random::Float() * angleDelta * randomness);
 		}
 	}
 }
@@ -63,12 +63,12 @@ void createBurst(const int& count, void (*particleFactory)(const float&, const f
 		const float partsPerArc = partsPerFullRing * (arcLength / Math::two_pi);
 
 		const float angleInc = Math::two_pi / partsPerFullRing;
-		const float angleOffset = Utility::rFloat() * angleInc + startAngle;
+		const float angleOffset = Random::Float() * angleInc + startAngle;
 		const float maxRandomAngleOffset = angleInc * 0.33f;
 
 		for (int j = 0; j < partsPerArc; j++)
 		{
-			const float randomAngleOffset = Utility::rFloat() * maxRandomAngleOffset;
+			const float randomAngleOffset = Random::Float() * maxRandomAngleOffset;
 			const float angle = angleInc * j + angleOffset + randomAngleOffset;
 			particleFactory(angle, ringSize);
 		}
@@ -77,7 +77,7 @@ void createBurst(const int& count, void (*particleFactory)(const float&, const f
 
 void crossetteEffect()
 {
-	const float startAngle = Utility::rFloat() * Math::half_pi;
+	const float startAngle = Random::Float() * Math::half_pi;
 	auto particleFactory = [](const float& angle)
 	{
 		Star::add(
@@ -85,7 +85,7 @@ void crossetteEffect()
 			Star::global->y,
 			Star::global->color,
 			angle,
-			Utility::rFloat() * 0.6f + 0.75f,
+			Random::Float() * 0.6f + 0.75f,
 			0.6f
 		);
 	};
@@ -103,7 +103,7 @@ void floralEffect()
 			Star::global->color,
 			angle,
 			speedMult * 2.4f,
-			1.f + Utility::rFloat() * .3f,
+			1.f + Random::Float() * .3f,
 			Star::global->speedX,
 			Star::global->speedY
 		);
@@ -121,7 +121,7 @@ void fallingLeavesEffect()
 			Color::Invisible,
 			angle,
 			speedMult * 2.4f,
-			2.4f + Utility::rFloat() * 0.6f,
+			2.4f + Random::Float() * 0.6f,
 			Star::global->speedX,
 			Star::global->speedY
 		);
@@ -144,8 +144,8 @@ void crackleEffect()
 			Star::global->y,
 			Color::Gold,
 			angle,
-			powf(Utility::rFloat(), 0.45f) * 2.4f,
-			0.3f + Utility::rFloat() * 0.2f
+			powf(Random::Float(), 0.45f) * 2.4f,
+			0.3f + Random::Float() * 0.2f
 		);
 	};
 	createParticleArc(0, Math::two_pi, count, 1.8f, particleFactory);
@@ -176,7 +176,7 @@ Star* Star::add(const float& x, const float& y, const Color& color, const float&
 	instance->speedY = cosf(angle) * speed + speedOffY;
 	instance->life = life;
 	instance->fullLife = life;
-	instance->spinAngle = Utility::rFloat() * Math::two_pi;
+	instance->spinAngle = Random::Float() * Math::two_pi;
 	instance->spinSpeed = 0.8f;
 	instance->spinRadius = 0;
 	instance->sparkFreq = 0;
@@ -362,7 +362,7 @@ void Shell::launch(const float& launchWidth, const float& launchHeight)
 	this->comet->shell = this;
 
 	comet->heavy = true;
-	comet->spinRadius = Utility::rFloat() * (0.85f - 0.32f) + 0.32f;
+	comet->spinRadius = Random::Float() * (0.85f - 0.32f) + 0.32f;
 	comet->sparkFreq = 0.008f;
 	comet->sparkLife = 0.32f;
 	comet->sparkLifeVariation = 3.f;
@@ -379,11 +379,11 @@ void Shell::launch(const float& launchWidth, const float& launchHeight)
 		comet->sparkColor = Color::Gold;
 	}
 
-	if (Utility::rFloat() > 0.4f && horseTail)
+	if (Random::Float() > 0.4f && horseTail)
 	{
 		comet->haveSecondColor = true;
 		comet->secondColor = Color::Invisible;
-		comet->transitionTime = powf(Utility::rFloat(), 1.5f) * 0.7f + 0.5f;
+		comet->transitionTime = powf(Random::Float(), 1.5f) * 0.7f + 0.5f;
 	}
 
 }
@@ -461,22 +461,22 @@ void Shell::burst()
 			Shell::global->color,
 			anlge,
 			speedMult * speed,
-			Shell::global->starLife + Utility::rFloat() * Shell::global->starLifeVariation,
+			Shell::global->starLife + Random::Float() * Shell::global->starLifeVariation,
 			local_speedOffX,
 			local_speedOffY
 		);
 
 		if (Shell::global->haveSecondColor)
 		{
-			star->transitionTime = Shell::global->starLife * (Utility::rFloat() * 0.05f + 0.32f);
+			star->transitionTime = Shell::global->starLife * (Random::Float() * 0.05f + 0.32f);
 			star->secondColor = Shell::global->secondColor;
 		}
 
 		if (Shell::global->strobe)
 		{
-			star->transitionTime = Shell::global->starLife * (Utility::rFloat() * 0.08f + 0.46f);
+			star->transitionTime = Shell::global->starLife * (Random::Float() * 0.08f + 0.46f);
 			star->strobe = true;
-			star->strobeFreq = Utility::rFloat() * 0.02f + 0.04f;
+			star->strobeFreq = Random::Float() * 0.02f + 0.04f;
 			if (Shell::global->haveStrobeColor)
 			{
 				star->secondColor = Shell::global->strobeColor;
@@ -507,15 +507,15 @@ void Shell::burst()
 			star->sparkLife = global_sparkLife;
 			star->sparkLifeVariation = global_sparkLifeVariation;
 			star->sparkColor = Shell::global->glitterColor;
-			star->sparkTimer = Utility::rFloat() * star->sparkFreq;
+			star->sparkTimer = Random::Float() * star->sparkFreq;
 		}
 
 	};
 
 	if (Shell::global->ring)
 	{
-		global_ringStartAngle = Utility::rFloat() * Math::pi;
-		global_ringSquash = powf(Utility::rFloat(), 2) * 0.85f + 0.15f;
+		global_ringStartAngle = Random::Float() * Math::pi;
+		global_ringSquash = powf(Random::Float(), 2) * 0.85f + 0.15f;
 
 		auto particleFactory = [](const float& angle)
 		{
@@ -530,7 +530,7 @@ void Shell::burst()
 				Shell::global->color,
 				newAngle,
 				newSpeed,
-				Shell::global->starLife + Utility::rFloat() * Shell::global->starLife * Shell::global->starLifeVariation
+				Shell::global->starLife + Random::Float() * Shell::global->starLife * Shell::global->starLifeVariation
 			);
 
 			if (Shell::global->glitter != Glitter::none)
@@ -540,7 +540,7 @@ void Shell::burst()
 				star->sparkLife = global_sparkLife;
 				star->sparkLifeVariation = global_sparkLifeVariation;
 				star->sparkColor = Shell::global->glitterColor;
-				star->sparkTimer = Utility::rFloat() * star->sparkFreq;
+				star->sparkTimer = Random::Float() * star->sparkFreq;
 			}
 		};
 		createParticleArc(0, Math::two_pi, starCount, 0, particleFactory);
@@ -559,7 +559,7 @@ void Shell::burst()
 		innerConfig.starDensity = 1.4f;
 		innerConfig.color = pistilColor;
 		innerConfig.glitter = Glitter::light;
-		innerConfig.glitterColor = Utility::rFloat() > 0.5f ? Color::Gold : Color::White;
+		innerConfig.glitterColor = Random::Float() > 0.5f ? Color::Gold : Color::White;
 		Shell* innerShell = new Shell(innerConfig);
 		Shell::inner = innerShell;
 		global_x = comet->x;
@@ -622,7 +622,7 @@ void Shell::burstInner()
 			Shell::inner->color,
 			anlge,
 			speedMult * speed,
-			Shell::inner->starLife + Utility::rFloat() * Shell::inner->starLifeVariation,
+			Shell::inner->starLife + Random::Float() * Shell::inner->starLifeVariation,
 			0,
 			standardInitialSpeed
 		);
@@ -632,7 +632,7 @@ void Shell::burstInner()
 		star->sparkLife = global_sparkLife;
 		star->sparkLifeVariation = global_sparkLifeVariation;
 		star->sparkColor = Shell::inner->glitterColor;
-		star->sparkTimer = Utility::rFloat() * star->sparkFreq;
+		star->sparkTimer = Random::Float() * star->sparkFreq;
 
 	};
 

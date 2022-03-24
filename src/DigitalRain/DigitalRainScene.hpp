@@ -3,6 +3,8 @@
 #include<Aurora/GameSceneManager.hpp>
 #include<Aurora/Texture.hpp>
 #include<Aurora/BitmapFont.hpp>
+#include<Aurora/Random.hpp>
+
 #include<iostream>
 #include<string>
 #include<cstdlib>
@@ -21,7 +23,7 @@ public:
 		Rain::stride = font->getFontSize();
 		for (size_t i = 0; i < Graphics::getWidth() / stride; i++)
 		{
-			rains.push_back(Rain((Graphics::getWidth() - Graphics::getWidth() / stride * stride) / 2 + i * stride, rand() % 6 + 8));
+			rains.push_back(Rain((Graphics::getWidth() - Graphics::getWidth() / stride * stride) / 2 + i * stride, Random::Int() % 6 + 8));
 		}
 	}
 

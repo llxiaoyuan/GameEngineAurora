@@ -1,7 +1,7 @@
 #pragma once
 
 #include<Aurora/Actor.hpp>
-#include<Aurora/Utility.hpp>
+#include<Aurora/Random.hpp>
 #include<string>
 
 class Ground
@@ -41,7 +41,7 @@ public:
 
 		for (int i = 0; i < 2; i++)
 		{
-			int nextIndex = rand() % 3;
+			int nextIndex = Random::Int() % 3;
 			grounds.emplace_back(Ground(nextIndex, (float)1920 * i, (float)35));
 		}
 	}
@@ -69,7 +69,7 @@ public:
 						maxX = grounds[i2].position.x;
 					}
 				}
-				int nextIndex = rand() % 3;
+				int nextIndex = Random::Int() % 3;
 				grounds[i].position.x = maxX + groundTextures[1]->getWidth();
 
 				grounds[i].index = nextIndex;

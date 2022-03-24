@@ -39,7 +39,7 @@ public:
 	float timeToNextSpawn;
 
 	CloudManager():
-		timeToNextSpawn(Utility::rFloat()*3+1.f),
+		timeToNextSpawn(Random::Float()*3+1.f),
 		timeToNextSpawnCount(0),
 		cloudTexture(Texture::createFromFile("res\\DinoGameRes\\textures\\cloud.png"))
 	{
@@ -58,8 +58,8 @@ public:
 		if (timeToNextSpawnCount > timeToNextSpawn)
 		{
 			timeToNextSpawnCount = 0;
-			timeToNextSpawn = Utility::rFloat() * 9 + 1.f;
-			clouds.push_back(Cloud(cloudTexture, 1000, 140 + Utility::rFloat() * 350));
+			timeToNextSpawn = Random::Float() * 9 + 1.f;
+			clouds.push_back(Cloud(cloudTexture, 1000, 140 + Random::Float() * 350));
 		}
 
 		for (int i = 0; i < clouds.size(); i++)

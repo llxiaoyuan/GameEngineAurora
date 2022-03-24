@@ -11,7 +11,7 @@ public:
 	ParticleSystemTestScene(GameSceneManager* gsm) :
 		Scene(gsm), particleSystemCompute(1.5f, 5000)
 	{
-		
+
 	}
 
 	~ParticleSystemTestScene()

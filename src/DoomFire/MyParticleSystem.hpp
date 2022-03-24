@@ -16,7 +16,7 @@ public:
 			int x = i % (Graphics::getWidth() / (int)particleSize);
 			int y = i / (Graphics::getWidth() / (int)particleSize);
 			particles[i].pos = glm::vec2(x * particleSize, y * particleSize) + startPos;
-			particles[i].color = glm::vec4(Utility::rFloat(), Utility::rFloat(), Utility::rFloat(), 1);
+			particles[i].color = glm::vec4(Random::Float(), Random::Float(), Random::Float(), 1);
 		}
 		colors[0] = glm::vec4(0.027451, 0.027451, 0.027451, 0);
 		colors[1] = glm::vec4(0.121569, 0.027451, 0.027451, 0);
@@ -105,7 +105,7 @@ public:
 
 	void spreadFire(const int& from)
 	{
-		const int rand = (int)round(Utility::rFloat() * 3.f) & 3;
+		const int rand = (int)round(Random::Float() * 3.f) & 3;
 
 		const int to = from + (Graphics::getWidth() / (int)particleSize) + rand - 1;
 

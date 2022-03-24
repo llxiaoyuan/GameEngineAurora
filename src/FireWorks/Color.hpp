@@ -1,9 +1,9 @@
 #pragma once
 
-#include<Aurora/Utility.hpp>
-
 #ifndef _COLOR_HPP_
 #define _COLOR_HPP_
+
+#include<Aurora/Random.hpp>
 
 struct Color
 {

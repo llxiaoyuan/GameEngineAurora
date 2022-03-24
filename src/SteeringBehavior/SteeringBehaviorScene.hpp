@@ -5,6 +5,7 @@
 #include<Aurora/GameSceneManager.hpp>
 #include<Aurora/Rect.hpp>
 #include<Aurora/Mouse.hpp>
+#include<Aurora/Random.hpp>
 
 #include"Character.hpp"
 
@@ -22,7 +23,7 @@ public:
 	{
 		for (size_t i = 0; i < 1000; i++)
 		{
-			characters.push_back(Character(glm::vec2(rand() % Graphics::getWidth(), rand() % Graphics::getHeight()), glm::vec2(rand() % 4 - 2, rand() % 4 - 2), 3, 0.1f));
+			characters.push_back(Character(glm::vec2(Random::Int() % Graphics::getWidth(), Random::Int() % Graphics::getHeight()), glm::vec2(Random::Int() % 4 - 2, Random::Int() % 4 - 2), 3, 0.1f));
 		}
 	}
 

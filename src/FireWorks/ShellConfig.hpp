@@ -6,6 +6,7 @@
 #include"Color.hpp"
 
 #include<Aurora/Math.hpp>
+#include<Aurora/Random.hpp>
 
 enum class Glitter
 {

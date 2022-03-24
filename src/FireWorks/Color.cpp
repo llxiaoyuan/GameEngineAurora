@@ -2,7 +2,7 @@
 
 Color Color::random()
 {
-	return { Utility::rFloat(),Utility::rFloat() ,Utility::rFloat(),1.f };
+	return { Random::Float(),Random::Float() ,Random::Float(),1.f };
 }
 
 bool Color::operator==(const Color& c)

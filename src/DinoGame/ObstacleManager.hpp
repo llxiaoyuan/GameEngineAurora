@@ -1,7 +1,7 @@
 #pragma once
 
 #include<Aurora/Actor.hpp>
-#include<Aurora/Utility.hpp>
+#include<Aurora/Random.hpp>
 #include<Aurora/Rect.hpp>
 #include<string>
 
@@ -46,7 +46,7 @@ public:
 
 	ObstacleManager() :
 		timeToNextSpawnCount(0),
-		timeToNextSpawn(Utility::rFloat() * 2.f + 1.5f)
+		timeToNextSpawn(Random::Float() * 2.f + 1.5f)
 	{
 		for (int i = 0; i < 6; i++)
 		{
@@ -83,8 +83,8 @@ public:
 		if (timeToNextSpawnCount > timeToNextSpawn)
 		{
 			timeToNextSpawnCount = 0;
-			timeToNextSpawn = Utility::rFloat() * 2.f + 1.5f;
-			obstacles.push_back(Obstacle(obstacleTextures[rand() % 6], 1000, 50));
+			timeToNextSpawn = Random::Float() * 2.f + 1.5f;
+			obstacles.push_back(Obstacle(obstacleTextures[Random::Int() % 6], 1000, 50));
 		}
 
 	}

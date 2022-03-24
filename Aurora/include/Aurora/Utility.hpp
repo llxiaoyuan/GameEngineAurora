@@ -14,9 +14,6 @@ public:
 
 	Utility(const Utility&) = delete;
 
-	//产生一个[0,1]的浮点数
-	static float rFloat();
-
 };
 
 

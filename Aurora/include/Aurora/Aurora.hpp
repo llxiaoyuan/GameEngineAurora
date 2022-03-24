@@ -19,6 +19,7 @@
 #include"Game.hpp"
 #include"GameSceneManager.hpp"
 #include"Configuration.hpp"
+#include"Random.hpp"
 
 class Aurora
 {

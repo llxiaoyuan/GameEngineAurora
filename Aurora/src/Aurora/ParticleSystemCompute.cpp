@@ -33,11 +33,15 @@ ParticleSystemCompute::ParticleSystemCompute(const float& particleSize, const in
 
 	std::vector<float> thetas(maxParticleNumber);
 
+	std::vector<float> radiuses(maxParticleNumber);
+
 	for (int i = 0; i < maxParticleNumber; i++)
 	{
-		float theta = Utility::rFloat() * Math::two_pi;
+		float theta = Random::Float() * Math::two_pi;
 		thetas[i] = theta;
-		positions[i] = glm::vec4(100 * cosf(theta) + center.x, 500 * sinf(theta) + center.y, 0, 1);
+		float radius = Random::Float() * 400.f+100.f;
+		radiuses[i] = radius;
+		positions[i] = glm::vec4(radius * cosf(theta) + center.x, radius * sinf(theta) + center.y, 0, 1);
 	}
 
 	glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -46,7 +50,7 @@ ParticleSystemCompute::ParticleSystemCompute(const float& particleSize, const in
 
 	for (int i = 0; i < maxParticleNumber; i++)
 	{
-		colors[i] = glm::vec4(Utility::rFloat(), Utility::rFloat(), Utility::rFloat(), 1);
+		colors[i] = glm::vec4(Random::Float(), Random::Float(), Random::Float(), 1);
 	}
 
 	glGenBuffers(1, &colorVBO);
@@ -111,21 +115,6 @@ void ParticleSystemCompute::update(const float& dt)
 	{
 		computeShader.setVec1f(dtLocation, dt);
 	}
-
-	/*if (Mouse::isLeftDown())
-	{
-		computeShader.setVec1i(stateLocation, 0);
-	}
-	else if (Mouse::isRightDown())
-	{
-		computeShader.setVec1i(stateLocation, 1);
-	}
-	else
-	{
-		computeShader.setVec1i(stateLocation, -1);
-	}*/
-
-	//computeShader.setVec4f(mousePosLocation, Mouse::getPosition().x, Mouse::getPosition().y, 0, 0);
 
 	glDispatchCompute(10000, 1, 1);
 

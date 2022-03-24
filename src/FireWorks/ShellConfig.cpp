@@ -6,9 +6,9 @@ ShellConfiguration crysanthemumShell()
 {
 	ShellConfiguration config;
 
-	const bool glitter = Utility::rFloat() < 0.25f;
+	const bool glitter = Random::Float() < 0.25f;
 
-	const bool singleColor = Utility::rFloat() < 0.72f;
+	const bool singleColor = Random::Float() < 0.72f;
 
 	if (singleColor)
 	{
@@ -21,7 +21,7 @@ ShellConfiguration crysanthemumShell()
 		config.secondColor = Color::random();
 	}
 
-	const bool pistil = singleColor && Utility::rFloat() < 0.42f;
+	const bool pistil = singleColor && Random::Float() < 0.42f;
 
 	config.shellSize = ShellConfiguration::globalShellSize;
 
@@ -33,13 +33,13 @@ ShellConfiguration crysanthemumShell()
 
 	config.glitter = glitter ? Glitter::light : Glitter::none;
 
-	config.glitterColor = Utility::rFloat() > 0.5f ? Color::White : Color::Gold;
+	config.glitterColor = Random::Float() > 0.5f ? Color::White : Color::Gold;
 
 	config.pistil = pistil;
 
 	config.pistilColor = Color::random();
 
-	config.streamers = !pistil && Utility::rFloat() < 0.42f;
+	config.streamers = !pistil && Random::Float() < 0.42f;
 
 	return config;
 }
@@ -52,7 +52,7 @@ ShellConfiguration ghostShell()
 
 	config.streamers = true;
 
-	config.pistil = Utility::rFloat() < 0.42f;
+	config.pistil = Random::Float() < 0.42f;
 
 	config.pistilColor = Color::random();
 
@@ -91,9 +91,9 @@ ShellConfiguration strobeShell()
 
 	config.haveStrobeColor = true;
 
-	config.strobeColor = Utility::rFloat() < 0.5f ? Color::White : Color::Invisible;
+	config.strobeColor = Random::Float() < 0.5f ? Color::White : Color::Invisible;
 
-	config.pistil = Utility::rFloat() < 0.5f;
+	config.pistil = Random::Float() < 0.5f;
 
 	config.pistilColor = Color::random();
 	
@@ -102,7 +102,7 @@ ShellConfiguration strobeShell()
 
 ShellConfiguration palmShell()
 {
-	const bool thick = Utility::rFloat() < 0.5f;
+	const bool thick = Random::Float() < 0.5f;
 
 	ShellConfiguration config;
 
@@ -123,7 +123,7 @@ ShellConfiguration palmShell()
 
 ShellConfiguration ringShell()
 {
-	const bool pistil = Utility::rFloat() < 0.75f;
+	const bool pistil = Random::Float() < 0.75f;
 
 	ShellConfiguration config;
 
@@ -147,7 +147,7 @@ ShellConfiguration ringShell()
 
 	config.glitterColor = Color::White;
 
-	config.streamers = Utility::rFloat() < 0.3f;
+	config.streamers = Random::Float() < 0.3f;
 
 	return config;
 }
@@ -170,7 +170,7 @@ ShellConfiguration crossetteShell()
 
 	config.crossette = true;
 
-	config.pistil = Utility::rFloat() < 0.5f;
+	config.pistil = Random::Float() < 0.5f;
 
 	config.pistilColor = Color::random();
 
@@ -263,11 +263,11 @@ ShellConfiguration crackleShell()
 
 	config.glitterColor = Color::Gold;
 
-	config.color = Utility::rFloat() < 0.75f ? Color::Gold : Color::random();
+	config.color = Random::Float() < 0.75f ? Color::Gold : Color::random();
 
 	config.crackle = true;
 
-	config.pistil = Utility::rFloat() < 0.65f;
+	config.pistil = Random::Float() < 0.65f;
 
 	config.pistilColor = Color::random();
 
@@ -292,7 +292,7 @@ ShellConfiguration horsetailShell()
 
 	config.glitter = Glitter::medium;
 
-	config.glitterColor = Utility::rFloat() < 0.5f ? Color::White : Color::Gold;
+	config.glitterColor = Random::Float() < 0.5f ? Color::White : Color::Gold;
 
 	config.strobe = true;
 

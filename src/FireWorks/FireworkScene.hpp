@@ -114,9 +114,9 @@ public:
 							star->x,
 							star->y,
 							star->sparkColor,
-							Utility::rFloat() * Math::two_pi,
-							Utility::rFloat() * star->sparkSpeed * burnRate,
-							star->sparkLife * 0.8f + Utility::rFloat() * star->sparkLifeVariation * star->sparkLife
+							Random::Float() * Math::two_pi,
+							Random::Float() * star->sparkSpeed * burnRate,
+							star->sparkLife * 0.8f + Random::Float() * star->sparkLifeVariation * star->sparkLife
 						);
 					}
 				}

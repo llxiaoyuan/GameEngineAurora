@@ -72,7 +72,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 
 	game = nullptr;
 
-	srand((unsigned)time(nullptr));
+	Random::ini();
 
 	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
 

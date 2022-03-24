@@ -4,8 +4,9 @@
 #include<Aurora/BitmapFont.hpp>
 #include<Aurora/Graphics.hpp>
 #include<Aurora/Timer.hpp>
+#include<Aurora/Random.hpp>
+
 #include<vector>
-#include<cstdlib>
 
 class Rain
 {
@@ -28,23 +29,23 @@ public:
 	Rain(int _x, int _len) :time(_len / speedFactor), len(_len), character(_len)
 	{
 		x = _x;
-		y = Graphics::getHeight()+ rand() % (Graphics::getHeight() / stride) * stride;
+		y = Graphics::getHeight()+ Random::Int() % (Graphics::getHeight() / stride) * stride;
 		for (size_t i = 0; i < _len; i++)
 		{
-			character[i] = rand() % 94 + 33;
+			character[i] = Random::Int() % 94 + 33;
 		}
 	}
 
 	void re()
 	{
-		y = Graphics::getHeight() + rand() % (Graphics::getHeight() / stride) * stride;
-		len = rand() % 6 + 8;
+		y = Graphics::getHeight() + Random::Int() % (Graphics::getHeight() / stride) * stride;
+		len = Random::Int() % 6 + 8;
 		time.restart();
 		time.setTimeLimit(len / speedFactor);
 		character = std::vector<char>(len);
 		for (size_t i = 0; i < len; i++)
 		{
-			character[i] = rand() % 94 + 33;
+			character[i] = Random::Int() % 94 + 33;
 		}
 	}
 
@@ -55,7 +56,7 @@ public:
 			{
 				character[i] = character[i - 1ULL];
 			}
-			character[0] = rand() % 94 + 33;
+			character[0] = Random::Int() % 94 + 33;
 			y -= stride;
 		}
 	}

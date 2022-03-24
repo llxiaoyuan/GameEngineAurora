@@ -146,11 +146,11 @@ void ParticleSystem::emit(const ParticleParams& parameters)
 		particles[index].lifeTimeRemaining = parameters.lifeTime;*/
 		particles[index].avtive = true;
 		particles[index].pos = glm::vec2(Graphics::getWidth() / 2 + 500, Graphics::getHeight() / 2);
-		float rads = Utility::rFloat() * Math::two_pi;
+		float rads = Random::Float() * Math::two_pi;
 		particles[index].vel = glm::vec2(200 * cosf(rads), 200);
 		particles[index].lifeTime = 10;
 		particles[index].lifeTimeRemaining = 10;
-		particles[index].color = glm::vec4(Utility::rFloat(), Utility::rFloat(), Utility::rFloat(), 1);
+		particles[index].color = glm::vec4(Random::Float(), Random::Float(), Random::Float(), 1);
 
 	}
 }
