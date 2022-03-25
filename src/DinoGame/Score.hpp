@@ -1,6 +1,6 @@
 #pragma once
 
-#include<Aurora/Music.hpp>
+#include<Aurora/Sound.hpp>
 
 class Score
 {
@@ -13,14 +13,14 @@ public:
 		flashTime(6),
 		flashTimer(.3f),
 		visible(true),
-		scoreReachSound(Music::load("res\\DinoGameRes\\music\\reach.ogg", false))
+		scoreReachSound(Sound::create("res\\DinoGameRes\\music\\reach.ogg", false))
 	{
 		
 	}
 
 	~Score()
 	{
-		
+		delete scoreReachSound;
 	}
 
 
@@ -38,7 +38,7 @@ public:
 
 	int scoreRecord;
 
-	Sound scoreReachSound;
+	Sound* scoreReachSound;
 
 	void update(const float& dt)
 	{
@@ -67,7 +67,7 @@ public:
 				{
 					if (!isFlashing)
 					{
-						Music::play(scoreReachSound);
+						scoreReachSound->play();
 					}
 					scoreRecord = score / 100 * 100;
 					isFlashing = true;

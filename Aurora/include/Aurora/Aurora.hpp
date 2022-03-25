@@ -12,7 +12,7 @@
 #include<memory>
 
 #include"VideoRecorder.hpp"
-#include"Music.hpp"
+#include"Sound.hpp"
 #include"Graphics.hpp"
 #include"Keyboard.hpp"
 #include"Mouse.hpp"
@@ -34,7 +34,7 @@ public:
 	bool iniEngine(const Configuration& configuration);
 
 	//≥ı ºªØ”Œœ∑
-	void iniGame(Game* game);
+	void iniGame(Game* const game);
 
 private:
 

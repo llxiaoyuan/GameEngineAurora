@@ -29,7 +29,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new FireworkScene(gsm));
+		gsm->push(new MyScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 

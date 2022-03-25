@@ -21,7 +21,7 @@ public:
 
 	float runStateTime;
 
-	Sound jumpSound;
+	Sound* jumpSound;
 
 	const float gravityConst;
 
@@ -34,7 +34,7 @@ public:
 		isJumping(false),
 		collided(false),
 		runStateTime(0),
-		jumpSound(Music::load("res\\DinoGameRes\\music\\jump.mp3", false))
+		jumpSound(Sound::create("res\\DinoGameRes\\music\\jump.mp3", false))
 	{
 		std::vector<Texture*> buffers(Texture::loadSplit("res\\DinoGameRes\\textures\\DinosaurP.png", 70, 75, 4));
 		collideTexture=buffers[0];
@@ -50,6 +50,7 @@ public:
 		delete collideTexture;
 		delete jumpingTexture;
 		delete runAnimation;
+		delete jumpSound;
 	}
 
 	void handleinput()
@@ -58,7 +59,7 @@ public:
 		{
 			if (!isJumping)
 			{
-				Music::play(jumpSound);
+				jumpSound->play();
 				jump();
 			}
 		}

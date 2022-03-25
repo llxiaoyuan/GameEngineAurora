@@ -78,7 +78,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 
 	if (config->useAudio)
 	{
-		Music::ini();
+		Sound::ini();
 	}
 
 	Keyboard::ini();
@@ -99,7 +99,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	return true;
 }
 
-void Aurora::iniGame(Game* game)
+void Aurora::iniGame(Game* const game)
 {
 	this->game = game->clone();
 	switch (config->mode)
@@ -118,6 +118,13 @@ void Aurora::iniGame(Game* game)
 		break;
 	default:
 		break;
+	}
+
+	this->game = nullptr;
+
+	if (config->useAudio)
+	{
+		Sound::release();
 	}
 }
 

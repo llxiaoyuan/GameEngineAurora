@@ -54,9 +54,6 @@
     <ClInclude Include="Aurora\include\Aurora\Mouse.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\include\Aurora\Music.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Aurora\include\Aurora\Rect.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -1131,9 +1128,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\src\Aurora\Mouse.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Aurora\src\Aurora\Music.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\src\Aurora\Rect.cpp">

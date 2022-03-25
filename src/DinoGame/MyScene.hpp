@@ -21,7 +21,7 @@ public:
 		font(BitmapFont::create("res\\DinoGameRes\\font\\Game.png", "res\\DinoGameRes\\font\\Game.fnt")),
 		isGameEnded(false),
 		gameOverTexture(Texture::createFromFile("res\\DinoGameRes\\textures\\Gameover.png")),
-		gameOverSound(Music::load("res\\DinoGameRes\\music\\hit.ogg", false))
+		gameOverSound(Sound::create("res\\DinoGameRes\\music\\hit.ogg", false))
 	{
 		score = 0;
 		hiScore = 0;
@@ -32,6 +32,7 @@ public:
 		std::cout << "[" << typeid(*this).name() << "] release!\n";
 		delete gameOverTexture;
 		delete font;
+		delete gameOverSound;
 	}
 
 	std::unique_ptr<Scene> clone()
@@ -57,7 +58,7 @@ public:
 			cloudManager.update(dt);
 			groundManager.update(dt);
 			obstacleManager.update(dt);
-			//isGameEnded = dinoCollided();
+			isGameEnded = dinoCollided();
 
 		}
 	}
@@ -83,7 +84,7 @@ private:
 
 	bool isGameEnded;
 
-	Sound gameOverSound;
+	Sound* gameOverSound;
 
 	ObstacleManager obstacleManager;
 
@@ -131,7 +132,7 @@ private:
 
 	void gameEnd()
 	{
-		Music::play(gameOverSound);
+		gameOverSound->play();
 		dino.collided = true;
 	}
 

@@ -334,6 +334,6 @@ ShellConfiguration getShellConfig(ShellType type)
 	case ShellType::horsetailShell:
 		return horsetailShell();
 	default:
-		break;
+		return strobeShell();
 	}
 }
