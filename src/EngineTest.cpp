@@ -4,11 +4,11 @@
 
 int main(int argc, const char* argv[])
 {
-	int resolutionX = 960;
-	int resolutionY = 540;
+	int resolutionX = 1000;
+	int resolutionY = 1000;
 	std::string title = u8"Aurora Test";
 	Configuration::DisplayMode displayMode = Configuration::DisplayMode::Normal;
-	bool useAudio = true;
+	bool useAudio = false;
 	int multisampleLevel = 4;
 
 	Configuration config(resolutionX, resolutionY, title, displayMode, useAudio, multisampleLevel);

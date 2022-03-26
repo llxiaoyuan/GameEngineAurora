@@ -495,6 +495,8 @@
     <ClInclude Include="src\FireWorks\FireworkScene.hpp" />
     <ClInclude Include="src\FireWorks\Objects.hpp" />
     <ClInclude Include="src\FireWorks\ShellConfig.hpp" />
+    <ClInclude Include="src\FluidSimulation\FluidSimulationScene.hpp" />
+    <ClInclude Include="src\FluidSimulation\FluidParticleSystem.hpp" />
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />
     <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp" />
     <ClInclude Include="src\FourierDrawing\json.hpp" />
@@ -504,6 +506,7 @@
     <ClInclude Include="src\LogoInterpreter\Parser.hpp" />
     <ClInclude Include="src\MyGame.hpp" />
     <ClInclude Include="src\ParticleSystemTest\ParticleSystemTestScene.hpp" />
+    <ClInclude Include="src\SampleScene.hpp" />
     <ClInclude Include="src\SteeringBehavior\Character.hpp" />
     <ClInclude Include="src\SteeringBehavior\SteeringBehaviorScene.hpp" />
     <ClInclude Include="src\TimeTableCardioid\Cardioid.hpp" />

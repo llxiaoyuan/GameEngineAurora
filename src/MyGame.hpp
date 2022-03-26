@@ -14,6 +14,7 @@
 #include"TimeTableCardioid/TimeTableCardioidScene.hpp"
 #include"ParticleSystemTest/ParticleSystemTestScene.hpp"
 #include"DoomFire/DoomFireScene.hpp"
+#include"FluidSimulation/FluidSimulationScene.hpp"
 
 class MyGame :public Game
 {
@@ -29,7 +30,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new MyScene(gsm));
+		gsm->push(new FluidSimulationScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 
