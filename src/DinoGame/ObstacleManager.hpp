@@ -50,7 +50,7 @@ public:
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			obstacleTextures[i] = Texture::createFromFile("res\\DinoGameRes\\textures\\Obstacle" + std::to_string(i + 1) + ".png");
+			obstacleTextures[i] = Texture::create("res\\DinoGameRes\\textures\\Obstacle" + std::to_string(i + 1) + ".png");
 		}
 	}
 

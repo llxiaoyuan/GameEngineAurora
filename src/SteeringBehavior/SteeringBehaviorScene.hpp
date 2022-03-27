@@ -19,7 +19,7 @@ public:
 
 	SteeringBehaviorScene(GameSceneManager* gsm):
 		Scene(gsm),
-		arrow(Texture::createFromFile("res\\SteeringBehaviorRes\\arrow.png"))
+		arrow(Texture::create("res\\SteeringBehaviorRes\\arrow.png"))
 	{
 		for (size_t i = 0; i < 1000; i++)
 		{

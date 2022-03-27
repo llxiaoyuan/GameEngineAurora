@@ -1,10 +1,10 @@
 #include<Aurora/BitmapTexture.hpp>
 
 BitmapTexture::BitmapTexture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp) :
-	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), curMatricesNum(0), registered(false), colorVBO(0), modelMatrices(new glm::mat4[defaultMaxMatricesNum]), colors(new glm::vec4[defaultMaxMatricesNum])
+	textureID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), positionBuffer(0), curMatricesNum(0), registered(false), colorBuffer(0), modelMatrices(new glm::mat4[defaultMaxMatricesNum]), colors(new glm::vec4[defaultMaxMatricesNum])
 {
-	glGenTextures(1, &rendererID);
-	glBindTexture(GL_TEXTURE_2D, rendererID);
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -24,8 +24,8 @@ BitmapTexture::BitmapTexture(const unsigned char* const buffer, const int& width
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)(2 * sizeof(float)));
 
-	glGenBuffers(1, &instanceVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glGenBuffers(1, &positionBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * defaultMaxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -37,8 +37,8 @@ BitmapTexture::BitmapTexture(const unsigned char* const buffer, const int& width
 	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
 
 
-	glGenBuffers(1, &colorVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glGenBuffers(1, &colorBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * defaultMaxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(6);
 	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
@@ -57,9 +57,9 @@ BitmapTexture::~BitmapTexture()
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
-	glDeleteTextures(1, &rendererID);
-	glDeleteBuffers(1, &instanceVBO);
-	glDeleteBuffers(1, &colorVBO);
+	glDeleteTextures(1, &textureID);
+	glDeleteBuffers(1, &positionBuffer);
+	glDeleteBuffers(1, &colorBuffer);
 	if (modelMatrices)
 	{
 		delete[] modelMatrices;
@@ -73,7 +73,7 @@ BitmapTexture::~BitmapTexture()
 void BitmapTexture::bind() const
 {
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_2D, rendererID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
 void BitmapTexture::drawInstance() const
@@ -89,10 +89,10 @@ void BitmapTexture::unbind() const
 
 void BitmapTexture::update() const
 {
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, curMatricesNum * sizeof(glm::mat4), modelMatrices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, curMatricesNum * sizeof(glm::vec4), colors);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

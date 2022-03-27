@@ -7,7 +7,6 @@
 #include<unordered_map>
 #include<GLFW/glfw3.h>
 
-//键盘类
 class Keyboard
 {
 public:
@@ -16,7 +15,6 @@ public:
 
 	Keyboard(const Keyboard&) = delete;
 
-	//可获取状态的按键
 	enum Key
 	{
 		Space = 32,
@@ -139,7 +137,6 @@ public:
 		Menu = 348
 	};
 
-	//获取按键状态
 	static bool getKeyPress(const Key& key);
 
 private:

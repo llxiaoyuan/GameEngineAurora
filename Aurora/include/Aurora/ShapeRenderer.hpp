@@ -10,7 +10,6 @@
 #include"Shader.hpp"
 #include"Rect.hpp"
 
-//图形渲染
 class ShapeRenderer
 {
 public:
@@ -43,7 +42,6 @@ private:
 
 	ShapeRenderer();
 
-	//同一时间最多画50000个圆和SpriteRenderer绘制方法类似
 	class CircleRenderer
 	{
 	public:

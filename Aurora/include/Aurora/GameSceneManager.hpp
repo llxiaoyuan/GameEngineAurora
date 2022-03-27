@@ -12,7 +12,6 @@
 
 class GameSceneManager;
 
-//场景
 class Scene
 {
 public:
@@ -29,18 +28,14 @@ public:
 
 	virtual std::unique_ptr<Scene> clone() = 0;
 
-	//处理输入
 	virtual void handleinput() = 0;
 
-	//更新
 	virtual void update(const float& dt) = 0;
 
-	//渲染
 	virtual void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer) = 0;
 
 };
 
-//游戏场景管理器
 class GameSceneManager
 {
 public:

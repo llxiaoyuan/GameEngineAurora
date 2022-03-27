@@ -49,6 +49,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	if (!window)
 	{
 		glfwTerminate();
+		return false;
 	}
 
 	glfwMakeContextCurrent(window);

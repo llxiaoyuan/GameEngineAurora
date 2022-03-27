@@ -12,7 +12,7 @@ public:
 	TexturePtr texture;
 
 	DoomFireScene(GameSceneManager* gsm) :
-		Scene(gsm), particleSystem(), texture(Texture::createFromFile("res\\DoomFireRes\\doom.png"))
+		Scene(gsm), particleSystem(), texture(Texture::create("res\\DoomFireRes\\doom.png"))
 	{
 
 	}

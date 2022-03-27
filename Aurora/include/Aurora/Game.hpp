@@ -22,10 +22,8 @@ public:
 
 	virtual std::unique_ptr<Game> clone() = 0;
 
-	//¸üĞÂ
 	virtual void update(const float& dt) = 0;
 
-	//äÖÈ¾
 	virtual void render() = 0;
 
 };

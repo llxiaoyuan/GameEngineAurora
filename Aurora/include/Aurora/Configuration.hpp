@@ -5,7 +5,6 @@
 
 #include<string>
 
-//游戏相关的配置
 class Configuration
 {
 public:

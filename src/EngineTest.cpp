@@ -4,15 +4,17 @@
 
 int main(int argc, const char* argv[])
 {
-	int resolutionX = 1000;
-	int resolutionY = 1000;
+	int resolutionX = 1920;
+	int resolutionY = 1080;
 	std::string title = u8"Aurora Test";
 	Configuration::DisplayMode displayMode = Configuration::DisplayMode::Normal;
 	bool useAudio = false;
 	int multisampleLevel = 4;
 
 	Configuration config(resolutionX, resolutionY, title, displayMode, useAudio, multisampleLevel);
-	Aurora::get().iniEngine(config);
-	Aurora::get().iniGame(new MyGame());
+	if (Aurora::get().iniEngine(config))
+	{
+		Aurora::get().iniGame(new MyGame());
+	}
 	return 0;
 }

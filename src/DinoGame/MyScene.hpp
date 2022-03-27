@@ -20,7 +20,7 @@ public:
 		Scene(gsm),
 		font(BitmapFont::create("res\\DinoGameRes\\font\\Game.png", "res\\DinoGameRes\\font\\Game.fnt")),
 		isGameEnded(false),
-		gameOverTexture(Texture::createFromFile("res\\DinoGameRes\\textures\\Gameover.png")),
+		gameOverTexture(Texture::create("res\\DinoGameRes\\textures\\Gameover.png")),
 		gameOverSound(Sound::create("res\\DinoGameRes\\music\\hit.ogg", false))
 	{
 		score = 0;

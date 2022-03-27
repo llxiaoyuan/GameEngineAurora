@@ -27,10 +27,8 @@ public:
 
 	~SpriteRenderer();
 
-	//在调用draw方法前先调用它
 	void begin();
 
-	//在这一刻SpriteRenderer会绘制所有的文字及贴图
 	void end();
 
 	void draw(Texture* const texture, const float& x, const float& y);
@@ -41,10 +39,8 @@ public:
 
 	void draw(RenderTexture* const renderTexture, const float& x, const float& y);
 
-	//向贴图池中增加贴图
 	void texturePoolAdd(Texture* const texture);
 
-	//向文字贴图池中增加贴图
 	void bitmapTexturePoolAdd(BitmapTexture* const texture);
 
 	void renderTexturePoolAdd(RenderTexture* const renderTexture);
@@ -57,10 +53,8 @@ private:
 
 	SpriteRenderer();
 
-	//贴图池
 	std::vector<Texture*> texturePool;
 	
-	//文字的贴图池
 	std::vector<BitmapTexture*> bitmapTexturePool;
 
 	std::vector<RenderTexture*> renderTexturePool;

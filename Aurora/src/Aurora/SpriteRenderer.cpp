@@ -47,7 +47,7 @@ void SpriteRenderer::end()
 	{
 		renderTexturePool[i]->updateMatrices();
 		glBindVertexArray(renderTexturePool[i]->VAO);
-		glBindTexture(GL_TEXTURE_2D, renderTexturePool[i]->texColorBuffer);
+		glBindTexture(GL_TEXTURE_2D, renderTexturePool[i]->textureID);
 		renderTexturePool[i]->drawInstance();
 		glBindVertexArray(0);
 		glBindTexture(GL_TEXTURE_2D, 0);

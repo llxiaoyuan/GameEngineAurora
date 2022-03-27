@@ -30,17 +30,14 @@ public:
 		return instance;
 	}
 
-	//初始化引擎
 	bool iniEngine(const Configuration& configuration);
 
-	//初始化游戏
 	void iniGame(Game* const game);
 
 private:
 
 	GLFWwindow* window;
 
-	//游戏循环
 	void runGame();
 
 	void runWallpaper();

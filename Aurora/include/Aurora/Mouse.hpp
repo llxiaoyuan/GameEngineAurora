@@ -17,13 +17,10 @@ public:
 
 	Mouse(const Mouse&) = delete;
 
-	//获取鼠标位置
 	static const glm::vec2& getPosition();
 
-	//获取左键状态
 	static const bool& isLeftDown();
 
-	//获取右键状态
 	static const bool& isRightDown();
 
 	static const bool& isLeftRepeat();

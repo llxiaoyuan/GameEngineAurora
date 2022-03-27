@@ -5,7 +5,6 @@
 
 #include<cmath>
 
-//数学类 定义了一些有用的常量
 class Math
 {
 public:

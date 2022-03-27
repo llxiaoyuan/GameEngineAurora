@@ -14,13 +14,10 @@ public:
 
 	Timer(const float& timeLimit);
 
-	//更新时间
 	bool update();
 
-	//重新开始计时
 	void restart();
 
-	//设置计时器的计时时间
 	void setTimeLimit(const float& timeLimit);
 
 private:

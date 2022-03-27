@@ -11,7 +11,6 @@
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 
-//着色器
 class Shader
 {
 public:
@@ -20,7 +19,6 @@ public:
 
 	~Shader();
 
-	//从文件创建着色器
 	void create(const std::string& filePath);
 
 	void bind() const;
@@ -45,10 +43,8 @@ private:
 
 	std::vector<std::string> ParseShader(const std::string& filePath);
 
-	//编译着色器
 	unsigned int CompileShader(const std::string& source, const GLenum& type);
 
-	//创建着色器
 	unsigned int CreateShader(const std::vector<std::string>& shaderSource);
 
 };

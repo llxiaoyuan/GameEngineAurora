@@ -9,7 +9,6 @@
 
 #include"SpriteRenderer.hpp"
 
-//ÉãÏñ»úÀà
 class Camera
 {
 public:

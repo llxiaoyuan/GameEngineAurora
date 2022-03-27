@@ -1,9 +1,9 @@
 #include<Aurora/Texture.hpp>
 
-Texture* Texture::createFromFile(const std::string& path)
+Texture* Texture::create(const std::string& path)
 {
 	Texture* const texture = new Texture(path);
-	if (texture->rendererID)
+	if (texture->textureID)
 	{
 		return texture;
 	}
@@ -12,15 +12,15 @@ Texture* Texture::createFromFile(const std::string& path)
 }
 
 Texture::Texture(const std::string& path)
-	: rendererID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), instanceVBO(0), curIndex(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
+	: textureID(0), filePath(path), width(0), height(0), bpp(0), VAO(0), VBO(0), positionBuffer(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
 {
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
 
 	if (localBuffer)
 	{
-		glGenTextures(1, &rendererID);
-		glBindTexture(GL_TEXTURE_2D, rendererID);
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -42,8 +42,8 @@ Texture::Texture(const std::string& path)
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-		glGenBuffers(1, &instanceVBO);
-		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glGenBuffers(1, &positionBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * defaultMaxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -73,17 +73,17 @@ Texture::Texture(const std::string& path)
 }
 
 Texture::Texture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp) :
-	rendererID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), instanceVBO(0), curIndex(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
+	textureID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), positionBuffer(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
 {
-	glGenTextures(1, &rendererID);
-	glBindTexture(GL_TEXTURE_2D, rendererID);
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
-
+	
 	float positions[] = {0,0,0,0,(float)width ,0 ,1.0f ,0,(float)width ,(float)height ,1.0f,1.0f,0,(float)height,0 ,1.0f};
 
 	glGenVertexArrays(1, &VAO);
@@ -96,8 +96,8 @@ Texture::Texture(const unsigned char* const buffer, const int& width, const int&
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)(2 * sizeof(float)));
 
-	glGenBuffers(1, &instanceVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glGenBuffers(1, &positionBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * defaultMaxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -122,8 +122,8 @@ Texture::~Texture()
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
-	glDeleteTextures(1, &rendererID);
-	glDeleteBuffers(1, &instanceVBO);
+	glDeleteTextures(1, &textureID);
+	glDeleteBuffers(1, &positionBuffer);
 	if (modelMatrices)
 	{
 		delete[] modelMatrices;
@@ -133,12 +133,12 @@ Texture::~Texture()
 void Texture::bind() const
 {
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_2D, rendererID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
 void Texture::drawInstance() const
 {
-	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, curIndex);
+	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, curMatricesNum);
 }
 
 void Texture::unbind() const
@@ -201,14 +201,14 @@ const int& Texture::getHeight() const
 
 void Texture::updateMatrices() const
 {
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, curIndex * sizeof(glm::mat4), modelMatrices);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, curMatricesNum * sizeof(glm::mat4), modelMatrices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Texture::addModel(const glm::mat4& model)
 {
-	modelMatrices[curIndex++] = model;
+	modelMatrices[curMatricesNum++] = model;
 }
 
 void Texture::checkIn()
@@ -218,7 +218,7 @@ void Texture::checkIn()
 
 void Texture::checkOut()
 {
-	curIndex = 0;
+	curMatricesNum = 0;
 	registered = false;
 }
 

@@ -39,9 +39,9 @@ private:
 
 	unsigned int instanceVBO;
 
-	unsigned int texColorBuffer;
+	unsigned int textureID;
 
-	unsigned int rbo;
+	unsigned int RBO;
 
 	static constexpr int defaultMaxMatricesNum = 16384;
 
@@ -53,22 +53,16 @@ private:
 
 	RenderTexture(const int& width, const int& height, const float& r = 0, const float& g = 0, const float& b = 0, const float& a = 0);
 
-	//执行实例化渲染
 	void drawInstance() const;
 
-	//更新模型数据
 	void updateMatrices() const;
 
-	//增加模型
 	void addModel(const glm::mat4& model);
 
-	//SpriteRenderer的draw方法调用此方法来记录已经在贴图池中的的贴图
 	void checkIn();
 
-	//SpriteRenderer的end方法调用此方法来删除在贴图池中的贴图
 	void checkOut();
 
-	//此方法返回是否已经在贴图池中
 	const bool& isRegistered() const;
 
 };

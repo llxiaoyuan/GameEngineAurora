@@ -6,7 +6,7 @@ float Graphics::frameDuration = 0;
 
 int Graphics::frameCount = 0;
 
-float Graphics::FPS = 0;
+float Graphics::framePerSec = 0;
 
  int Graphics::screenWidth;
 
@@ -35,11 +35,11 @@ const float& Graphics::getFPS()
 	frameCount++;
 	if (frameDuration > 0.01f)
 	{
-		FPS = frameCount / frameDuration;
+		framePerSec = frameCount / frameDuration;
 		frameCount = 0;
 		frameDuration = 0;
 	}
-	return FPS;
+	return framePerSec;
 }
 
 void Graphics::setRecordConfig(const RecordConfig& _config)

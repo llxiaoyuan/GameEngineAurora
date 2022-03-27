@@ -41,7 +41,7 @@ public:
 	CloudManager():
 		timeToNextSpawn(Random::Float()*3+1.f),
 		timeToNextSpawnCount(0),
-		cloudTexture(Texture::createFromFile("res\\DinoGameRes\\textures\\cloud.png"))
+		cloudTexture(Texture::create("res\\DinoGameRes\\textures\\cloud.png"))
 	{
 
 	}

@@ -36,7 +36,7 @@ public:
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			groundTextures[i] = Texture::createFromFile("res\\DinoGameRes\\textures\\land" + std::to_string(i + 1) + ".png");
+			groundTextures[i] = Texture::create("res\\DinoGameRes\\textures\\land" + std::to_string(i + 1) + ".png");
 		}
 
 		for (int i = 0; i < 2; i++)
