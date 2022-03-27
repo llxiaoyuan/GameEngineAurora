@@ -8,7 +8,7 @@ int main(int argc, const char* argv[])
 	int resolutionY = 1080;
 	std::string title = u8"Aurora Test";
 	Configuration::DisplayMode displayMode = Configuration::DisplayMode::Normal;
-	bool useAudio = false;
+	bool useAudio = true;
 	int multisampleLevel = 4;
 
 	Configuration config(resolutionX, resolutionY, title, displayMode, useAudio, multisampleLevel);

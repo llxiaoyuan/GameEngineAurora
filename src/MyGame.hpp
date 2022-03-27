@@ -31,7 +31,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new SampleScene(gsm));
+		gsm->push(new FluidSimulationScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 

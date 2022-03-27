@@ -9,6 +9,7 @@ std::string Utils::File::readAllText(const std::string& filePath)
 		std::ostringstream ss;
 		ss << stream.rdbuf();
 		str = ss.str();
+		stream.close();
 	}
 	return str;
 }
