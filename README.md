@@ -25,15 +25,11 @@
 ## 相关演示视频
 数字雨: https://www.bilibili.com/video/BV1bZ4y1r7r9?spm_id_from=333.999.0.0
 
-恐龙小游戏: https://www.bilibili.com/video/BV1Pm4y1Z7fo?spm_id_from=333.999.0.0
-
 群聚行为模拟: https://www.bilibili.com/video/BV1y34y1b733?spm_id_from=333.999.0.0
 
 用傅里叶级数画画: https://www.bilibili.com/video/BV1HT4y1D7pz?spm_id_from=333.999.0.0
 
 Times Tables Cardioid: https://www.bilibili.com/video/BV1KR4y1V7r4?spm_id_from=333.999.0.0
-
-DOOM Fire CG: https://www.bilibili.com/video/BV1mS4y1u7wy?spm_id_from=333.999.0.0
 
 烟花：https://www.bilibili.com/video/BV1iF411W7BJ?spm_id_from=333.999.0.0
 
