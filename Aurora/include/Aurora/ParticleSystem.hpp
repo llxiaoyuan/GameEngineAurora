@@ -60,7 +60,7 @@ public:
 
 	unsigned int colorVBO;
 
-	Shader shader;
+	Shader* shader;
 
 	const float particleSize;
 

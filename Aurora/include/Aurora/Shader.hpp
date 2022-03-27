@@ -11,15 +11,17 @@
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 
+#include"Utils.hpp"
+
 class Shader
 {
 public:
 
-	Shader();
-
 	~Shader();
 
-	void create(const std::string& filePath);
+	static Shader* create(const std::string& filePath);
+
+	static Shader* create(const std::string& vertPath, const std::string& fragPath);
 
 	void bind() const;
 
@@ -38,6 +40,16 @@ public:
 	void setVec4f(const int& location, const float& x, const float& y, const float& z, const float& w) const;
 
 private:
+
+	Shader() = delete;
+
+	Shader(const Shader&) = delete;
+
+	void operator=(const Shader&) = delete;
+
+	Shader(const std::string& filePath);
+
+	Shader(const std::string& vertPath, const std::string& fragPath);
 
 	unsigned int programID;
 

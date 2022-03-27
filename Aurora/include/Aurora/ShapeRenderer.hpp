@@ -78,7 +78,7 @@ private:
 
 		int curCircleNum;
 
-		Shader circleShader;
+		Shader* circleShader;
 
 	} circleRenderer;
 
@@ -112,7 +112,7 @@ private:
 
 		int curVerticesNum;
 
-		Shader lineShader;
+		Shader* lineShader;
 
 	} lineRenderer;
 
@@ -150,7 +150,7 @@ private:
 
 		int curVerticesNum;
 
-		Shader rcLineShader;
+		Shader* rcLineShader;
 	} rcLineRenderer;
 
 	class TriangleRenderer
@@ -183,9 +183,7 @@ private:
 
 		int curVerticesNum;
 
-		Shader triangleShader;
-
-		Shader radialGradientShader;
+		Shader* triangleShader;
 
 	} triangleRenderer;
 };

@@ -145,20 +145,72 @@ unsigned int Shader::CreateShader(const std::vector<std::string>& shaderSource)
 	return program;
 }
 
-Shader::Shader()
-{
-	programID = 0;
-}
-
 Shader::~Shader()
 {
 	glUseProgram(0);
 	glDeleteProgram(programID);
 }
 
-void Shader::create(const std::string& filePath)
+Shader::Shader(const std::string& filePath) :
+	programID(CreateShader(ParseShader(filePath)))
 {
-	programID = CreateShader(ParseShader(filePath));
+}
+
+Shader::Shader(const std::string& vertPath, const std::string& fragPath):
+	programID(0)
+{
+	programID = glCreateProgram();
+
+	unsigned int vs = 0;
+	unsigned int fs = 0;
+
+	bool succeed = true;
+
+	std::string vertSource = Utils::File::readAllText(vertPath);
+	std::string fragSource = Utils::File::readAllText(fragPath);
+
+	vs = CompileShader(vertSource, GL_VERTEX_SHADER);
+
+	std::cout << "[class Shader] " << vertPath << " VertexShader compile ";
+	if (vs)
+	{
+		std::cout << "succeed!\n";
+	}
+	else
+	{
+		std::cout << "failed!\n";
+	}
+
+	glAttachShader(programID, vs);
+	glDeleteShader(vs);
+
+	fs = CompileShader(fragSource, GL_FRAGMENT_SHADER);
+
+	std::cout << "[class Shader] " << fragPath << " FragmentShader compile ";
+	if (fs)
+	{
+		std::cout << "succeed!\n";
+	}
+	else
+	{
+		std::cout << "failed!\n";
+	}
+
+	glAttachShader(programID, fs);
+	glDeleteShader(fs);
+
+	glLinkProgram(programID);
+	glValidateProgram(programID);
+}
+
+Shader* Shader::create(const std::string& filePath)
+{
+	return new Shader(filePath);
+}
+
+Shader* Shader::create(const std::string& vertPath, const std::string& fragPath)
+{
+	return new Shader(vertPath, fragPath);
 }
 
 void Shader::bind() const

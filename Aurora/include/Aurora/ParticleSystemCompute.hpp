@@ -37,9 +37,9 @@ public:
 
 	unsigned int tbos[2];
 
-	Shader shader;
+	Shader* shader;
 
-	Shader computeShader;
+	Shader* computeShader;
 
 	const float particleSize;
 

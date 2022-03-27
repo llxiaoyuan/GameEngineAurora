@@ -69,7 +69,7 @@
     <ClInclude Include="Aurora\include\Aurora\Texture.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\include\Aurora\Utility.hpp">
+    <ClInclude Include="Aurora\include\Aurora\Utils.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Aurora\tools\glad\glad.h">
@@ -1154,7 +1154,7 @@
     <ClCompile Include="Aurora\src\Aurora\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\src\Aurora\Utility.cpp">
+    <ClCompile Include="Aurora\src\Aurora\Utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp">

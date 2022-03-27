@@ -1,22 +1,22 @@
 #include<Aurora/ParticleSystemCompute.hpp>
 
 ParticleSystemCompute::ParticleSystemCompute(const float& particleSize, const int& maxParticleNumber) :
-	particleSize(particleSize), maxParticleNumber(maxParticleNumber), VAO(0), posVBO(0), velVBO(0), colorVBO(0), tbos{ 0,0 }
+	particleSize(particleSize), maxParticleNumber(maxParticleNumber), VAO(0), posVBO(0), velVBO(0), colorVBO(0), tbos{ 0,0 },
+	shader(Shader::create("res\\shaders\\ShapeShader.shader")),computeShader(Shader::create("res\\shaders\\ParticleCompute.shader"))
 {
-	shader.create("res\\shaders\\ShapeShader.shader");
 
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	shader.bind();
-	shader.setMatrix4fv("proj", proj);
-	shader.unbind();
+	shader->bind();
+	shader->setMatrix4fv("proj", proj);
+	shader->unbind();
 
-	computeShader.create("res\\shaders\\ParticleCompute.shader");
-	computeShader.bind();
-	dtLocation = computeShader.getUniformLocation("dt");
-	stateLocation = computeShader.getUniformLocation("state");
-	mousePosLocation = computeShader.getUniformLocation("mousePos");
-	computeShader.unbind();
+	computeShader->create("res\\shaders\\ParticleCompute.shader");
+	computeShader->bind();
+	dtLocation = computeShader->getUniformLocation("dt");
+	stateLocation = computeShader->getUniformLocation("state");
+	mousePosLocation = computeShader->getUniformLocation("mousePos");
+	computeShader->unbind();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -97,11 +97,19 @@ ParticleSystemCompute::~ParticleSystemCompute()
 	glDeleteBuffers(1, &velVBO);
 	glDeleteBuffers(1, &colorVBO);
 	glDeleteTextures(2, tbos);
+	if (shader)
+	{
+		delete shader;
+	}
+	if (computeShader)
+	{
+		delete computeShader;
+	}
 }
 
 void ParticleSystemCompute::update(const float& dt)
 {
-	computeShader.bind();
+	computeShader->bind();
 
 	glBindImageTexture(0, tbos[0], 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
 
@@ -109,26 +117,26 @@ void ParticleSystemCompute::update(const float& dt)
 
 	if (dt >= 0.01f)
 	{
-		computeShader.setVec1f(dtLocation, 0.012f);
+		computeShader->setVec1f(dtLocation, 0.012f);
 	}
 	else
 	{
-		computeShader.setVec1f(dtLocation, dt);
+		computeShader->setVec1f(dtLocation, dt);
 	}
 
 	glDispatchCompute(10000, 1, 1);
 
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
-	computeShader.unbind();
+	computeShader->unbind();
 }
 
 void ParticleSystemCompute::render()
 {
 	glPointSize(particleSize);
-	shader.bind();
+	shader->bind();
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0, maxParticleNumber);
 	glBindVertexArray(0);
-	shader.unbind();
+	shader->unbind();
 }

@@ -1,15 +1,15 @@
 #include<Aurora/ParticleSystem.hpp>
 
 ParticleSystem::ParticleSystem(const float& particleSize, const int& maxParticleNumber) :
-	particles(new Particle[maxParticleNumber]), emitTimer(0.005f), particleSize(particleSize), maxParticleNumber(maxParticleNumber)
+	particles(new Particle[maxParticleNumber]), emitTimer(0.005f), particleSize(particleSize), maxParticleNumber(maxParticleNumber),
+	shader(Shader::create("res\\shaders\\ShapeShader.shader"))
 {
-	shader.create("res\\shaders\\ShapeShader.shader");
 
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	shader.bind();
-	shader.setMatrix4fv("proj", proj);
-	shader.unbind();
+	shader->bind();
+	shader->setMatrix4fv("proj", proj);
+	shader->unbind();
 
 	for (long long i = 0; i < maxParticleNumber; i++)
 	{
@@ -46,6 +46,10 @@ ParticleSystem::~ParticleSystem()
 	if (particles)
 	{
 		delete[] particles;
+	}
+	if (shader)
+	{
+		delete shader;
 	}
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &posVBO);
@@ -126,11 +130,11 @@ void ParticleSystem::render()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glPointSize(particleSize);
-	shader.bind();
+	shader->bind();
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0, maxParticleNumber);
 	glBindVertexArray(0);
-	shader.unbind();
+	shader->unbind();
 }
 
 void ParticleSystem::emit(const ParticleParams& parameters)

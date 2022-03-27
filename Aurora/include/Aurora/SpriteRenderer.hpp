@@ -16,7 +16,6 @@
 #include"Shader.hpp"
 #include"BitmapTexture.hpp"
 
-//ÌùÍ¼äÖÈ¾
 class SpriteRenderer
 {
 public:
@@ -45,9 +44,9 @@ public:
 
 	void renderTexturePoolAdd(RenderTexture* const renderTexture);
 
-	Shader textRenderShader;
+	Shader* textRenderShader;
 
-	Shader instanceRenderShader;
+	Shader* instanceRenderShader;
 
 private:
 

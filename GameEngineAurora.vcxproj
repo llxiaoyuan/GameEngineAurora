@@ -171,7 +171,7 @@
     <ClInclude Include="Aurora\include\Aurora\ShapeRenderer.hpp" />
     <ClInclude Include="Aurora\include\Aurora\SpriteRenderer.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Texture.hpp" />
-    <ClInclude Include="Aurora\include\Aurora\Utility.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Utils.hpp" />
     <ClInclude Include="Aurora\include\Aurora\VideoRecorder.hpp" />
     <ClInclude Include="Aurora\tools\glad\glad.h" />
     <ClInclude Include="Aurora\tools\GLFW\glfw3.h" />
@@ -536,7 +536,7 @@
     <ClCompile Include="Aurora\src\Aurora\ShapeRenderer.cpp" />
     <ClCompile Include="Aurora\src\Aurora\SpriteRenderer.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Texture.cpp" />
-    <ClCompile Include="Aurora\src\Aurora\Utility.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\Utils.cpp" />
     <ClCompile Include="Aurora\src\Aurora\VideoRecorder.cpp" />
     <ClCompile Include="Aurora\tools\glm\detail\glm.cpp" />
     <ClCompile Include="Aurora\tools\stb_image\stb_image.cpp" />

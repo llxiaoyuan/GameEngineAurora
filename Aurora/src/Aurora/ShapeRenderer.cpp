@@ -96,14 +96,14 @@ void ShapeRenderer::drawCircle(const float& x, const float& y, const float& leng
 }
 
 ShapeRenderer::CircleRenderer::CircleRenderer() :
-	curCircleNum(0), circlePos(new glm::vec2[maxCircleNum]), circleColor(new glm::vec4[maxCircleNum]), circleLength(new float[maxCircleNum])
+	curCircleNum(0), circlePos(new glm::vec2[maxCircleNum]), circleColor(new glm::vec4[maxCircleNum]), circleLength(new float[maxCircleNum]),
+	circleShader(Shader::create("res\\shaders\\circleShader.shader"))
 {
-	circleShader.create("res\\shaders\\CircleShader.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	circleShader.bind();
-	circleShader.setMatrix4fv("proj", proj);
-	circleShader.unbind();
+	circleShader->bind();
+	circleShader->setMatrix4fv("proj", proj);
+	circleShader->unbind();
 
 	std::vector<float> positions(128);
 
@@ -172,6 +172,10 @@ ShapeRenderer::CircleRenderer::~CircleRenderer()
 	{
 		delete[] circleLength;
 	}
+	if (circleShader)
+	{
+		delete circleShader;
+	}
 }
 
 void ShapeRenderer::CircleRenderer::begin()
@@ -181,11 +185,11 @@ void ShapeRenderer::CircleRenderer::begin()
 
 void ShapeRenderer::CircleRenderer::end()
 {
-	circleShader.bind();
+	circleShader->bind();
 	glBindVertexArray(VAO);
 	glDrawArraysInstanced(GL_LINE_LOOP, 0, 64, curCircleNum);
 	glBindVertexArray(0);
-	circleShader.unbind();
+	circleShader->unbind();
 }
 
 void ShapeRenderer::CircleRenderer::updateCirclesData()
@@ -211,14 +215,14 @@ void ShapeRenderer::CircleRenderer::addCircle(const float& x, const float& y, co
 }
 
 ShapeRenderer::LineRenderer::LineRenderer() :
-	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum])
+	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]),
+	lineShader(Shader::create("res\\shaders\\ShapeShader.shader"))
 {
-	lineShader.create("res\\shaders\\ShapeShader.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	lineShader.bind();
-	lineShader.setMatrix4fv("proj", proj);
-	lineShader.unbind();
+	lineShader->bind();
+	lineShader->setMatrix4fv("proj", proj);
+	lineShader->unbind();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -252,6 +256,10 @@ ShapeRenderer::LineRenderer::~LineRenderer()
 	{
 		delete[] colors;
 	}
+	if (lineShader)
+	{
+		delete lineShader;
+	}
 }
 
 void ShapeRenderer::LineRenderer::begin()
@@ -261,11 +269,11 @@ void ShapeRenderer::LineRenderer::begin()
 
 void ShapeRenderer::LineRenderer::end()
 {
-	lineShader.bind();
+	lineShader->bind();
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, curVerticesNum);
 	glBindVertexArray(0);
-	lineShader.unbind();
+	lineShader->unbind();
 }
 
 void ShapeRenderer::LineRenderer::updateVerticesData()
@@ -286,20 +294,14 @@ void ShapeRenderer::LineRenderer::addLine(const float& x1, const float& y1, cons
 }
 
 ShapeRenderer::TriangleRenderer::TriangleRenderer() :
-	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum])
+	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]),
+	triangleShader(Shader::create("res\\shaders\\ShapeShader.shader"))
 {
-	triangleShader.create("res\\shaders\\ShapeShader.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	triangleShader.bind();
-	triangleShader.setMatrix4fv("proj", proj);
-	triangleShader.unbind();
-
-	radialGradientShader.create("res\\shaders\\RadialGradient.shader");
-
-	radialGradientShader.bind();
-	radialGradientShader.setMatrix4fv("proj", proj);
-	radialGradientShader.unbind();
+	triangleShader->bind();
+	triangleShader->setMatrix4fv("proj", proj);
+	triangleShader->unbind();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -333,6 +335,10 @@ ShapeRenderer::TriangleRenderer::~TriangleRenderer()
 	{
 		delete[] colors;
 	}
+	if (triangleShader)
+	{
+		delete triangleShader;
+	}
 }
 
 void ShapeRenderer::TriangleRenderer::begin()
@@ -342,11 +348,11 @@ void ShapeRenderer::TriangleRenderer::begin()
 
 void ShapeRenderer::TriangleRenderer::end()
 {
-	triangleShader.bind();
+	triangleShader->bind();
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, curVerticesNum);
 	glBindVertexArray(0);
-	triangleShader.unbind();
+	triangleShader->unbind();
 }
 
 void ShapeRenderer::TriangleRenderer::updateVerticesData()
@@ -365,14 +371,14 @@ void ShapeRenderer::TriangleRenderer::addVertex(const float& x1, const float& y1
 }
 
 ShapeRenderer::RCLineRenderer::RCLineRenderer() :
-	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]), widthArray(new float[maxVerticesNum])
+	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]), widthArray(new float[maxVerticesNum]),
+	rcLineShader(Shader::create("res\\shaders\\RCLineRender.shader"))
 {
-	rcLineShader.create("res\\shaders\\RCLineRender.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
-	rcLineShader.bind();
-	rcLineShader.setMatrix4fv("proj", proj);
-	rcLineShader.unbind();
+	rcLineShader->bind();
+	rcLineShader->setMatrix4fv("proj", proj);
+	rcLineShader->unbind();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -417,6 +423,10 @@ ShapeRenderer::RCLineRenderer::~RCLineRenderer()
 	{
 		delete[] widthArray;
 	}
+	if (rcLineShader)
+	{
+		delete rcLineShader;
+	}
 }
 
 void ShapeRenderer::RCLineRenderer::begin()
@@ -426,11 +436,11 @@ void ShapeRenderer::RCLineRenderer::begin()
 
 void ShapeRenderer::RCLineRenderer::end()
 {
-	rcLineShader.bind();
+	rcLineShader->bind();
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, curVerticesNum);
 	glBindVertexArray(0);
-	rcLineShader.unbind();
+	rcLineShader->unbind();
 }
 
 void ShapeRenderer::RCLineRenderer::updateVerticesData()

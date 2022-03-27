@@ -1,16 +1,16 @@
 #include<Aurora/SpriteRenderer.hpp>
 
-SpriteRenderer::SpriteRenderer()
+SpriteRenderer::SpriteRenderer():
+	textRenderShader(Shader::create("res\\shaders\\TextRender.shader")),
+	instanceRenderShader(Shader::create("res\\shaders\\InstanceRender.shader"))
 {
-	textRenderShader.create("res\\shaders\\TextRender.shader");
-	instanceRenderShader.create("res\\shaders\\InstanceRender.shader");
 	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
-	instanceRenderShader.bind();
-	instanceRenderShader.setMatrix4fv("proj", proj);
-	instanceRenderShader.unbind();
-	textRenderShader.bind();
-	textRenderShader.setMatrix4fv("proj", proj);
-	textRenderShader.unbind();
+	instanceRenderShader->bind();
+	instanceRenderShader->setMatrix4fv("proj", proj);
+	instanceRenderShader->unbind();
+	textRenderShader->bind();
+	textRenderShader->setMatrix4fv("proj", proj);
+	textRenderShader->unbind();
 }
 
 SpriteRenderer* SpriteRenderer::create()
@@ -21,6 +21,14 @@ SpriteRenderer* SpriteRenderer::create()
 SpriteRenderer::~SpriteRenderer()
 {
 	std::cout << "[" << typeid(*this).name() << "] release!\n";
+	if (instanceRenderShader)
+	{
+		delete instanceRenderShader;
+	}
+	if (textRenderShader)
+	{
+		delete textRenderShader;
+	}
 }
 
 void SpriteRenderer::begin()
@@ -32,7 +40,7 @@ void SpriteRenderer::begin()
 
 void SpriteRenderer::end()
 {
-	instanceRenderShader.bind();
+	instanceRenderShader->bind();
 
 	for (size_t i = 0; i < texturePool.size(); i++)
 	{
@@ -54,7 +62,7 @@ void SpriteRenderer::end()
 		renderTexturePool[i]->checkOut();
 	}
 
-	textRenderShader.bind();
+	textRenderShader->bind();
 
 	for (size_t i = 0; i < bitmapTexturePool.size(); i++)
 	{
@@ -65,7 +73,7 @@ void SpriteRenderer::end()
 		bitmapTexturePool[i]->checkOut();
 	}
 
-	textRenderShader.unbind();
+	textRenderShader->unbind();
 }
 
 void SpriteRenderer::draw(Texture* const texture, const float& x, const float& y)

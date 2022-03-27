@@ -1,7 +1,6 @@
 #pragma once
 
 #include<Aurora/Actor.hpp>
-#include<Aurora/Utility.hpp>
 
 class Cloud :public Actor
 {
