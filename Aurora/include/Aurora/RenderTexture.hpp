@@ -7,6 +7,8 @@
 #include<glm/glm.hpp>
 #include<iostream>
 
+#include"GL/GL.hpp"
+
 class RenderTexture
 {
 public:
@@ -31,17 +33,13 @@ private:
 
 	int height;
 
-	unsigned int FBO;
+	FBO* fbo;
 
 	unsigned int VAO;
 
 	unsigned int VBO;
 
-	unsigned int instanceVBO;
-
-	unsigned int textureID;
-
-	unsigned int RBO;
+	unsigned int positionBuffer;
 
 	static constexpr int defaultMaxMatricesNum = 16384;
 

@@ -1,33 +1,8 @@
 #include<Aurora/RenderTexture.hpp>
 
 RenderTexture::RenderTexture(const int& _width, const int& _height, const float& r, const float& g, const float& b, const float& a) :
-	FBO(0), width(_width), height(_height), VAO(0), VBO(0), instanceVBO(0), textureID(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
+	fbo(GL::createFBO(width,height,r,g,b,a)), width(_width), height(_height), VAO(0), VBO(0), positionBuffer(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
 {
-	glGenFramebuffers(1, &FBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
-	glGenRenderbuffers(1, &RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glClearColor(r, g, b, a);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	float positions[] = { 0,0,0,0,(float)width,0,1.f,0,(float)width,(float)height,1.f,1.f,0,(float)height,0,1.f };
 
 	glGenVertexArrays(1, &VAO);
@@ -40,8 +15,8 @@ RenderTexture::RenderTexture(const int& _width, const int& _height, const float&
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	glGenBuffers(1, &instanceVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glGenBuffers(1, &positionBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * defaultMaxMatricesNum, nullptr, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -68,12 +43,10 @@ RenderTexture* RenderTexture::create(const int& width, const int& height, const 
 
 RenderTexture::~RenderTexture()
 {
-	glDeleteFramebuffers(1, &FBO);
-	glDeleteTextures(1, &textureID);
-	glDeleteRenderbuffers(1, &RBO);
+	delete fbo;
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &instanceVBO);
+	glDeleteBuffers(1, &positionBuffer);
 	if (modelMatrices)
 	{
 		delete[] modelMatrices;
@@ -82,12 +55,12 @@ RenderTexture::~RenderTexture()
 
 void RenderTexture::bind() const
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	fbo->bindFBO();
 }
 
 void RenderTexture::unbind() const
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	fbo->unbindFBO();
 }
 
 void RenderTexture::drawInstance() const
@@ -97,7 +70,7 @@ void RenderTexture::drawInstance() const
 
 void RenderTexture::updateMatrices() const
 {
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, curMatricesNum * sizeof(glm::mat4), modelMatrices);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

@@ -156,6 +156,8 @@
     <ClInclude Include="Aurora\include\Aurora\Configuration.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Game.hpp" />
     <ClInclude Include="Aurora\include\Aurora\GameSceneManager.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\GL\FBO.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\GL\GL.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Graphics.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Keyboard.hpp" />
     <ClInclude Include="Aurora\include\Aurora\ParticleSystem.hpp" />
@@ -496,7 +498,6 @@
     <ClInclude Include="src\FireWorks\Objects.hpp" />
     <ClInclude Include="src\FireWorks\ShellConfig.hpp" />
     <ClInclude Include="src\FluidSimulation\FluidSimulationScene.hpp" />
-    <ClInclude Include="src\FluidSimulation\FluidParticleSystem.hpp" />
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />
     <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp" />
     <ClInclude Include="src\FourierDrawing\json.hpp" />
@@ -521,6 +522,7 @@
     <ClCompile Include="Aurora\src\Aurora\Camera.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Configuration.cpp" />
     <ClCompile Include="Aurora\src\Aurora\glad.c" />
+    <ClCompile Include="Aurora\src\Aurora\GL\GL.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Graphics.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Keyboard.cpp" />
     <ClCompile Include="Aurora\src\Aurora\ParticleSystem.cpp" />

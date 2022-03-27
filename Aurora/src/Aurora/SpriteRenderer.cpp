@@ -55,10 +55,10 @@ void SpriteRenderer::end()
 	{
 		renderTexturePool[i]->updateMatrices();
 		glBindVertexArray(renderTexturePool[i]->VAO);
-		glBindTexture(GL_TEXTURE_2D, renderTexturePool[i]->textureID);
+		renderTexturePool[i]->fbo->attachTexture();
 		renderTexturePool[i]->drawInstance();
+		renderTexturePool[i]->fbo->dettachTexture();
 		glBindVertexArray(0);
-		glBindTexture(GL_TEXTURE_2D, 0);
 		renderTexturePool[i]->checkOut();
 	}
 

@@ -9,7 +9,7 @@ public:
 	SampleScene(GameSceneManager* gsm) :
 		Scene(gsm)
 	{
-		std::cout << Utils::File::readAllText("info.txt") << "\n";
+		
 	}
 
 	~SampleScene()

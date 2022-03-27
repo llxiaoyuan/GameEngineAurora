@@ -2,8 +2,6 @@
 
 #include<Aurora/GameSceneManager.hpp>
 
-#include"FluidParticleSystem.hpp"
-
 class FluidSimulationScene :public Scene
 {
 public:
@@ -31,16 +29,21 @@ public:
 
 	void update(const float& dt) override
 	{
-
+		
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(0, 0, 0, 1);
-		particleSystem.render();
+		glClearColor(0, 0, 1, 1);
 	}
 
-	FluidParticleSystem particleSystem;
+private:
+
+	void step(const float& dt)
+	{
+		glDisable(GL_BLEND);
+
+	}
 
 };
