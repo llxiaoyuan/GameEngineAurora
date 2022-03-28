@@ -4,7 +4,7 @@
 
 #include"Config.hpp"
 #include"DoubleFBO.hpp"
-#include"pointerPrototype.hpp"
+#include"PointerPrototype.hpp"
 
 #include<string>
 #include<vector>
@@ -37,7 +37,7 @@ public:
 		std::string clearShader = "res\\FluidSimulationRes\\shaders\\clearShader.frag";
 		std::string colorShader = "res\\FluidSimulationRes\\shaders\\colorShader.frag";
 		std::string checkerboardShader = "res\\FluidSimulationRes\\shaders\\checkerboardShader.frag";
-		std::string displayShader = "res\\FluidSimulationRes\\shaders\\displayShaderSource.frag";
+		std::string displayShader = "res\\FluidSimulationRes\\shaders\\displayShader.frag";
 		std::string bloomPrefilterShader = "res\\FluidSimulationRes\\shaders\\bloomPrefilterShader.frag";
 		std::string bloomBlurShader = "res\\FluidSimulationRes\\shaders\\bloomBlurShader.frag";
 		std::string bloomFinalShader = "res\\FluidSimulationRes\\shaders\\bloomFinalShader.frag";
@@ -70,7 +70,35 @@ public:
 		gradienSubtractProgram = Shader::create(baseVertexShader, gradientSubtractShader);
 		displayProgram = Shader::create(baseVertexShader, displayShader);
 
-		initFramebuffers();
+		{
+			Resolution simRes = getResolution(config.SIM_RESOLUTION);
+			Resolution dyeRes = getResolution(config.DYE_RESOLUTION);
+
+			unsigned int texType = GL_HALF_FLOAT;
+
+			PixelFormat rgba = { GL_RGBA16F,GL_RGBA };
+			PixelFormat rg = { GL_RG16F,GL_RG };
+			PixelFormat r = { GL_R16F,GL_RED };
+
+			dye = new DoubleFBO(dyeRes.width, dyeRes.height, rgba.internalFormat, rgba.format, texType, GL_LINEAR);
+
+			velocity = new DoubleFBO(simRes.width, simRes.height, rg.internalFormat, rg.format, texType, GL_LINEAR);
+
+			divergence = GL::createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
+			curl = GL::createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
+			pressure = new DoubleFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
+		}
+
+		{
+			Resolution res = getResolution(config.SUNRAYS_RESOLUTION);
+
+			unsigned int texType = GL_HALF_FLOAT;
+
+			PixelFormat r = { GL_R16F,GL_RED };
+
+			sunrays = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
+			sunraysTemp = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
+		}
 	}
 
 	~FluidSimulationScene()
@@ -159,7 +187,7 @@ public:
 
 private:
 
-	void bilt(FBO* const destination)
+	void blit(FBO* const destination)
 	{
 		glBindVertexArray(biltVAO);
 		destination->bindFBO();
@@ -168,40 +196,32 @@ private:
 		glBindVertexArray(0);
 	}
 
-	void initFramebuffers()
+	void updateColors(const float& dt)
 	{
-		Resolution simRes = getResolution(config.SIM_RESOLUTION);
-		Resolution dyeRes = getResolution(config.DYE_RESOLUTION);
-
-		unsigned int texType = GL_HALF_FLOAT;
-		
-		PixelFormat rgba = { GL_RGBA16F,GL_RGBA };
-		PixelFormat rg = { GL_RG16F,GL_RG };
-		PixelFormat r = { GL_R16F,GL_RED };
-
-		dye = new DoubleFBO(dyeRes.width, dyeRes.height, rgba.internalFormat, rgba.format, texType, GL_LINEAR);
-
-		velocity = new DoubleFBO(simRes.width, simRes.height, rg.internalFormat, rg.format, texType, GL_LINEAR);
-
-		divergence = GL::createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
-		curl = GL::createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
-		pressure = new DoubleFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
-
-		initSunraysFramebuffers();
+		colorUpdateTimer += dt * config.COLOR_UPDATE_SPEED;
+		if (colorUpdateTimer >= 1.f)
+		{
+			colorUpdateTimer = 0;
+			for (PointerPrototype* const pointer : pointers)
+			{
+				pointer->makeColorRandom();
+			}
+		}
 	}
 
-	void initSunraysFramebuffers()
+	void step(const float& dt)
 	{
-		Resolution res = getResolution(config.SUNRAYS_RESOLUTION);
+		glDisable(GL_BLEND);
+		glViewport(0, 0, velocity->width, velocity->height);
 
-		unsigned int texType = GL_HALF_FLOAT;
+		curlProgram->bind();
+		glUniform2f(curlProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		blit(curl);
 
-		PixelFormat r = { GL_R16F,GL_RED };
-		
-		sunrays = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
-		sunraysTemp = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
 
 	}
+
+	float colorUpdateTimer = 0.0f;
 
 	const Config config;
 
@@ -228,7 +248,7 @@ private:
 	Shader* gradienSubtractProgram;
 	Shader* displayProgram;
 
-	std::vector<pointerPrototype*> pointers;
+	std::vector<PointerPrototype*> pointers;
 
 	DoubleFBO* dye;
 	DoubleFBO* velocity;

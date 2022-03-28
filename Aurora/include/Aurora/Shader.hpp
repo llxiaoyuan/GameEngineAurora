@@ -43,6 +43,8 @@ public:
 
 	std::unordered_map<std::string,const int> uniforms;
 
+	int operator[](const std::string& str);
+
 private:
 
 	Shader() = delete;

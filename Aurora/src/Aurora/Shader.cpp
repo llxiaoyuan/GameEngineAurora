@@ -193,7 +193,15 @@ Shader::Shader(const std::string& vertPath, const std::string& fragPath):
 
 	vs = CompileShader(vertSource, GL_VERTEX_SHADER);
 
+	if (vertSource=="")
+	{
+		std::cout << "[class Shader] vertex shader file is empty!\n";
+	}
 
+	if (fragSource == "")
+	{
+		std::cout << "[class Shader] fragment shader file is empty!\n";
+	}
 
 	std::cout << "[class Shader] " << vertPath << " VertexShader compile ";
 	if (vs)
@@ -300,5 +308,10 @@ void Shader::setVec4f(const char* name, const float& x, const float& y, const fl
 void Shader::setVec4f(const int& location, const float& x, const float& y, const float& z, const float& w) const
 {
 	glUniform4f(location, x, y, z, w);
+}
+
+int Shader::operator[](const std::string& str)
+{
+	return uniforms[str];
 }
 

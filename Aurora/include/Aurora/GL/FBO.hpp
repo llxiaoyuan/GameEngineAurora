@@ -36,10 +36,11 @@ public:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void attachTexture(unsigned int id = 0)
+	unsigned int attachTexture(unsigned int id = 0)
 	{
 		glActiveTexture(GL_TEXTURE0 + id);
 		glBindTexture(GL_TEXTURE_2D, textureID);
+		return id;
 	}
 
 	void dettachTexture()
