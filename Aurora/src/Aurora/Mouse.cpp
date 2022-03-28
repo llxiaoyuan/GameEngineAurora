@@ -10,8 +10,16 @@ bool Mouse::rightUp = false;
 bool Mouse::leftRepeat = false;
 bool Mouse::rightRepeat = false;
 
+bool Mouse::moved = false;
+
+float Mouse::dx = 0;
+float Mouse::dy = 0;
+
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
+	Mouse::moved = true;
+	Mouse::dx = xpos - Mouse::pos.x;
+	Mouse::dy = ypos - Mouse::pos.y;
 	Mouse::pos = glm::vec2(xpos, Graphics::getHeight() - ypos);
 }
 
@@ -80,10 +88,16 @@ const bool& Mouse::isRightRepeat()
 	return rightRepeat;
 }
 
+const bool& Mouse::getMoved()
+{
+	return moved;
+}
+
 void Mouse::reFresh()
 {
 	leftDown = false;
 	rightDown = false;
 	leftUp = false;
 	rightUp = false;
+	moved = false;
 }

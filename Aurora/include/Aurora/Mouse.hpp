@@ -31,6 +31,8 @@ public:
 
 	static const bool& isRightRepeat();
 
+	static const bool& getMoved();
+
 	static void reFresh();
 
 private:
@@ -48,6 +50,12 @@ private:
 	static bool rightUp;
 
 	static bool rightRepeat;
+
+	static bool moved;
+
+	static float dx;
+
+	static float dy;
 
 	friend class Aurora;
 	

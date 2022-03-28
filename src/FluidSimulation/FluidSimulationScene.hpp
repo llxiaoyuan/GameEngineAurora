@@ -8,6 +8,7 @@
 
 #include<string>
 #include<vector>
+#include<cmath>
 
 class FluidSimulationScene :public Scene
 {
@@ -21,7 +22,7 @@ public:
 		glGenBuffers(1, &biltVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, biltVBO);
 
-		float positions[] = { -1,-1,1,-1,1,1,-1,1 };
+		float positions[] = { -1, -1, -1, 1, 1, 1, 1, -1 };
 
 		glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
@@ -97,6 +98,8 @@ public:
 			sunrays = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
 			sunraysTemp = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
 		}
+
+		pointers.push_back(new PointerPrototype());
 	}
 
 	~FluidSimulationScene()
@@ -170,18 +173,51 @@ public:
 	{
 		if (Mouse::isLeftDown())
 		{
-			
+			int posX = Mouse::getPosition().x;
+			int posY = Mouse::getPosition().y;
+			updatePointerDownData(pointers[0], -1, posX, Graphics::getHeight() - posY);
+		}
+
+		if (Mouse::getMoved())
+		{
+			if (pointers[0]->down)
+			{
+				int posX = Mouse::getPosition().x;
+				int posY = Mouse::getPosition().y;
+				updatePointerMoveData(pointers[0], posX, Graphics::getHeight() - posY);
+			}
+		}
+
+		if (Mouse::isLeftUp())
+		{
+			updatePointerUpData(pointers[0]);
 		}
 	}
 
 	void update(const float& dt) override
 	{
+		handleinput();
 		updateColors(dt);
+		applyInputs();
+		step(dt);
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
-		render();
+		applySunrays(dye->read(), dye->write(), sunrays);
+		blur(sunrays, sunraysTemp, 1);
+
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+
+		int width = Graphics::getWidth();
+		int height = Graphics::getHeight();
+
+		glViewport(0, 0, width, height);
+
+		drawColor(ColorRGB{ 0,0,0 });
+
+		drawDisplay(width, height);
 	}
 
 private:
@@ -231,7 +267,7 @@ private:
 		glUniform2f(divergenceProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
 		glUniform1i(divergenceProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
 		blit(divergence->fbo);
-		
+
 		clearProgram->bind();
 		glUniform1i(clearProgram->uniforms["uTexture"], pressure->read()->attachTexture(0));
 		glUniform1f(clearProgram->uniforms["value"], config.PRESSURE);
@@ -275,24 +311,6 @@ private:
 
 	}
 
-	void render()
-	{
-		applySunrays(dye->read(), dye->write(), sunrays);
-		blur(sunrays, sunraysTemp, 1);
-
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-
-		int width = Graphics::getWidth();
-		int height = Graphics::getHeight();
-
-		glViewport(0, 0, width, height);
-
-		drawColor(ColorRGB{ 0,0,0 });
-
-		drawDisplay(width, height);
-	}
-
 	void drawColor(const ColorRGB& color)
 	{
 		colorProgram->bind();
@@ -300,7 +318,7 @@ private:
 		blit(0);
 	}
 
-	void drawDisplay(const int& width,const int& height)
+	void drawDisplay(const int& width, const int& height)
 	{
 		displayProgram->bind();
 		glUniform2f(displayProgram->uniforms["texelSize"], 1.0f / width, 1.0f / height);
@@ -309,7 +327,7 @@ private:
 		blit(0);
 	}
 
-	void applySunrays(FBO* const source,FBO* const mask,FBO* const destination)
+	void applySunrays(FBO* const source, FBO* const mask, FBO* const destination)
 	{
 		glDisable(GL_BLEND);
 		sunraysMaskProgram->bind();
@@ -327,7 +345,7 @@ private:
 	void blur(FBO* const target, FBO* const temp, const int& iterations)
 	{
 		blurProgram->bind();
-		for (int i = 0; i < iterations; i++) 
+		for (int i = 0; i < iterations; i++)
 		{
 			glUniform2f(blurProgram->uniforms["texelSize"], target->texelSizeX, 0.0);
 			glUniform1i(blurProgram->uniforms["uTexture"], target->attachTexture(0));
@@ -339,27 +357,23 @@ private:
 		}
 	}
 
+	void applyInputs()
+	{
+		for (PointerPrototype* const p : pointers)
+		{
+			if (p->moved)
+			{
+				p->moved = false;
+				splatPointer(p);
+			}
+		}
+	}
+
 	void splatPointer(PointerPrototype* const pointer)
 	{
 		float dx = pointer->deltaX * config.SPLAT_FORCE;
 		float dy = pointer->deltaY * config.SPLAT_FORCE;
 		splat(pointer->texcoordX, pointer->texcoordY, dx, dy, pointer->r, pointer->g, pointer->b);
-	}
-
-	void multipleSplats(const int& amount) 
-	{
-		for (int i = 0; i < amount; i++) 
-		{
-			ColorRGB color = generateColor();
-			color.r *= 10.0;
-			color.g *= 10.0;
-			color.b *= 10.0;
-			float x = Random::Float();
-			float y = Random::Float();
-			float dx = 1000.f * (Random::Float() - 0.5f);
-			float dy = 1000.f * (Random::Float() - 0.5f);
-			splat(x, y, dx, dy, color.r, color.g, color.b);
-		}
 	}
 
 	void splat(const float& x, const float& y, const float& dx, const float& dy, const float& r, const float& g, const float& b)
@@ -386,6 +400,43 @@ private:
 		float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
 		radius *= aspectRatio;
 		return radius;
+	}
+
+	void updatePointerDownData(PointerPrototype* const pointer, const int& id, const float& posX, const float& posY)
+	{
+		pointer->id = id;
+		pointer->down = true;
+		pointer->moved = false;
+		pointer->texcoordX = posX / Graphics::getWidth();
+		pointer->texcoordY = 1.0 - posY / Graphics::getHeight();
+		pointer->prevTexcoordX = pointer->texcoordX;
+		pointer->prevTexcoordY = pointer->texcoordY;
+		pointer->deltaX = 0;
+		pointer->deltaY = 0;
+		pointer->makeColorRandom();
+	}
+
+	void updatePointerMoveData(PointerPrototype* const pointer,const float& posX,const float& posY) 
+	{
+		pointer->prevTexcoordX = pointer->texcoordX;
+		pointer->prevTexcoordY = pointer->texcoordY;
+		pointer->texcoordX = posX / Graphics::getWidth();
+		pointer->texcoordY = 1.0f - posY / Graphics::getHeight();
+		pointer->deltaX = pointer->texcoordX - pointer->prevTexcoordX;
+		pointer->deltaY = correctDeltaY(pointer->texcoordY - pointer->prevTexcoordY);
+		pointer->moved = fabsf(pointer->deltaX) > 0 || fabsf(pointer->deltaY) > 0;
+	}
+
+	void updatePointerUpData(PointerPrototype* const pointer)
+	{
+		pointer->down = false;
+	}
+
+	float correctDeltaY(float delta) 
+	{
+		float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
+		delta /= aspectRatio;
+		return delta;
 	}
 
 	float colorUpdateTimer = 0.0f;

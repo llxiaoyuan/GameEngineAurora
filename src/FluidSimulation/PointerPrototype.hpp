@@ -30,11 +30,6 @@ ColorRGB HSVtoRGB(const float& h, const float& s, const float& v)
 	return { r,g,b };
 }
 
-ColorRGB normalizeColor(const ColorRGB& c)
-{
-	return { c.r / 255.f,c.g / 255.f,c.b / 255.f };
-}
-
 struct PointerPrototype
 {
 	int id = -1;
