@@ -2,21 +2,23 @@
 
 #include<Aurora/Random.hpp>
 
-struct Color
+struct ColorRGB
 {
 	float r;
 	float g;
 	float b;
-}HSVtoRGB(const float& h, const float& s, const float& v)
-{
-	float r, g, b, i, f, p, q, t;
-	i = floorf(h * 6.f);
-	float f = h * 6 - i;
-	float p = v * (1 - s);
-	float q = v * (1 - f * s);
-	float t = v * (1 - (1 - f) * s);
+};
 
-	switch ((int)i % 6) {
+ColorRGB HSVtoRGB(const float& h, const float& s, const float& v)
+{
+	float r, g, b, f, p, q, t;
+	int i = floorf(h * 6.f);
+	f = h * 6 - i;
+	p = v * (1 - s);
+	q = v * (1 - f * s);
+	t = v * (1 - (1 - f) * s);
+
+	switch (i % 6) {
 	case 0: r = v, g = t, b = p; break;
 	case 1: r = q, g = v, b = p; break;
 	case 2: r = p, g = v, b = t; break;
@@ -28,7 +30,7 @@ struct Color
 	return { r,g,b };
 }
 
-Color normalizeColor(const Color& c)
+ColorRGB normalizeColor(const ColorRGB& c)
 {
 	return { c.r / 255.f,c.g / 255.f,c.b / 255.f };
 }
@@ -50,10 +52,19 @@ struct PointerPrototype
 
 	void makeColorRandom()
 	{
-		const Color c = HSVtoRGB(Random::Float(), 1.0, 1.0);
+		const ColorRGB c = HSVtoRGB(Random::Float(), 1.0, 1.0);
 		r = c.r * 0.15f;
 		g = c.g * 0.15f;
 		b = c.b * 0.15f;
 	}
 
 };
+
+ColorRGB generateColor()
+{
+	ColorRGB c = HSVtoRGB(Random::Float(), 1.0, 1.0);
+	c.r *= 0.15f;
+	c.g *= 0.15f;
+	c.b *= 0.15f;
+	return c;
+}

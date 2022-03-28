@@ -173,13 +173,13 @@ public:
 
 	void update(const float& dt) override
 	{
-
+		updateColors(dt);
+		
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(0, 0, 1, 1);
+		render();
 	}
 
 private:
