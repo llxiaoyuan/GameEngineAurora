@@ -197,9 +197,18 @@ public:
 	void update(const float& dt) override
 	{
 		handleinput();
-		updateColors(dt);
-		applyInputs();
-		step(dt);
+		if (dt > 0.009f)
+		{
+			updateColors(0.009f);
+			applyInputs();
+			step(0.009f);
+		}
+		else
+		{
+			updateColors(dt);
+			applyInputs();
+			step(dt);
+		}
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
