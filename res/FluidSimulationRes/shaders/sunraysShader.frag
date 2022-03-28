@@ -1,4 +1,4 @@
-#version 430 core
+#version 330 core
     precision highp float;
     precision highp sampler2D;
 

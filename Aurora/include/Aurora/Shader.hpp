@@ -11,6 +11,8 @@
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 
+#include<unordered_map>
+
 #include"Utils.hpp"
 
 class Shader
@@ -38,6 +40,8 @@ public:
 	void setVec4f(const char* name, const float& x, const float& y, const float& z, const float& w) const;
 
 	void setVec4f(const int& location, const float& x, const float& y, const float& z, const float& w) const;
+
+	std::unordered_map<std::string,const int> uniforms;
 
 private:
 

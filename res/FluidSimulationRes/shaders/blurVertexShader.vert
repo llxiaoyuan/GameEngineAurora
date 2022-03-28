@@ -1,4 +1,4 @@
-#version 430 core    
+#version 330 core    
     precision highp float;
 
     attribute vec2 aPosition;

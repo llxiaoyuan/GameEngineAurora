@@ -154,6 +154,28 @@ Shader::~Shader()
 Shader::Shader(const std::string& filePath) :
 	programID(CreateShader(ParseShader(filePath)))
 {
+	int uniformCount;
+	glGetProgramiv(programID, GL_ACTIVE_UNIFORMS, &uniformCount);
+
+	int maxUniformLen;
+	glGetProgramiv(programID, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxUniformLen);
+
+	char* uniformName = new char[maxUniformLen];
+
+	for (int index = 0; index < uniformCount; index++)
+	{
+		int size;
+
+		unsigned int type;
+
+		glGetActiveUniform(programID, index, maxUniformLen, nullptr, &size, &type, uniformName);
+
+		const int location = glGetUniformLocation(programID, uniformName);
+
+		uniforms.insert(std::pair<std::string,const int>(uniformName, location));
+	}
+
+	delete[] uniformName;
 }
 
 Shader::Shader(const std::string& vertPath, const std::string& fragPath):
@@ -170,6 +192,8 @@ Shader::Shader(const std::string& vertPath, const std::string& fragPath):
 	std::string fragSource = Utils::File::readAllText(fragPath);
 
 	vs = CompileShader(vertSource, GL_VERTEX_SHADER);
+
+
 
 	std::cout << "[class Shader] " << vertPath << " VertexShader compile ";
 	if (vs)
@@ -201,6 +225,29 @@ Shader::Shader(const std::string& vertPath, const std::string& fragPath):
 
 	glLinkProgram(programID);
 	glValidateProgram(programID);
+
+	int uniformCount;
+	glGetProgramiv(programID, GL_ACTIVE_UNIFORMS, &uniformCount);
+
+	int maxUniformLen;
+	glGetProgramiv(programID, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxUniformLen);
+
+	char* uniformName = new char[maxUniformLen];
+
+	for (int index = 0; index < uniformCount; index++)
+	{
+		int size;
+
+		unsigned int type;
+
+		glGetActiveUniform(programID, index, maxUniformLen, nullptr, &size, &type, uniformName);
+
+		const int location = glGetUniformLocation(programID, uniformName);
+
+		uniforms.insert(std::pair<std::string,const int>(uniformName, location));
+	}
+
+	delete[] uniformName;
 }
 
 Shader* Shader::create(const std::string& filePath)

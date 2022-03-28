@@ -96,7 +96,7 @@ public:
 
 	void handleinput() override
 	{
-
+		
 	}
 
 	void update(const float& dt) override
@@ -115,9 +115,9 @@ private:
 	void bilt(FBO* const destination)
 	{
 		glBindVertexArray(biltVAO);
-		destination->attachTexture();
+		destination->bindFBO();
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		destination->dettachTexture();
+		destination->unbindFBO();
 		glBindVertexArray(0);
 	}
 
