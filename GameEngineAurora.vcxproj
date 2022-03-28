@@ -497,6 +497,7 @@
     <ClInclude Include="src\FireWorks\FireworkScene.hpp" />
     <ClInclude Include="src\FireWorks\Objects.hpp" />
     <ClInclude Include="src\FireWorks\ShellConfig.hpp" />
+    <ClInclude Include="src\FluidSimulation\DoubleFBO.hpp" />
     <ClInclude Include="src\FluidSimulation\FluidSimulationScene.hpp" />
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />
     <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp" />

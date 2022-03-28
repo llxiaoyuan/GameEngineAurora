@@ -7,7 +7,6 @@
     varying vec2 vT;
     varying vec2 vB;
     uniform sampler2D uTexture;
-    uniform float intensity;
 
     void main () {
         vec4 sum = vec4(0.0);
@@ -16,5 +15,5 @@
         sum += texture2D(uTexture, vT);
         sum += texture2D(uTexture, vB);
         sum *= 0.25;
-        gl_FragColor = sum * intensity;
+        gl_FragColor = sum;
     }
