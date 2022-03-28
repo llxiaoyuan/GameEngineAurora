@@ -36,7 +36,6 @@ public:
 		std::string copyShader = "res\\FluidSimulationRes\\shaders\\copyShader.frag";
 		std::string clearShader = "res\\FluidSimulationRes\\shaders\\clearShader.frag";
 		std::string colorShader = "res\\FluidSimulationRes\\shaders\\colorShader.frag";
-		std::string checkerboardShader = "res\\FluidSimulationRes\\shaders\\checkerboardShader.frag";
 		std::string displayShader = "res\\FluidSimulationRes\\shaders\\displayShader.frag";
 		std::string bloomPrefilterShader = "res\\FluidSimulationRes\\shaders\\bloomPrefilterShader.frag";
 		std::string bloomBlurShader = "res\\FluidSimulationRes\\shaders\\bloomBlurShader.frag";
@@ -55,7 +54,6 @@ public:
 		copyProgram = Shader::create(baseVertexShader, copyShader);
 		clearProgram = Shader::create(baseVertexShader, clearShader);
 		colorProgram = Shader::create(baseVertexShader, colorShader);
-		checkerboardProgram = Shader::create(baseVertexShader, checkerboardShader);
 		bloomPrefilterProgram = Shader::create(baseVertexShader, bloomPrefilterShader);
 		bloomBlurProgram = Shader::create(baseVertexShader, bloomBlurShader);
 		bloomFinalProgram = Shader::create(baseVertexShader, bloomFinalShader);
@@ -107,7 +105,6 @@ public:
 		delete copyProgram;
 		delete clearProgram;
 		delete colorProgram;
-		delete checkerboardProgram;
 		delete bloomPrefilterProgram;
 		delete bloomBlurProgram;
 		delete bloomFinalProgram;
@@ -187,12 +184,12 @@ public:
 
 private:
 
-	void blit(FBO* const destination)
+	void blit(const unsigned int& fbo)
 	{
 		glBindVertexArray(biltVAO);
-		destination->bindFBO();
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		destination->unbindFBO();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glBindVertexArray(0);
 	}
 
@@ -216,9 +213,177 @@ private:
 
 		curlProgram->bind();
 		glUniform2f(curlProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
-		blit(curl);
+		glUniform1i(curlProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		blit(curl->fbo);
 
+		vorticityProgram->bind();
+		glUniform2f(vorticityProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		glUniform1i(vorticityProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		glUniform1i(vorticityProgram->uniforms["uCurl"], curl->attachTexture(1));
+		glUniform1f(vorticityProgram->uniforms["curl"], config.CURL);
+		glUniform1f(vorticityProgram->uniforms["dt"], dt);
+		blit(velocity->write()->fbo);
+		velocity->swap();
 
+		divergenceProgram->bind();
+		glUniform2f(divergenceProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		glUniform1i(divergenceProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		blit(divergence->fbo);
+		
+		clearProgram->bind();
+		glUniform1i(clearProgram->uniforms["uTexture"], pressure->read()->attachTexture(0));
+		glUniform1f(clearProgram->uniforms["value"], config.PRESSURE);
+		blit(pressure->write()->fbo);
+		pressure->swap();
+
+		pressureProgram->bind();
+		glUniform2f(pressureProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		glUniform1i(pressureProgram->uniforms["uDivergence"], divergence->attachTexture(0));
+		for (int i = 0; i < config.PRESSURE_ITERATIONS; i++)
+		{
+			glUniform1i(pressureProgram->uniforms["uPressure"], pressure->read()->attachTexture(1));
+			blit(pressure->write()->fbo);
+			pressure->swap();
+		}
+
+		gradienSubtractProgram->bind();
+		glUniform2f(gradienSubtractProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		glUniform1i(gradienSubtractProgram->uniforms["uPressure"], pressure->read()->attachTexture(0));
+		glUniform1i(gradienSubtractProgram->uniforms["uVelocity"], velocity->read()->attachTexture(1));
+		blit(velocity->write()->fbo);
+		velocity->swap();
+
+		advectionProgram->bind();
+		glUniform2f(advectionProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		int velocityId = velocity->read()->attachTexture(0);
+		glUniform1i(advectionProgram->uniforms["uVelocity"], velocityId);
+		glUniform1i(advectionProgram->uniforms["uSource"], velocityId);
+		glUniform1f(advectionProgram->uniforms["dt"], dt);
+		glUniform1f(advectionProgram->uniforms["dissipation"], config.VELOCITY_DISSIPATION);
+		blit(velocity->write()->fbo);
+		velocity->swap();
+
+		glViewport(0, 0, dye->width, dye->height);
+
+		glUniform1i(advectionProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		glUniform1i(advectionProgram->uniforms["uSource"], dye->read()->attachTexture(1));
+		glUniform1f(advectionProgram->uniforms["dissipation"], config.DENSITY_DISSIPATION);
+		blit(dye->write()->fbo);
+		dye->swap();
+
+	}
+
+	void render()
+	{
+		applySunrays(dye->read(), dye->write(), sunrays);
+		blur(sunrays, sunraysTemp, 1);
+
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+
+		int width = Graphics::getWidth();
+		int height = Graphics::getHeight();
+
+		glViewport(0, 0, width, height);
+
+		drawColor(ColorRGB{ 0,0,0 });
+
+		drawDisplay(width, height);
+	}
+
+	void drawColor(const ColorRGB& color)
+	{
+		colorProgram->bind();
+		glUniform4f(colorProgram->uniforms["color"], color.r, color.g, color.b, 1);
+		blit(0);
+	}
+
+	void drawDisplay(const int& width,const int& height)
+	{
+		displayProgram->bind();
+		glUniform2f(displayProgram->uniforms["texelSize"], 1.0f / width, 1.0f / height);
+		glUniform1i(displayProgram->uniforms["uTexture"], dye->read()->attachTexture(0));
+		glUniform1i(displayProgram->uniforms["uSunrays"], sunrays->attachTexture(3));
+		blit(0);
+	}
+
+	void applySunrays(FBO* const source,FBO* const mask,FBO* const destination)
+	{
+		glDisable(GL_BLEND);
+		sunraysMaskProgram->bind();
+		glUniform1i(sunraysMaskProgram->uniforms["uTexture"], source->attachTexture(0));
+		glViewport(0, 0, mask->width, mask->height);
+		blit(mask->fbo);
+
+		sunraysProgram->bind();
+		glUniform1f(sunraysProgram->uniforms["weight"], config.SUNRAYS_WEIGHT);
+		glUniform1i(sunraysProgram->uniforms["uTexture"], mask->attachTexture(0));
+		glViewport(0, 0, destination->width, destination->height);
+		blit(destination->fbo);
+	}
+
+	void blur(FBO* const target, FBO* const temp, const int& iterations)
+	{
+		blurProgram->bind();
+		for (int i = 0; i < iterations; i++) 
+		{
+			glUniform2f(blurProgram->uniforms["texelSize"], target->texelSizeX, 0.0);
+			glUniform1i(blurProgram->uniforms["uTexture"], target->attachTexture(0));
+			blit(temp->fbo);
+
+			glUniform2f(blurProgram->uniforms["texelSize"], 0.0, target->texelSizeY);
+			glUniform1i(blurProgram->uniforms["uTexture"], temp->attachTexture(0));
+			blit(target->fbo);
+		}
+	}
+
+	void splatPointer(PointerPrototype* const pointer)
+	{
+		float dx = pointer->deltaX * config.SPLAT_FORCE;
+		float dy = pointer->deltaY * config.SPLAT_FORCE;
+		splat(pointer->texcoordX, pointer->texcoordY, dx, dy, pointer->r, pointer->g, pointer->b);
+	}
+
+	void multipleSplats(const int& amount) 
+	{
+		for (int i = 0; i < amount; i++) 
+		{
+			ColorRGB color = generateColor();
+			color.r *= 10.0;
+			color.g *= 10.0;
+			color.b *= 10.0;
+			float x = Random::Float();
+			float y = Random::Float();
+			float dx = 1000.f * (Random::Float() - 0.5f);
+			float dy = 1000.f * (Random::Float() - 0.5f);
+			splat(x, y, dx, dy, color.r, color.g, color.b);
+		}
+	}
+
+	void splat(const float& x, const float& y, const float& dx, const float& dy, const float& r, const float& g, const float& b)
+	{
+		glViewport(0, 0, velocity->width, velocity->height);
+		splatProgram->bind();
+		glUniform1i(splatProgram->uniforms["uTarget"], velocity->read()->attachTexture(0));
+		glUniform1f(splatProgram->uniforms["aspectRatio"], (float)Graphics::getWidth() / Graphics::getHeight());
+		glUniform2f(splatProgram->uniforms["point"], x, y);
+		glUniform3f(splatProgram->uniforms["color"], dx, dy, 0.f);
+		glUniform1f(splatProgram->uniforms["radius"], correctRadius(config.SPLAT_RADIUS / 100.0f));
+		blit(velocity->write()->fbo);
+		velocity->swap();
+
+		glViewport(0, 0, dye->width, dye->height);
+		glUniform1i(splatProgram->uniforms["uTarget"], dye->read()->attachTexture(0));
+		glUniform3f(splatProgram->uniforms["color"], r, g, b);
+		blit(dye->write()->fbo);
+		dye->swap();
+	}
+
+	float correctRadius(float radius)
+	{
+		float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
+		radius *= aspectRatio;
+		return radius;
 	}
 
 	float colorUpdateTimer = 0.0f;
@@ -233,7 +398,6 @@ private:
 	Shader* copyProgram;
 	Shader* clearProgram;
 	Shader* colorProgram;
-	Shader* checkerboardProgram;
 	Shader* bloomPrefilterProgram;
 	Shader* bloomBlurProgram;
 	Shader* bloomFinalProgram;
