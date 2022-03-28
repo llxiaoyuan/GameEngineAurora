@@ -168,13 +168,15 @@ public:
 
 	void handleinput() override
 	{
-		
+		if (Mouse::isLeftDown())
+		{
+			
+		}
 	}
 
 	void update(const float& dt) override
 	{
 		updateColors(dt);
-		
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override

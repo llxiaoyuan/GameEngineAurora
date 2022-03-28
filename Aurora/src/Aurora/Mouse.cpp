@@ -4,6 +4,9 @@ glm::vec2 Mouse::pos = glm::vec2(0, 0);
 bool Mouse::leftDown = false;
 bool Mouse::rightDown = false;
 
+bool Mouse::leftUp = false;
+bool Mouse::rightUp = false;
+
 bool Mouse::leftRepeat = false;
 bool Mouse::rightRepeat = false;
 
@@ -31,10 +34,12 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	{
 		if (button == GLFW_MOUSE_BUTTON_LEFT)
 		{
+			Mouse::leftUp = true;
 			Mouse::leftRepeat = false;
 		}
 		else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 		{
+			Mouse::rightUp = true;
 			Mouse::rightRepeat = false;
 		}
 	}
@@ -55,6 +60,16 @@ const bool& Mouse::isRightDown()
 	return rightDown;
 }
 
+const bool& Mouse::isLeftUp()
+{
+	return leftUp;
+}
+
+const bool& Mouse::isRightUp()
+{
+	return rightUp;
+}
+
 const bool& Mouse::isLeftRepeat()
 {
 	return leftRepeat;
@@ -69,4 +84,6 @@ void Mouse::reFresh()
 {
 	leftDown = false;
 	rightDown = false;
+	leftUp = false;
+	rightUp = false;
 }

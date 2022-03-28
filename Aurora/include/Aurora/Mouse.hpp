@@ -23,6 +23,10 @@ public:
 
 	static const bool& isRightDown();
 
+	static const bool& isLeftUp();
+
+	static const bool& isRightUp();
+
 	static const bool& isLeftRepeat();
 
 	static const bool& isRightRepeat();
@@ -35,9 +39,13 @@ private:
 
 	static bool leftDown;
 
+	static bool leftUp;
+
 	static bool leftRepeat;
 
 	static bool rightDown;
+
+	static bool rightUp;
 
 	static bool rightRepeat;
 
