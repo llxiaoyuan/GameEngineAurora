@@ -2,12 +2,11 @@
 
 #include<Aurora/GameSceneManager.hpp>
 
-#include"DoubleFBO.hpp"
 #include"Config.hpp"
+#include"DoubleFBO.hpp"
 #include"pointerPrototype.hpp"
 
 #include<string>
-
 #include<vector>
 
 class FluidSimulationScene :public Scene
@@ -38,7 +37,7 @@ public:
 		std::string clearShader = "res\\FluidSimulationRes\\shaders\\clearShader.frag";
 		std::string colorShader = "res\\FluidSimulationRes\\shaders\\colorShader.frag";
 		std::string checkerboardShader = "res\\FluidSimulationRes\\shaders\\checkerboardShader.frag";
-		std::string displayShaderSource = "res\\FluidSimulationRes\\shaders\\displayShaderSource.shader";
+		std::string displayShader = "res\\FluidSimulationRes\\shaders\\displayShaderSource.frag";
 		std::string bloomPrefilterShader = "res\\FluidSimulationRes\\shaders\\bloomPrefilterShader.frag";
 		std::string bloomBlurShader = "res\\FluidSimulationRes\\shaders\\bloomBlurShader.frag";
 		std::string bloomFinalShader = "res\\FluidSimulationRes\\shaders\\bloomFinalShader.frag";
@@ -69,7 +68,9 @@ public:
 		vorticityProgram = Shader::create(baseVertexShader, vorticityShader);
 		pressureProgram = Shader::create(baseVertexShader, pressureShader);
 		gradienSubtractProgram = Shader::create(baseVertexShader, gradientSubtractShader);
+		displayProgram = Shader::create(baseVertexShader, displayShader);
 
+		initFramebuffers();
 	}
 
 	~FluidSimulationScene()
@@ -91,11 +92,48 @@ public:
 		delete vorticityProgram;
 		delete pressureProgram;
 		delete gradienSubtractProgram;
+		delete displayProgram;
 
 		for (int i = 0; i < pointers.size(); i++)
 		{
 			delete pointers[i];
 		}
+
+		if (dye)
+		{
+			delete dye;
+		}
+
+		if (velocity)
+		{
+			delete velocity;
+		}
+
+		if (pressure)
+		{
+			delete pressure;
+		}
+
+		if (divergence)
+		{
+			delete divergence;
+		}
+
+		if (curl)
+		{
+			delete curl;
+		}
+
+		if (sunrays)
+		{
+			delete sunrays;
+		}
+
+		if (sunraysTemp)
+		{
+			delete sunraysTemp;
+		}
+
 	}
 
 	std::unique_ptr<Scene> clone()
@@ -130,6 +168,41 @@ private:
 		glBindVertexArray(0);
 	}
 
+	void initFramebuffers()
+	{
+		Resolution simRes = getResolution(config.SIM_RESOLUTION);
+		Resolution dyeRes = getResolution(config.DYE_RESOLUTION);
+
+		unsigned int texType = GL_HALF_FLOAT;
+		
+		PixelFormat rgba = { GL_RGBA16F,GL_RGBA };
+		PixelFormat rg = { GL_RG16F,GL_RG };
+		PixelFormat r = { GL_R16F,GL_RED };
+
+		dye = new DoubleFBO(dyeRes.width, dyeRes.height, rgba.internalFormat, rgba.format, texType, GL_LINEAR);
+
+		velocity = new DoubleFBO(simRes.width, simRes.height, rg.internalFormat, rg.format, texType, GL_LINEAR);
+
+		divergence = GL::createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
+		curl = GL::createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
+		pressure = new DoubleFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, GL_NEAREST);
+
+		initSunraysFramebuffers();
+	}
+
+	void initSunraysFramebuffers()
+	{
+		Resolution res = getResolution(config.SUNRAYS_RESOLUTION);
+
+		unsigned int texType = GL_HALF_FLOAT;
+
+		PixelFormat r = { GL_R16F,GL_RED };
+		
+		sunrays = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
+		sunraysTemp = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
+
+	}
+
 	const Config config;
 
 	unsigned int biltVAO;
@@ -153,9 +226,17 @@ private:
 	Shader* vorticityProgram;
 	Shader* pressureProgram;
 	Shader* gradienSubtractProgram;
+	Shader* displayProgram;
 
 	std::vector<pointerPrototype*> pointers;
 
+	DoubleFBO* dye;
+	DoubleFBO* velocity;
+	DoubleFBO* pressure;
 
+	FBO* divergence;
+	FBO* curl;
+	FBO* sunrays;
+	FBO* sunraysTemp;
 
 };

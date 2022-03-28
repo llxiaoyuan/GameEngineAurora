@@ -2,6 +2,8 @@
 
 #undef TRANSPARENT
 
+#include<Aurora/Graphics.hpp>
+
 struct Config
 {
 	bool BLOOM = true;
@@ -28,4 +30,23 @@ struct Config
 	float SUNRAYS_WEIGHT = 1;
 	bool TRANSPARENT = false;
 	float VELOCITY_DISSIPATION = 0.2f;
+};
+
+struct Resolution{
+	int width;
+	int height;
+} getResolution(const float& resolution)
+{
+	float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
+
+	int min = roundf(resolution);
+	int max = roundf(resolution * aspectRatio);
+
+	return { max,min };
+}
+
+struct PixelFormat
+{
+	int internalFormat;
+	unsigned int format;
 };
