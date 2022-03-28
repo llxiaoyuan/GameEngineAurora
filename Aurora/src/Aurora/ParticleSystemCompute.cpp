@@ -124,6 +124,10 @@ void ParticleSystemCompute::update(const float& dt)
 		computeShader->setVec1f(dtLocation, dt);
 	}
 
+	glm::vec2 mousePos = Mouse::getPosition();
+
+	//computeShader->setVec4f(computeShader->uniforms["mousePos"], mousePos.x, mousePos.y, 0, 1);
+
 	glDispatchCompute(10000, 1, 1);
 
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);

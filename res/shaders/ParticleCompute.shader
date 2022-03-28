@@ -29,8 +29,6 @@ void main(void)
 
 	vel.xyz += acc * dt;
 
-	//vel.xyz *= 0.999;
-
 	pos.xyz += vel.xyz * dt;
 
 	imageStore(position_buffer, int(gl_GlobalInvocationID.x), pos);
