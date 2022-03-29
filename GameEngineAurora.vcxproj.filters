@@ -1113,7 +1113,7 @@
     <ClInclude Include="src\FluidSimulation\DoubleFBO.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\FluidSimulation\PointerPrototype.hpp">
+    <ClInclude Include="src\FluidSimulation\Pointer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\FluidSimulation\Config.hpp">

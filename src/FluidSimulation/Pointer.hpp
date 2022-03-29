@@ -30,7 +30,7 @@ ColorRGB HSVtoRGB(const float& h, const float& s, const float& v)
 	return { r,g,b };
 }
 
-struct PointerPrototype
+struct Pointer
 {
 	int id = -1;
 	float texcoordX = 0;

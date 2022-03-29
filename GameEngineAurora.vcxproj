@@ -500,7 +500,7 @@
     <ClInclude Include="src\FluidSimulation\Config.hpp" />
     <ClInclude Include="src\FluidSimulation\DoubleFBO.hpp" />
     <ClInclude Include="src\FluidSimulation\FluidSimulationScene.hpp" />
-    <ClInclude Include="src\FluidSimulation\PointerPrototype.hpp" />
+    <ClInclude Include="src\FluidSimulation\Pointer.hpp" />
     <ClInclude Include="src\FourierDrawing\Epicycle.hpp" />
     <ClInclude Include="src\FourierDrawing\FourierDrawing.hpp" />
     <ClInclude Include="src\FourierDrawing\json.hpp" />

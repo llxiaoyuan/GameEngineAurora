@@ -4,7 +4,7 @@
 
 #include"Config.hpp"
 #include"DoubleFBO.hpp"
-#include"PointerPrototype.hpp"
+#include"Pointer.hpp"
 
 #include<string>
 #include<vector>
@@ -17,10 +17,10 @@ public:
 	FluidSimulationScene(GameSceneManager* gsm) :
 		Scene(gsm)
 	{
-		glGenVertexArrays(1, &biltVAO);
-		glBindVertexArray(biltVAO);
-		glGenBuffers(1, &biltVBO);
-		glBindBuffer(GL_ARRAY_BUFFER, biltVBO);
+		glGenVertexArrays(1, &blitVAO);
+		glBindVertexArray(blitVAO);
+		glGenBuffers(1, &blitVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, blitVBO);
 
 		float positions[] = { -1, -1, -1, 1, 1, 1, 1, -1 };
 
@@ -38,9 +38,6 @@ public:
 		std::string clearShader = "res\\FluidSimulationRes\\shaders\\clearShader.frag";
 		std::string colorShader = "res\\FluidSimulationRes\\shaders\\colorShader.frag";
 		std::string displayShader = "res\\FluidSimulationRes\\shaders\\displayShader.frag";
-		std::string bloomPrefilterShader = "res\\FluidSimulationRes\\shaders\\bloomPrefilterShader.frag";
-		std::string bloomBlurShader = "res\\FluidSimulationRes\\shaders\\bloomBlurShader.frag";
-		std::string bloomFinalShader = "res\\FluidSimulationRes\\shaders\\bloomFinalShader.frag";
 		std::string sunraysMaskShader = "res\\FluidSimulationRes\\shaders\\sunraysMaskShader.frag";
 		std::string sunraysShader = "res\\FluidSimulationRes\\shaders\\sunraysShader.frag";
 		std::string splatShader = "res\\FluidSimulationRes\\shaders\\splatShader.frag";
@@ -55,9 +52,6 @@ public:
 		copyProgram = Shader::create(baseVertexShader, copyShader);
 		clearProgram = Shader::create(baseVertexShader, clearShader);
 		colorProgram = Shader::create(baseVertexShader, colorShader);
-		bloomPrefilterProgram = Shader::create(baseVertexShader, bloomPrefilterShader);
-		bloomBlurProgram = Shader::create(baseVertexShader, bloomBlurShader);
-		bloomFinalProgram = Shader::create(baseVertexShader, bloomFinalShader);
 		sunraysMaskProgram = Shader::create(baseVertexShader, sunraysMaskShader);
 		sunraysProgram = Shader::create(baseVertexShader, sunraysShader);
 		splatProgram = Shader::create(baseVertexShader, splatShader);
@@ -99,18 +93,18 @@ public:
 			sunraysTemp = GL::createFBO(res.width, res.height, r.internalFormat, r.format, texType, GL_LINEAR);
 		}
 
-		pointers.push_back(new PointerPrototype());
+		pointer = new Pointer();
 	}
 
 	~FluidSimulationScene()
 	{
+		glDeleteVertexArrays(1, &blitVAO);
+		glDeleteBuffers(1, &blitVBO);
+
 		delete blurProgram;
 		delete copyProgram;
 		delete clearProgram;
 		delete colorProgram;
-		delete bloomPrefilterProgram;
-		delete bloomBlurProgram;
-		delete bloomFinalProgram;
 		delete sunraysMaskProgram;
 		delete sunraysProgram;
 		delete splatProgram;
@@ -122,10 +116,7 @@ public:
 		delete gradienSubtractProgram;
 		delete displayProgram;
 
-		for (int i = 0; i < pointers.size(); i++)
-		{
-			delete pointers[i];
-		}
+		delete pointer;
 
 		if (dye)
 		{
@@ -175,33 +166,33 @@ public:
 		{
 			int posX = Mouse::getPosition().x;
 			int posY = Mouse::getPosition().y;
-			updatePointerDownData(pointers[0], -1, posX, Graphics::getHeight() - posY);
+			updatePointerDownData(-1, posX, Graphics::getHeight() - posY);
 		}
 
 		if (Mouse::getMoved())
 		{
-			if (pointers[0]->down)
+			if (pointer->down)
 			{
 				int posX = Mouse::getPosition().x;
 				int posY = Mouse::getPosition().y;
-				updatePointerMoveData(pointers[0], posX, Graphics::getHeight() - posY);
+				updatePointerMoveData(posX, Graphics::getHeight() - posY);
 			}
 		}
 
 		if (Mouse::isLeftUp())
 		{
-			updatePointerUpData(pointers[0]);
+			updatePointerUpData();
 		}
 	}
 
 	void update(const float& dt) override
 	{
 		handleinput();
-		if (dt > 0.009f)
+		if (dt > 0.008f)
 		{
-			updateColors(0.009f);
+			updateColors(0.008f);
 			applyInputs();
-			step(0.009f);
+			step(0.008f);
 		}
 		else
 		{
@@ -233,7 +224,7 @@ private:
 
 	void blit(const unsigned int& fbo)
 	{
-		glBindVertexArray(biltVAO);
+		glBindVertexArray(blitVAO);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -246,10 +237,7 @@ private:
 		if (colorUpdateTimer >= 1.f)
 		{
 			colorUpdateTimer = 0;
-			for (PointerPrototype* const pointer : pointers)
-			{
-				pointer->makeColorRandom();
-			}
+			pointer->makeColorRandom();
 		}
 	}
 
@@ -368,17 +356,14 @@ private:
 
 	void applyInputs()
 	{
-		for (PointerPrototype* const p : pointers)
+		if (pointer->moved)
 		{
-			if (p->moved)
-			{
-				p->moved = false;
-				splatPointer(p);
-			}
+			pointer->moved = false;
+			splatPointer(pointer);
 		}
 	}
 
-	void splatPointer(PointerPrototype* const pointer)
+	void splatPointer(Pointer* const pointer)
 	{
 		float dx = pointer->deltaX * config.SPLAT_FORCE;
 		float dy = pointer->deltaY * config.SPLAT_FORCE;
@@ -411,7 +396,7 @@ private:
 		return radius;
 	}
 
-	void updatePointerDownData(PointerPrototype* const pointer, const int& id, const float& posX, const float& posY)
+	void updatePointerDownData(const int& id, const float& posX, const float& posY)
 	{
 		pointer->id = id;
 		pointer->down = true;
@@ -425,7 +410,7 @@ private:
 		pointer->makeColorRandom();
 	}
 
-	void updatePointerMoveData(PointerPrototype* const pointer,const float& posX,const float& posY) 
+	void updatePointerMoveData(const float& posX, const float& posY)
 	{
 		pointer->prevTexcoordX = pointer->texcoordX;
 		pointer->prevTexcoordY = pointer->texcoordY;
@@ -436,12 +421,12 @@ private:
 		pointer->moved = fabsf(pointer->deltaX) > 0 || fabsf(pointer->deltaY) > 0;
 	}
 
-	void updatePointerUpData(PointerPrototype* const pointer)
+	void updatePointerUpData()
 	{
 		pointer->down = false;
 	}
 
-	float correctDeltaY(float delta) 
+	float correctDeltaY(float delta)
 	{
 		float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
 		delta /= aspectRatio;
@@ -452,17 +437,14 @@ private:
 
 	const Config config;
 
-	unsigned int biltVAO;
+	unsigned int blitVAO;
 
-	unsigned int biltVBO;
+	unsigned int blitVBO;
 
 	Shader* blurProgram; ;
 	Shader* copyProgram;
 	Shader* clearProgram;
 	Shader* colorProgram;
-	Shader* bloomPrefilterProgram;
-	Shader* bloomBlurProgram;
-	Shader* bloomFinalProgram;
 	Shader* sunraysMaskProgram;
 	Shader* sunraysProgram;
 	Shader* splatProgram;
@@ -474,7 +456,7 @@ private:
 	Shader* gradienSubtractProgram;
 	Shader* displayProgram;
 
-	std::vector<PointerPrototype*> pointers;
+	Pointer* pointer;
 
 	DoubleFBO* dye;
 	DoubleFBO* velocity;
