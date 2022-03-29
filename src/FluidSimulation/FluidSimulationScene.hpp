@@ -365,8 +365,8 @@ private:
 
 	void splatPointer(Pointer* const pointer)
 	{
-		float dx = pointer->deltaX * config.SPLAT_FORCE;
-		float dy = pointer->deltaY * config.SPLAT_FORCE;
+		const float dx = pointer->deltaX * config.SPLAT_FORCE;
+		const float dy = pointer->deltaY * config.SPLAT_FORCE;
 		splat(pointer->texcoordX, pointer->texcoordY, dx, dy, pointer->r, pointer->g, pointer->b);
 	}
 
@@ -391,7 +391,7 @@ private:
 
 	float correctRadius(float radius)
 	{
-		float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
+		const float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
 		radius *= aspectRatio;
 		return radius;
 	}
@@ -428,7 +428,7 @@ private:
 
 	float correctDeltaY(float delta)
 	{
-		float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
+		const float aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
 		delta /= aspectRatio;
 		return delta;
 	}

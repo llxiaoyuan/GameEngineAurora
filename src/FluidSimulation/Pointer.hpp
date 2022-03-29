@@ -12,7 +12,7 @@ struct ColorRGB
 ColorRGB HSVtoRGB(const float& h, const float& s, const float& v)
 {
 	float r, g, b, f, p, q, t;
-	int i = floorf(h * 6.f);
+	const int i = floorf(h * 6.f);
 	f = h * 6 - i;
 	p = v * (1 - s);
 	q = v * (1 - f * s);

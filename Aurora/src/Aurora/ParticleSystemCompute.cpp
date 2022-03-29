@@ -5,7 +5,7 @@ ParticleSystemCompute::ParticleSystemCompute(const float& particleSize, const in
 	shader(Shader::create("res\\shaders\\ShapeShader.shader")),computeShader(Shader::create("res\\shaders\\ParticleCompute.shader"))
 {
 
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	shader->bind();
 	shader->setMatrix4fv("proj", proj);

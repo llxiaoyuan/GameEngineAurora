@@ -4,7 +4,7 @@ SpriteRenderer::SpriteRenderer():
 	textRenderShader(Shader::create("res\\shaders\\TextRender.shader")),
 	instanceRenderShader(Shader::create("res\\shaders\\InstanceRender.shader"))
 {
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 	instanceRenderShader->bind();
 	instanceRenderShader->setMatrix4fv("proj", proj);
 	instanceRenderShader->unbind();

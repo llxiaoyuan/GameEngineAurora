@@ -99,13 +99,13 @@ ShapeRenderer::CircleRenderer::CircleRenderer() :
 	curCircleNum(0), circlePos(new glm::vec2[maxCircleNum]), circleColor(new glm::vec4[maxCircleNum]), circleLength(new float[maxCircleNum]),
 	circleShader(Shader::create("res\\shaders\\circleShader.shader"))
 {
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	circleShader->bind();
 	circleShader->setMatrix4fv("proj", proj);
 	circleShader->unbind();
 
-	std::vector<float> positions(128);
+	float positions[128];
 
 	{
 		float theta = Math::two_pi / 64;
@@ -122,7 +122,7 @@ ShapeRenderer::CircleRenderer::CircleRenderer() :
 	glGenBuffers(1, &verticesVBO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), positions.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 128 * sizeof(float), positions, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)0);
 
@@ -218,7 +218,7 @@ ShapeRenderer::LineRenderer::LineRenderer() :
 	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]),
 	lineShader(Shader::create("res\\shaders\\ShapeShader.shader"))
 {
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	lineShader->bind();
 	lineShader->setMatrix4fv("proj", proj);
@@ -297,7 +297,7 @@ ShapeRenderer::TriangleRenderer::TriangleRenderer() :
 	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]),
 	triangleShader(Shader::create("res\\shaders\\ShapeShader.shader"))
 {
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	triangleShader->bind();
 	triangleShader->setMatrix4fv("proj", proj);
@@ -374,7 +374,7 @@ ShapeRenderer::RCLineRenderer::RCLineRenderer() :
 	curVerticesNum(0), vertices(new glm::vec2[maxVerticesNum]), colors(new glm::vec4[maxVerticesNum]), widthArray(new float[maxVerticesNum]),
 	rcLineShader(Shader::create("res\\shaders\\RCLineRender.shader"))
 {
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	rcLineShader->bind();
 	rcLineShader->setMatrix4fv("proj", proj);

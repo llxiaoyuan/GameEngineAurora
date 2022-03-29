@@ -5,7 +5,7 @@ ParticleSystem::ParticleSystem(const float& particleSize, const int& maxParticle
 	shader(Shader::create("res\\shaders\\ShapeShader.shader"))
 {
 
-	glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
+	const glm::mat4 proj = glm::ortho(0.f, (float)Graphics::getWidth(), 0.f, (float)Graphics::getHeight(), -1.f, 1.f);
 
 	shader->bind();
 	shader->setMatrix4fv("proj", proj);
@@ -139,7 +139,7 @@ void ParticleSystem::render()
 
 void ParticleSystem::emit(const ParticleParams& parameters)
 {
-	int index = findFirstParticle();
+	const int index = findFirstParticle();
 	if (index != -1)
 	{
 		/*particles[index].avtive = true;
