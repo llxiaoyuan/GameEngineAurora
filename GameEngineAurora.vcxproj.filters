@@ -1119,6 +1119,9 @@
     <ClInclude Include="src\FluidSimulation\Config.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Aurora\include\Aurora\Event.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp">

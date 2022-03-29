@@ -154,6 +154,7 @@
     <ClInclude Include="Aurora\include\Aurora\BitmapTexture.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Camera.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Configuration.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\Event.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Game.hpp" />
     <ClInclude Include="Aurora\include\Aurora\GameSceneManager.hpp" />
     <ClInclude Include="Aurora\include\Aurora\GL\FBO.hpp" />

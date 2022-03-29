@@ -55,7 +55,7 @@ public:
 
 	void handleinput()
 	{
-		if (Mouse::isLeftDown())
+		if (Mouse::isLeftRepeat())
 		{
 			if (!isJumping)
 			{

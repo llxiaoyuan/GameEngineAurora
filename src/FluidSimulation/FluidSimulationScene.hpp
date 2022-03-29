@@ -94,6 +94,10 @@ public:
 		}
 
 		pointer = new Pointer();
+
+		Mouse::addLeftDownEvent(this, &FluidSimulationScene::leftDownEvent);
+		Mouse::addLeftUpEvent(this, &FluidSimulationScene::leftUpEvent);
+		Mouse::addMoveEvent(this, &FluidSimulationScene::moveEvent);
 	}
 
 	~FluidSimulationScene()
@@ -160,34 +164,35 @@ public:
 		return std::make_unique<std::remove_reference<decltype(*this)>::type>(*this);
 	}
 
-	void handleinput() override
+	void leftDownEvent()
 	{
-		if (Mouse::isLeftDown())
+		int posX = Mouse::getPosition().x;
+		int posY = Mouse::getPosition().y;
+		updatePointerDownData(-1, posX, Graphics::getHeight() - posY);
+	}
+
+	void leftUpEvent()
+	{
+		updatePointerUpData();
+	}
+
+	void moveEvent()
+	{
+		if (pointer->down)
 		{
 			int posX = Mouse::getPosition().x;
 			int posY = Mouse::getPosition().y;
-			updatePointerDownData(-1, posX, Graphics::getHeight() - posY);
+			updatePointerMoveData(posX, Graphics::getHeight() - posY);
 		}
+	}
 
-		if (Mouse::getMoved())
-		{
-			if (pointer->down)
-			{
-				int posX = Mouse::getPosition().x;
-				int posY = Mouse::getPosition().y;
-				updatePointerMoveData(posX, Graphics::getHeight() - posY);
-			}
-		}
+	void handleinput() override
+	{
 
-		if (Mouse::isLeftUp())
-		{
-			updatePointerUpData();
-		}
 	}
 
 	void update(const float& dt) override
 	{
-		handleinput();
 		if (dt > 0.008f)
 		{
 			updateColors(0.008f);
@@ -402,7 +407,7 @@ private:
 		pointer->down = true;
 		pointer->moved = false;
 		pointer->texcoordX = posX / Graphics::getWidth();
-		pointer->texcoordY = 1.0 - posY / Graphics::getHeight();
+		pointer->texcoordY = 1.0f - posY / Graphics::getHeight();
 		pointer->prevTexcoordX = pointer->texcoordX;
 		pointer->prevTexcoordY = pointer->texcoordY;
 		pointer->deltaX = 0;

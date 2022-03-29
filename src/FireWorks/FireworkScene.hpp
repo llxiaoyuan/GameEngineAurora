@@ -27,6 +27,8 @@ public:
 		Star::pool = &starPool;
 		Spark::active = &sparkActive;
 		Spark::pool = &sparkPool;
+
+		Mouse::addLeftDownEvent(this, &FireworkScene::leftDownEvent);
 	}
 
 	~FireworkScene()
@@ -46,14 +48,14 @@ public:
 
 	}
 
+	void leftDownEvent()
+	{
+		std::cout << "Launch\n";
+		(new Shell(getShellConfig(ShellType::random)))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
+	}
+
 	void update(const float& dt) override
 	{
-		if (Mouse::isLeftDown())
-		{
-			std::cout << "Launch\n";
-			(new Shell(getShellConfig(ShellType::random)))->launch(Mouse::getPosition().x, Mouse::getPosition().y);
-		}
-
 		const float width = Graphics::getWidth();
 		const float height = Graphics::getHeight();
 		speed = 1000.f / 16.6667f * dt;

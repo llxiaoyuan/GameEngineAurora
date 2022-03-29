@@ -7,6 +7,7 @@
 #include<GLFW/glfw3.h>
 
 #include"Graphics.hpp"
+#include"Event.hpp"
 
 // Û±Í¿‡
 class Mouse
@@ -19,39 +20,52 @@ public:
 
 	static const glm::vec2& getPosition();
 
-	static const bool& isLeftDown();
-
-	static const bool& isRightDown();
-
-	static const bool& isLeftUp();
-
-	static const bool& isRightUp();
-
 	static const bool& isLeftRepeat();
 
 	static const bool& isRightRepeat();
 
-	static const bool& getMoved();
+	template<class ObjT, class FuncT>
+	static int addLeftDownEvent(ObjT obj, FuncT func);
 
-	static void reFresh();
+	template<class ObjT, class FuncT>
+	static int addLeftUpEvent(ObjT obj, FuncT func);
+
+	template<class ObjT, class FuncT>
+	static int addRightDownEvent(ObjT obj, FuncT func);
+
+	template<class ObjT, class FuncT>
+	static int addRightUpEvent(ObjT obj, FuncT func);
+
+	template<class ObjT, class FuncT>
+	static int addMoveEvent(ObjT obj, FuncT func);
+
+	static void removeLeftDownEvent(const int& id);
+
+	static void removeLeftUpEvent(const int& id);
+
+	static void removeRightDownEvent(const int& id);
+
+	static void removeRightUpEvent(const int& id);
+
+	static void removeMoveEvent(const int& id);
 
 private:
 
 	static glm::vec2 pos;
 
-	static bool leftDown;
+	static Event leftDownEvent;
 
-	static bool leftUp;
+	static Event leftUpEvent;
+
+	static Event rightDownEvent;
+
+	static Event rightUpEvent;
 
 	static bool leftRepeat;
 
-	static bool rightDown;
-
-	static bool rightUp;
-
 	static bool rightRepeat;
 
-	static bool moved;
+	static Event moveEvent;
 
 	static float dx;
 
@@ -71,3 +85,33 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 #endif // !_MOUSE_HPP_
+
+template<class ObjT, class FuncT>
+inline int Mouse::addLeftDownEvent(ObjT obj, FuncT func)
+{
+	return leftDownEvent.addHandler(obj, func);
+}
+
+template<class ObjT, class FuncT>
+inline int Mouse::addLeftUpEvent(ObjT obj, FuncT func)
+{
+	return leftUpEvent.addHandler(obj, func);
+}
+
+template<class ObjT, class FuncT>
+inline int Mouse::addRightDownEvent(ObjT obj, FuncT func)
+{
+	return rightDownEvent.addHandler(obj, func);
+}
+
+template<class ObjT, class FuncT>
+inline int Mouse::addRightUpEvent(ObjT obj, FuncT func)
+{
+	return rightUpEvent.addHandler(obj, func);
+}
+
+template<class ObjT, class FuncT>
+inline int Mouse::addMoveEvent(ObjT obj, FuncT func)
+{
+	return moveEvent.addHandler(obj, func);
+}

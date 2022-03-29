@@ -76,7 +76,7 @@ void ParticleSystem::update(const float& dt)
 		}
 		//particles[i].lifeTimeRemaining -= dt;
 
-		if (Mouse::isLeftDown())
+		if (Mouse::isLeftRepeat())
 		{
 			const glm::vec2 center = Mouse::getPosition();
 
@@ -91,7 +91,7 @@ void ParticleSystem::update(const float& dt)
 			particles[i].vel += glm::vec2(forceX, forceY) * dt;
 
 		}
-		else if (Mouse::isRightDown())
+		else if (Mouse::isRightRepeat())
 		{
 			const glm::vec2 center = Mouse::getPosition();
 

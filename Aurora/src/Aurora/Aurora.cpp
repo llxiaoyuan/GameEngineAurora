@@ -136,7 +136,6 @@ void Aurora::runGame()
 		timeStart = timer.now();
 		game->update(Graphics::deltaTime);
 		game->render();
-		Mouse::reFresh();
 		glfwSwapBuffers(window);
 		timeEnd = timer.now();
 		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;

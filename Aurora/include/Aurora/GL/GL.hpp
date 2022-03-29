@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef _GL_HPP_
+#define _GL_HPP_
+
 #include"FBO.hpp"
 
 class GL
@@ -11,3 +14,5 @@ public:
 	static FBO* createFBO(const int& width, const int& height, const int& internalFormat, const unsigned int& format, const unsigned int& type, const int& param);
 
 };
+
+#endif // !_GL_HPP_
