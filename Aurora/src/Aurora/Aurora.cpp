@@ -56,7 +56,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
+		std::cout << "[class Aurora] failed to initialize GLAD" << std::endl;
 		return false;
 	}
 	
@@ -74,8 +74,6 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	game = nullptr;
 
 	Random::ini();
-
-	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
 
 	if (config->useAudio)
 	{
@@ -97,6 +95,23 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		glfwHideWindow(window);
 	}
 	
+	{
+		DEVMODE devMode;
+		EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
+		if (devMode.dmDisplayFrequency == 0)
+		{
+			Graphics::refreshRate = 60;
+		}
+		else
+		{
+			Graphics::refreshRate = devMode.dmDisplayFrequency;
+		}
+		Graphics::deltaTimeLimit = 1.1f / Graphics::refreshRate;
+		std::cout << "[class Aurora] screen refresh rate " << devMode.dmDisplayFrequency << "\n";
+	}
+
+	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
+
 	return true;
 }
 
@@ -139,6 +154,10 @@ void Aurora::runGame()
 		glfwSwapBuffers(window);
 		timeEnd = timer.now();
 		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+		if (Graphics::deltaTime > Graphics::deltaTimeLimit)
+		{
+			Graphics::deltaTime = Graphics::deltaTimeLimit;
+		}
 		glfwPollEvents();
 	}
 	glfwTerminate();
@@ -154,6 +173,11 @@ void Aurora::runWallpaper()
 		glfwSwapBuffers(window);
 		timeEnd = timer.now();
 		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
+		if (Graphics::deltaTime > Graphics::deltaTimeLimit)
+		{
+			Graphics::deltaTime = Graphics::deltaTimeLimit;
+		}
 		glfwPollEvents();
 	}
 	glfwTerminate();

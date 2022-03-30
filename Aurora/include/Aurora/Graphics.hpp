@@ -37,6 +37,10 @@ private:
 
 	static int screenWidth;
 
+	static int refreshRate;
+
+	static float deltaTimeLimit;
+
 	static int screenHeight;
 
 	static float deltaTime;

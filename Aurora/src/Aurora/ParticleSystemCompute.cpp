@@ -114,15 +114,8 @@ void ParticleSystemCompute::update(const float& dt)
 	glBindImageTexture(0, tbos[0], 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
 
 	glBindImageTexture(1, tbos[1], 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
-
-	if (dt >= 0.01f)
-	{
-		computeShader->setVec1f(dtLocation, 0.012f);
-	}
-	else
-	{
-		computeShader->setVec1f(dtLocation, dt);
-	}
+	
+	computeShader->setVec1f(dtLocation, dt);
 
 	if (Mouse::getLeftRepeat())
 	{

@@ -12,6 +12,10 @@ float Graphics::framePerSec = 0;
 
 int Graphics::screenHeight;
 
+int Graphics::refreshRate;
+
+float Graphics::deltaTimeLimit;
+
 Graphics::RecordConfig Graphics::config;
 
 const float& Graphics::getDeltaTime()
