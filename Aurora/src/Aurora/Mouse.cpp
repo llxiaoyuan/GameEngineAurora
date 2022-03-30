@@ -19,8 +19,8 @@ Event Mouse::moveEvent;
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	Mouse::moveEvent();
-	Mouse::dx = xpos - Mouse::pos.x;
-	Mouse::dy = ypos - Mouse::pos.y;
+	Mouse::dx = (float)xpos - Mouse::pos.x;
+	Mouse::dy = (float)ypos - Mouse::pos.y;
 	Mouse::pos = glm::vec2(xpos, Graphics::getHeight() - ypos);
 }
 

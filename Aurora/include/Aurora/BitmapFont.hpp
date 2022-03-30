@@ -21,7 +21,6 @@ public:
 
 	~BitmapFont();
 
-	//×Ö·ûĞÅÏ¢
 	struct Character
 	{
 		int index;

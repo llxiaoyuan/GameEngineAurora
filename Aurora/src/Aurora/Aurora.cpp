@@ -97,6 +97,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	
 	{
 		DEVMODE devMode;
+		devMode.dmSize = sizeof(DEVMODE);
 		EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
 		if (devMode.dmDisplayFrequency == 0)
 		{
