@@ -129,7 +129,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 
 	stream.close();
 
-	std::cout << "[" << typeid(*this).name() << "] " << "font load complete!\n";
+	std::cout << "[class BitmapFont] font load complete!\n";
 }
 
 BitmapFont* BitmapFont::create(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize)
@@ -139,7 +139,7 @@ BitmapFont* BitmapFont::create(const std::string& bitmapPath, const std::string&
 
 BitmapFont::~BitmapFont()
 {
-	std::cout << "[" << typeid(*this).name() << "] release!\n";
+	std::cout << "[class BitmapFont] release!\n";
 	for (int i = 0; i < textures.size(); i++)
 	{
 		delete textures[i];

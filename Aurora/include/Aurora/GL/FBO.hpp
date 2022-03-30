@@ -79,7 +79,7 @@ private:
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			std::cout << "[class RenderTexture] ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -107,7 +107,7 @@ private:
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			std::cout << "[class RenderTexture] ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 

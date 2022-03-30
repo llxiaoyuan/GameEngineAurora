@@ -13,9 +13,9 @@ VideoRecorder::VideoRecorder(const int& _width, const int& _height, const size_t
 
 	const std::string cmd = "ffmpeg -r " + std::to_string(_frameRate) + " -f rawvideo -pix_fmt rgba -s " + std::to_string(width) + "x" + std::to_string(height) + " -i - " + "-threads 0 -tune zerolatency -preset ultrafast -y -pix_fmt yuv420p -vf vflip -crf 21 -an output.mp4";
 
-	std::cout << "Render at " << width << "x" << height << "\n";
-	std::cout << "FPS:" << _frameRate << "\n";
-	std::cout << "Total Frame " << totalFrame << "\n";
+	std::cout << "[class VideoRecorder] render at " << width << "x" << height << "\n";
+	std::cout << "[class VideoRecorder] FPS:" << _frameRate << "\n";
+	std::cout << "[class VideoRecorder] total frame " << totalFrame << "\n";
 
 	stream = _popen(cmd.c_str(), "wb");
 
@@ -48,7 +48,7 @@ bool VideoRecorder::record()
 		}
 		else
 		{
-			std::cout << "nullptr\n";
+			std::cout << "[class VideoRecorder] ptr is nullptr\n";
 		}
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	}
@@ -63,7 +63,7 @@ bool VideoRecorder::record()
 	{
 		if (stream)
 			_pclose(stream);
-		std::cout << "Frame record avg time " << frameTime / totalFrame << "\n";
+		std::cout << "[class VideoRecorder] frame record avg time " << frameTime / totalFrame << "\n";
 		return false;
 	}
 	else

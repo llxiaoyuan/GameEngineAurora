@@ -111,7 +111,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		std::cout << "[class Aurora] screen refresh rate " << devMode.dmDisplayFrequency << "\n";
 	}
 
-	std::cout << "[" << typeid(*this).name() << "] " << "initiallize complete!\n";
+	std::cout << "[class Aurora] initiallize complete!\n";
 
 	return true;
 }

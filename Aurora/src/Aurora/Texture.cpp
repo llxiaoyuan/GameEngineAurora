@@ -62,11 +62,11 @@ Texture::Texture(const std::string& path)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		std::cout << "[" << typeid(*this).name() << "] " << path << " load complete!\n";
+		std::cout << "[class Texture] " << path << " load complete!\n";
 	}
 	else
 	{
-		std::cout << "[" << typeid(*this).name() << "] " << path << " load fail!\n";
+		std::cout << "[class Texture] " << path << " load fail!\n";
 	}
 
 
@@ -182,7 +182,7 @@ std::vector<Texture*> Texture::loadSplit(const std::string& path, const int& wid
 		delete[] tempBuffer;
 	}
 
-	std::cout << "[class Texture] Texture Atlas " << path << " Load complete!\n";
+	std::cout << "[class Texture] texture atlas " << path << " load complete!\n";
 
 	stbi_image_free(localBuffer);
 

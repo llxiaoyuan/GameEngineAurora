@@ -20,7 +20,7 @@ SpriteRenderer* SpriteRenderer::create()
 
 SpriteRenderer::~SpriteRenderer()
 {
-	std::cout << "[" << typeid(*this).name() << "] release!\n";
+	std::cout << "[class SpriteRenderer] release!\n";
 	if (instanceRenderShader)
 	{
 		delete instanceRenderShader;
