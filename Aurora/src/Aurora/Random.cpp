@@ -21,5 +21,5 @@ int Random::Int()
 
 void Random::ini()
 {
-	randomEngine.seed(std::random_device()());
+	randomEngine.seed((unsigned int)time(nullptr));
 }
