@@ -185,11 +185,11 @@ void Aurora::runWallpaper()
 void Aurora::runRecord()
 {
 	VideoRecorder recorder(config->screenWidth, config->screenHeight, Graphics::config.totalFrame, Graphics::config.frameRate);
+	Graphics::deltaTime = 1 / (float)Graphics::config.frameRate;
 	do
 	{
-		game->update(1 / (float)Graphics::config.frameRate);
+		game->update(Graphics::deltaTime);
 		game->render();
-		Graphics::deltaTime = 1 / (float)Graphics::config.frameRate;
 	} while (recorder.record());
 	glfwTerminate();
 }
