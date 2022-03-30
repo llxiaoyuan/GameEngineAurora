@@ -43,7 +43,10 @@ RenderTexture* RenderTexture::create(const int& width, const int& height, const 
 
 RenderTexture::~RenderTexture()
 {
-	delete fbo;
+	if (fbo)
+	{
+		delete fbo;
+	}
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &positionBuffer);
