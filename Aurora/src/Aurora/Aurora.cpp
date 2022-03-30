@@ -173,7 +173,6 @@ void Aurora::runWallpaper()
 		glfwSwapBuffers(window);
 		timeEnd = timer.now();
 		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
-		Graphics::deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeEnd - timeStart).count() / 1000.f;
 		if (Graphics::deltaTime > Graphics::deltaTimeLimit)
 		{
 			Graphics::deltaTime = Graphics::deltaTimeLimit;
