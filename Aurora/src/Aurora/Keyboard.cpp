@@ -2,9 +2,25 @@
 
 std::unordered_map<Keyboard::Key, bool> Keyboard::keyPressMap;
 
+std::map<Keyboard::Key, Event> Keyboard::keyPressEvents;
+
+std::map<Keyboard::Key, Event> Keyboard::keyUpEvents;
+
 bool Keyboard::getKeyPress(const Key& key)
 {
 	return keyPressMap[key];
+}
+
+
+
+void Keyboard::removeKeyPressEvent(const Key& key, const int& id)
+{
+	keyPressEvents[key].removeHandler(id);
+}
+
+void Keyboard::removeKeyUpEvent(const Key& key, const int& id)
+{
+	keyUpEvents[key].removeHandler(id);
 }
 
 void Keyboard::ini()
@@ -127,6 +143,244 @@ void Keyboard::ini()
 	keyPressMap.insert(std::pair<Key, bool>(Right_Alt, false));
 	keyPressMap.insert(std::pair<Key, bool>(Right_Super, false));
 	keyPressMap.insert(std::pair<Key, bool>(Menu, false));
+
+	keyPressEvents.insert(std::pair<Key, Event>(Space, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Apostrophe, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Comma, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Minus, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Period, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Slash, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num0, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num1, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num2, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num3, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num4, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num5, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num6, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num7, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num8, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num9, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Semicolon, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Equal, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(A, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(B, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(C, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(D, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(E, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(G, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(H, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(I, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(J, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(K, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(L, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(M, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(N, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(O, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(P, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Q, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(R, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(S, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(T, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(U, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(V, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(W, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(X, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Y, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Z, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Left_Bracket, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Backslash, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Right_Bracket, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Grave_Accent, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Escape, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Enter, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Tab, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Backspace, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Insert, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Delete, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Right, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Left, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Down, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Up, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Page_Up, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(PAGE_Down, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Home, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(End, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Caps_Lock, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Scroll_Lock, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Num_Lock, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Print_Screen, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Pause, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F1, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F2, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F3, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F4, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F5, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F6, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F7, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F8, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F9, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F10, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F11, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F12, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F13, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F14, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F15, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F16, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F17, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F18, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F19, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F20, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F21, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F22, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F23, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F24, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(F25, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad0, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad1, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad2, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad3, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad4, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad5, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad6, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad7, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad8, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad9, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Decimal, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Divide, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Multiply, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Subtract, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Add, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Enter, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Numpad_Equal, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Left_Shift, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Left_Control, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Left_Alt, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Left_Super, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Right_Shift, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Right_Control, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Right_Alt, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Right_Super, Event()));
+	keyPressEvents.insert(std::pair<Key, Event>(Menu, Event()));
+
+	keyUpEvents.insert(std::pair<Key, Event>(Space, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Apostrophe, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Comma, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Minus, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Period, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Slash, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num0, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num1, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num2, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num3, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num4, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num5, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num6, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num7, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num8, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num9, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Semicolon, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Equal, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(A, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(B, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(C, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(D, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(E, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(G, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(H, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(I, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(J, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(K, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(L, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(M, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(N, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(O, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(P, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Q, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(R, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(S, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(T, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(U, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(V, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(W, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(X, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Y, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Z, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Left_Bracket, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Backslash, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Right_Bracket, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Grave_Accent, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Escape, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Enter, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Tab, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Backspace, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Insert, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Delete, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Right, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Left, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Down, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Up, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Page_Up, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(PAGE_Down, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Home, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(End, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Caps_Lock, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Scroll_Lock, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Num_Lock, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Print_Screen, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Pause, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F1, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F2, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F3, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F4, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F5, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F6, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F7, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F8, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F9, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F10, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F11, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F12, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F13, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F14, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F15, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F16, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F17, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F18, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F19, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F20, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F21, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F22, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F23, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F24, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(F25, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad0, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad1, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad2, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad3, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad4, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad5, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad6, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad7, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad8, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad9, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Decimal, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Divide, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Multiply, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Subtract, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Add, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Enter, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Numpad_Equal, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Left_Shift, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Left_Control, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Left_Alt, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Left_Super, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Right_Shift, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Right_Control, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Right_Alt, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Right_Super, Event()));
+	keyUpEvents.insert(std::pair<Key, Event>(Menu, Event()));
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -134,9 +388,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	switch (action)
 	{
 	case GLFW_PRESS:
+		Keyboard::keyPressEvents[(Keyboard::Key)key]();
 		Keyboard::keyPressMap[(Keyboard::Key)key] = true;
 		break;
 	case GLFW_RELEASE:
+		Keyboard::keyUpEvents[(Keyboard::Key)key]();
 		Keyboard::keyPressMap[(Keyboard::Key)key] = false;
 		break;
 	default:

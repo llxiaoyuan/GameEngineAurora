@@ -43,6 +43,8 @@ public:
 		position = glm::vec3(100, 50, 0);
 		runAnimation->addTexture(buffers[2]);
 		runAnimation->addTexture(buffers[3]);
+
+		Keyboard::addKeyPressEvent(Keyboard::Space, this, &Dinosaur::jump);
 	}
 
 	~Dinosaur()
@@ -55,20 +57,20 @@ public:
 
 	void handleinput()
 	{
-		if (Mouse::isLeftRepeat())
+		/*if (Keyboard::getKeyPress(Keyboard::Space))
 		{
-			if (!isJumping)
-			{
-				jumpSound->play();
-				jump();
-			}
-		}
+			jump();
+		}*/
 	}
 
 	void jump()
 	{
-		isJumping = true;
-		speed += glm::vec3(0, 1000, 0);
+		if (!isJumping)
+		{
+			jumpSound->play();
+			isJumping = true;
+			speed += glm::vec3(0, 1000, 0);
+		}
 	}
 
 	void update(const float& dt) override

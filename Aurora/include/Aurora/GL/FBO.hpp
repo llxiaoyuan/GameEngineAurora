@@ -64,7 +64,7 @@ private:
 
 	friend class GL;
 
-	FBO(const int& width, const int& height, const float& r = 0, const float& g = 0, const float& b = 0, const float& a = 0) :
+	FBO(const int& width, const int& height, const float& r, const float& g, const float& b, const float& a) :
 		width(width), height(height), texelSizeX(1.f / width), texelSizeY(1.f / height), fbo(0), textureID(0)
 	{
 		glGenFramebuffers(1, &fbo);

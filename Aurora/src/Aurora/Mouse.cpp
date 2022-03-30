@@ -33,7 +33,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 			Mouse::leftDownEvent();
 			Mouse::leftRepeat = true;
 		}
-		else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+		if (button == GLFW_MOUSE_BUTTON_RIGHT)
 		{
 			Mouse::rightDownEvent();
 			Mouse::rightRepeat = true;
@@ -46,12 +46,13 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 			Mouse::leftUpEvent();
 			Mouse::leftRepeat = false;
 		}
-		else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+		if (button == GLFW_MOUSE_BUTTON_RIGHT)
 		{
 			Mouse::rightUpEvent();
 			Mouse::rightRepeat = false;
 		}
 	}
+	
 }
 
 const glm::vec2& Mouse::getPosition()
@@ -59,12 +60,12 @@ const glm::vec2& Mouse::getPosition()
 	return pos;
 }
 
-const bool& Mouse::isLeftRepeat()
+const bool& Mouse::getLeftRepeat()
 {
 	return leftRepeat;
 }
 
-const bool& Mouse::isRightRepeat()
+const bool& Mouse::getRightRepeat()
 {
 	return rightRepeat;
 }

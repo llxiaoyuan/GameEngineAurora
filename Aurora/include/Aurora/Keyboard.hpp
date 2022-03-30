@@ -7,6 +7,8 @@
 #include<unordered_map>
 #include<GLFW/glfw3.h>
 
+#include"Event.hpp"
+
 class Keyboard
 {
 public:
@@ -139,9 +141,23 @@ public:
 
 	static bool getKeyPress(const Key& key);
 
+	template<class ObjT, class FuncT>
+	static int addKeyPressEvent(const Key& key, ObjT obj, FuncT func);
+
+	template<class ObjT, class FuncT>
+	static int addKeyUpEvent(const Key& key, ObjT obj, FuncT func);
+
+	static void removeKeyPressEvent(const Key& key, const int& id);
+
+	static void removeKeyUpEvent(const Key& key, const int& id);
+
 private:
 
 	static void ini();
+
+	static std::map<Key, Event> keyPressEvents;
+
+	static std::map<Key, Event> keyUpEvents;
 
 	static std::unordered_map<Key, bool> keyPressMap;
 
@@ -152,5 +168,18 @@ private:
 };
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+template<class ObjT, class FuncT>
+inline int Keyboard::addKeyPressEvent(const Key& key, ObjT obj, FuncT func)
+{
+	return keyPressEvents[key].addHandler(obj, func);
+}
+
+template<class ObjT, class FuncT>
+inline int Keyboard::addKeyUpEvent(const Key& key, ObjT obj, FuncT func)
+{
+	return keyUpEvents[key].addHandler(obj, func);
+}
+
 
 #endif // !_KEYBOARD_HPP_

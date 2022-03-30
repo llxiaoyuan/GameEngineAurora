@@ -23,6 +23,7 @@ public:
 		gameOverTexture(Texture::create("res\\DinoGameRes\\textures\\Gameover.png")),
 		gameOverSound(Sound::create("res\\DinoGameRes\\music\\hit.ogg", false))
 	{
+		dino = new Dinosaur();
 		score = 0;
 		hiScore = 0;
 	}
@@ -33,6 +34,7 @@ public:
 		delete gameOverTexture;
 		delete font;
 		delete gameOverSound;
+		delete dino;
 	}
 
 	std::unique_ptr<Scene> clone()
@@ -53,13 +55,12 @@ public:
 		handleinput();
 		if (!isGameEnded)
 		{
-			dino.update(dt);
+			dino->update(dt);
 			score.update(dt);
 			cloudManager.update(dt);
 			groundManager.update(dt);
 			obstacleManager.update(dt);
 			isGameEnded = dinoCollided();
-
 		}
 	}
 
@@ -72,7 +73,7 @@ public:
 		groundManager.render(spriteRenderer);
 		obstacleManager.render(spriteRenderer);
 		printScore(spriteRenderer);
-		dino.render(spriteRenderer);
+		dino->render(spriteRenderer);
 		if (isGameEnded)
 		{
 			spriteRenderer->draw(gameOverTexture, Graphics::getWidth() / 2.f, Graphics::getHeight() / 2.f, gameOverTexture->getWidth() / 2.f, gameOverTexture->getHeight() / 2.f);
@@ -94,7 +95,7 @@ private:
 
 	Texture* gameOverTexture;
 
-	Dinosaur dino;
+	Dinosaur* dino;
 
 	BitmapFont* font;
 
@@ -121,7 +122,7 @@ private:
 	{
 		for (int i = 0; i < obstacleManager.obstacles.size(); i++)
 		{
-			if (dino.rect.overLap(obstacleManager.obstacles[i].rect))
+			if (dino->rect.overLap(obstacleManager.obstacles[i].rect))
 			{
 				gameEnd();
 				return true;
@@ -133,7 +134,7 @@ private:
 	void gameEnd()
 	{
 		gameOverSound->play();
-		dino.collided = true;
+		dino->collided = true;
 	}
 
 	void reStart()
@@ -148,10 +149,10 @@ private:
 		score.visible = true;
 		score = 0;
 		isGameEnded = false;
-		dino.collided = false;
-		dino.isJumping = true;
-		dino.speed = glm::vec3(0, 0, 0);
-		dino.setPosition(glm::vec3(100, 120, 0));
+		dino->collided = false;
+		dino->isJumping = true;
+		dino->speed = glm::vec3(0, 0, 0);
+		dino->setPosition(glm::vec3(100, 120, 0));
 		obstacleManager.obstacles.clear();
 	}
 

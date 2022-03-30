@@ -20,9 +20,9 @@ public:
 
 	static const glm::vec2& getPosition();
 
-	static const bool& isLeftRepeat();
+	static const bool& getLeftRepeat();
 
-	static const bool& isRightRepeat();
+	static const bool& getRightRepeat();
 
 	template<class ObjT, class FuncT>
 	static int addLeftDownEvent(ObjT obj, FuncT func);
@@ -84,8 +84,6 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
-#endif // !_MOUSE_HPP_
-
 template<class ObjT, class FuncT>
 inline int Mouse::addLeftDownEvent(ObjT obj, FuncT func)
 {
@@ -115,3 +113,5 @@ inline int Mouse::addMoveEvent(ObjT obj, FuncT func)
 {
 	return moveEvent.addHandler(obj, func);
 }
+
+#endif // !_MOUSE_HPP_
