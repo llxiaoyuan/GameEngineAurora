@@ -16,6 +16,8 @@ int Graphics::refreshRate;
 
 float Graphics::deltaTimeLimit;
 
+float Graphics::aspectRatio;
+
 Graphics::RecordConfig Graphics::config;
 
 const float& Graphics::getDeltaTime()
@@ -31,6 +33,11 @@ const int& Graphics::getWidth()
 const int& Graphics::getHeight()
 {
 	return screenHeight;
+}
+
+const float& Graphics::getAspectRatio()
+{
+	return aspectRatio;
 }
 
 const float& Graphics::getFPS()

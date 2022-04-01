@@ -23,6 +23,8 @@ public:
 
 	static const int& getHeight();
 
+	static const float& getAspectRatio();
+
 	static const float& getFPS();
 
 	static void setRecordConfig(const RecordConfig& config);
@@ -44,6 +46,8 @@ private:
 	static int screenHeight;
 
 	static float deltaTime;
+
+	static float aspectRatio;
 
 	static RecordConfig config;
 

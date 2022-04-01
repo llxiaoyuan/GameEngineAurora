@@ -26,24 +26,24 @@ public:
 		}
 	}
 
-	void bindFBO()
+	void bindFBO() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	}
 
-	void unbindFBO()
+	void unbindFBO() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	unsigned int attachTexture(unsigned int id = 0)
+	unsigned int attachTexture(unsigned int id = 0) const
 	{
 		glActiveTexture(GL_TEXTURE0 + id);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		return id;
 	}
 
-	void dettachTexture()
+	void dettachTexture() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -78,8 +78,12 @@ private:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
+
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
 			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
+		}
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -107,7 +111,10 @@ private:
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
 			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
+		}
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 

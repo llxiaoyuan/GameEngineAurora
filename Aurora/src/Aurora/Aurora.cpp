@@ -44,6 +44,8 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		break;
 	}
 
+	Graphics::aspectRatio = (float)Graphics::getWidth() / Graphics::getHeight();
+
 	window = glfwCreateWindow(Graphics::screenWidth, Graphics::screenHeight, config->title.c_str(), nullptr, nullptr);
 
 	if (!window)

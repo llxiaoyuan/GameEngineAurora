@@ -15,7 +15,7 @@
 #include"ParticleSystemTest/ParticleSystemTestScene.hpp"
 #include"DoomFire/DoomFireScene.hpp"
 #include"FluidSimulation/FluidSimulationScene.hpp"
-#include"SampleScene.hpp"
+#include"CameraTest/OrthoCameraTestScene.hpp"
 
 class MyGame :public Game
 {
@@ -31,7 +31,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new FluidSimulationScene(gsm));
+		gsm->push(new OrthoCameraTestScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 

@@ -19,6 +19,8 @@ public:
 
 	RenderTexture(const RenderTexture&) = delete;
 
+	void operator=(const RenderTexture&) = delete;
+
 	~RenderTexture();
 
 	void bind() const;

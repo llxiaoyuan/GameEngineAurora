@@ -18,11 +18,15 @@ public:
 
 	Mouse(const Mouse&) = delete;
 
-	static const glm::vec2& getPosition();
+	static const glm::vec3& getPosition();
 
 	static const bool& getLeftRepeat();
 
 	static const bool& getRightRepeat();
+
+	static const float& getDeltaX();
+
+	static const float& getDeltaY();
 
 	template<class ObjT, class FuncT>
 	static int addLeftDownEvent(ObjT obj, FuncT func);
@@ -51,7 +55,7 @@ public:
 
 private:
 
-	static glm::vec2 pos;
+	static glm::vec3 pos;
 
 	static Event leftDownEvent;
 

@@ -29,7 +29,7 @@ bool Rect::overLap(const Rect& r) const
 
 bool Rect::in(const glm::vec2& dot) const
 {
-	return (dot[0] > x && dot[1] > y && dot[0] < x + width && dot[1] < y + height);
+	return (dot.x > x && dot.y > y && dot.x < x + width && dot.y < y + height);
 }
 
 const float& Rect::getX() const

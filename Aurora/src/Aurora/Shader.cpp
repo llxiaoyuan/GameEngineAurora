@@ -278,11 +278,9 @@ void Shader::unbind() const
 	glUseProgram(0);
 }
 
-int Shader::getUniformLocation(const char* name)
+int Shader::getUniformLocation(const char* name) const
 {
-	int location;
-	location = glGetUniformLocation(programID, name);
-	return location;
+	return glGetUniformLocation(programID, name);
 }
 
 void Shader::setMatrix4fv(const char* name, const glm::mat4& mat) const

@@ -95,6 +95,24 @@ void ShapeRenderer::drawCircle(const float& x, const float& y, const float& leng
 	circleRenderer.addCircle(x, y, length, r, g, b, a);
 }
 
+void ShapeRenderer::setProjMatrix(const glm::mat4& proj) const
+{
+	circleRenderer.circleShader->bind();
+	glUniformMatrix4fv(circleRenderer.circleShader->uniforms["proj"], 1, GL_FALSE, &proj[0][0]);
+
+	lineRenderer.lineShader->bind();
+	glUniformMatrix4fv(lineRenderer.lineShader->uniforms["proj"], 1, GL_FALSE, &proj[0][0]);
+
+	rcLineRenderer.rcLineShader->bind();
+	glUniformMatrix4fv(rcLineRenderer.rcLineShader->uniforms["proj"], 1, GL_FALSE, &proj[0][0]);
+
+	triangleRenderer.triangleShader->bind();
+	glUniformMatrix4fv(triangleRenderer.triangleShader->uniforms["proj"], 1, GL_FALSE, &proj[0][0]);
+
+	triangleRenderer.triangleShader->unbind();
+
+}
+
 ShapeRenderer::CircleRenderer::CircleRenderer() :
 	curCircleNum(0), circlePos(new glm::vec2[maxCircleNum]), circleColor(new glm::vec4[maxCircleNum]), circleLength(new float[maxCircleNum]),
 	circleShader(Shader::create("res\\shaders\\circleShader.shader"))

@@ -1,6 +1,6 @@
 #include<Aurora/Mouse.hpp>
 
-glm::vec2 Mouse::pos = glm::vec2(0, 0);
+glm::vec3 Mouse::pos = glm::vec3(0, 0, 0);
 
 bool Mouse::leftRepeat = false;
 bool Mouse::rightRepeat = false;
@@ -20,8 +20,8 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	Mouse::moveEvent();
 	Mouse::dx = (float)xpos - Mouse::pos.x;
-	Mouse::dy = (float)ypos - Mouse::pos.y;
-	Mouse::pos = glm::vec2(xpos, Graphics::getHeight() - ypos);
+	Mouse::dy = (float)Graphics::getHeight() - (float)ypos - Mouse::pos.y;
+	Mouse::pos = glm::vec3(xpos, Graphics::getHeight() - ypos, 0);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -55,7 +55,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	
 }
 
-const glm::vec2& Mouse::getPosition()
+const glm::vec3& Mouse::getPosition()
 {
 	return pos;
 }
@@ -68,6 +68,16 @@ const bool& Mouse::getLeftRepeat()
 const bool& Mouse::getRightRepeat()
 {
 	return rightRepeat;
+}
+
+const float& Mouse::getDeltaX()
+{
+	return dx;
+}
+
+const float& Mouse::getDeltaY()
+{
+	return dy;
 }
 
 void Mouse::removeLeftDownEvent(const int& id)

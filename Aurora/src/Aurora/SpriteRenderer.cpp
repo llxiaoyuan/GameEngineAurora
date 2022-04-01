@@ -132,3 +132,14 @@ void SpriteRenderer::renderTexturePoolAdd(RenderTexture* const renderTexture)
 		renderTexturePool.emplace_back(renderTexture);
 	}
 }
+
+void SpriteRenderer::setProjMatrix(const glm::mat4& proj) const
+{
+	instanceRenderShader->bind();
+	glUniformMatrix4fv(instanceRenderShader->uniforms["proj"], 1, GL_FALSE, &proj[0][0]);
+
+	textRenderShader->bind();
+	glUniformMatrix4fv(textRenderShader->uniforms["proj"], 1, GL_FALSE, &proj[0][0]);
+
+	textRenderShader->unbind();
+}

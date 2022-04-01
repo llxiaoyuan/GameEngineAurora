@@ -27,7 +27,7 @@
     <ClInclude Include="Aurora\include\Aurora\BitmapFont.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aurora\include\Aurora\Camera.hpp">
+    <ClInclude Include="Aurora\include\Aurora\OrthoCamera.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Aurora\include\Aurora\Configuration.hpp">
@@ -1122,6 +1122,9 @@
     <ClInclude Include="Aurora\include\Aurora\Event.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\CameraTest\OrthoCameraTestScene.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aurora\src\Aurora\Animation.cpp">
@@ -1133,7 +1136,7 @@
     <ClCompile Include="Aurora\src\Aurora\BitmapFont.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aurora\src\Aurora\Camera.cpp">
+    <ClCompile Include="Aurora\src\Aurora\OrthoCamera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Aurora\src\Aurora\glad.c">

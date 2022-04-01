@@ -44,6 +44,8 @@ public:
 
 	void renderTexturePoolAdd(RenderTexture* const renderTexture);
 
+	void setProjMatrix(const glm::mat4& proj) const;
+
 	Shader* textRenderShader;
 
 	Shader* instanceRenderShader;

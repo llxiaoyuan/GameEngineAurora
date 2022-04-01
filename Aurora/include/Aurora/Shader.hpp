@@ -29,7 +29,7 @@ public:
 
 	void unbind() const;
 
-	int getUniformLocation(const char* name);
+	int getUniformLocation(const char* name) const;
 
 	void setMatrix4fv(const char* name, const glm::mat4& mat) const;
 	

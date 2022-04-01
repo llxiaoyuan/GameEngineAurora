@@ -38,6 +38,8 @@ public:
 
 	void drawCircle(const float& x, const float& y, const float& length, const float& r, const float& g, const float& b, const float& a = 1.f);
 
+	void setProjMatrix(const glm::mat4& proj) const;
+
 private:
 
 	ShapeRenderer();

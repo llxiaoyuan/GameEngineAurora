@@ -152,7 +152,7 @@
     <ClInclude Include="Aurora\include\Aurora\Aurora.hpp" />
     <ClInclude Include="Aurora\include\Aurora\BitmapFont.hpp" />
     <ClInclude Include="Aurora\include\Aurora\BitmapTexture.hpp" />
-    <ClInclude Include="Aurora\include\Aurora\Camera.hpp" />
+    <ClInclude Include="Aurora\include\Aurora\OrthoCamera.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Configuration.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Event.hpp" />
     <ClInclude Include="Aurora\include\Aurora\Game.hpp" />
@@ -484,6 +484,7 @@
     <ClInclude Include="Aurora\tools\irrKlang\irrKlang.h" />
     <ClInclude Include="Aurora\tools\KHR\khrplatform.h" />
     <ClInclude Include="Aurora\tools\stb_image\stb_image.h" />
+    <ClInclude Include="src\CameraTest\OrthoCameraTestScene.hpp" />
     <ClInclude Include="src\DigitalRain\DigitalRainScene.hpp" />
     <ClInclude Include="src\DigitalRain\Rain.hpp" />
     <ClInclude Include="src\DinoGame\CloudManager.hpp" />
@@ -523,7 +524,7 @@
     <ClCompile Include="Aurora\src\Aurora\Aurora.cpp" />
     <ClCompile Include="Aurora\src\Aurora\BitmapFont.cpp" />
     <ClCompile Include="Aurora\src\Aurora\BitmapTexture.cpp" />
-    <ClCompile Include="Aurora\src\Aurora\Camera.cpp" />
+    <ClCompile Include="Aurora\src\Aurora\OrthoCamera.cpp" />
     <ClCompile Include="Aurora\src\Aurora\Configuration.cpp" />
     <ClCompile Include="Aurora\src\Aurora\glad.c" />
     <ClCompile Include="Aurora\src\Aurora\GL\GL.cpp" />
