@@ -31,7 +31,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new FourierDrawing(gsm));
+		gsm->push(new OrthoCameraTestScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 

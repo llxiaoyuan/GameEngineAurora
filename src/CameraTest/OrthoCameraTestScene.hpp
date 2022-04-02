@@ -12,12 +12,15 @@ public:
 		Scene(gsm),
 		cam(new OrthoCamera(0, 0))
 	{
-
+		x = 0;
+		y = 0;
+		Mouse::addLeftDownEvent(this, &OrthoCameraTestScene::mouseDown);
 	}
 
 	~OrthoCameraTestScene()
 	{
 		delete cam;
+		
 	}
 
 	void handleinput() override
@@ -27,22 +30,30 @@ public:
 
 	void update(const float& dt) override
 	{
-		cam->setPosition(200, 200);
-		cam->update();
+		
+	}
+
+	void mouseDown()
+	{
+		x = Random::Int() % Graphics::getWidth();
+		y = Random::Int() % Graphics::getHeight();
+		std::cout << &x << "\n";
+		std::cout << cam << "\n";
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
+		std::cout << &x << "\n";
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 1, 1, 1);
-		shapeRenderer->setProjMatrix(cam->getProjectionMatrix());
 		shapeRenderer->begin();
-		const glm::vec3& worldPos = cam->screenToWorld(10.f,10.f);
-		shapeRenderer->drawFilledRect(worldPos.x, worldPos.y, 100, 100, 1, 1, 1);
-		shapeRenderer->drawFilledRect(200, 200, 100, 100, 1, 1, 1);
+		shapeRenderer->drawFilledRect(x, y, 100, 100, 1, 1, 1);
 		shapeRenderer->end();
 	}
 
 	OrthoCamera* cam;
+
+	int x;
+	int y;
 
 };
