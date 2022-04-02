@@ -38,11 +38,6 @@ public:
 		delete texture;
 	}
 
-	std::unique_ptr<Scene> clone()
-	{
-		return std::make_unique<FireworkScene>(*this);
-	}
-
 	void handleinput() override
 	{
 

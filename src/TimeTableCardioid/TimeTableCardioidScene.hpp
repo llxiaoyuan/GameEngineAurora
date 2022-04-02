@@ -74,11 +74,6 @@ public:
 
 	}
 
-	std::unique_ptr<Scene> clone()
-	{
-		return std::make_unique<TimeTableCardioidScene>(*this);
-	}
-
 	void handleinput() override
 	{
 

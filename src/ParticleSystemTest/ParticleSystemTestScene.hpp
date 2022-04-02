@@ -19,11 +19,6 @@ public:
 		std::cout << "[class ParticleSystemTestScene] release!\n";
 	}
 
-	std::unique_ptr<Scene> clone() override
-	{
-		return std::make_unique<ParticleSystemTestScene>(*this);
-	}
-
 	void handleinput() override
 	{
 

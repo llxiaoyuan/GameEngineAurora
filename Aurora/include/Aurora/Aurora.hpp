@@ -31,7 +31,8 @@ public:
 
 	bool iniEngine(const Configuration& configuration);
 
-	void iniGame(Game* const game);
+	template<typename Obj>
+	void iniGame(Obj obj);
 
 private:
 
@@ -66,5 +67,35 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
 HWND get_wallpaper_window();
 
 void getSysResolution(int& width, int& height);
+
+template<typename Obj>
+inline void Aurora::iniGame(Obj obj)
+{
+	this->game = std::make_unique<std::remove_reference<decltype(*obj)>::type>(*obj);
+	switch (config->mode)
+	{
+	case Configuration::DisplayMode::Normal:
+		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPosCallback(window, cursor_position_callback);
+		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		runGame();
+		break;
+	case Configuration::DisplayMode::Wallpaper:
+		runWallpaper();
+		break;
+	case Configuration::DisplayMode::Record:
+		runRecord();
+		break;
+	default:
+		break;
+	}
+
+	this->game = nullptr;
+
+	if (config->useAudio)
+	{
+		Sound::release();
+	}
+}
 
 #endif // !_AURORA_HPP_

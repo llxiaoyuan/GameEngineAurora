@@ -20,8 +20,6 @@ public:
 		std::cout << "[class Game] release!\n";
 	}
 
-	virtual std::unique_ptr<Game> clone() = 0;
-
 	virtual void update(const float& dt) = 0;
 
 	virtual void render() = 0;

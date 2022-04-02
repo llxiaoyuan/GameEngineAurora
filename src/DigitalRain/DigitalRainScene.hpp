@@ -32,11 +32,6 @@ public:
 		delete font;
 	}
 
-	std::unique_ptr<Scene> clone()
-	{
-		return std::make_unique<DigitalRainScene>(*this);
-	}
-
 	void handleinput() override
 	{
 

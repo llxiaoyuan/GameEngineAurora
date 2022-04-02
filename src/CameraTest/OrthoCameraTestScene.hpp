@@ -20,11 +20,6 @@ public:
 		delete cam;
 	}
 
-	std::unique_ptr<Scene> clone()
-	{
-		return std::make_unique<std::remove_reference<decltype(*this)>::type>(*this);
-	}
-
 	void handleinput() override
 	{
 

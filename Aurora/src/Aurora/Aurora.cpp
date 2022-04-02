@@ -118,35 +118,6 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	return true;
 }
 
-void Aurora::iniGame(Game* const game)
-{
-	this->game = game->clone();
-	switch (config->mode)
-	{
-	case Configuration::DisplayMode::Normal:
-		glfwSetKeyCallback(window, key_callback);
-		glfwSetCursorPosCallback(window, cursor_position_callback);
-		glfwSetMouseButtonCallback(window, mouse_button_callback);
-		runGame();
-		break;
-	case Configuration::DisplayMode::Wallpaper:
-		runWallpaper();
-		break;
-	case Configuration::DisplayMode::Record:
-		runRecord();
-		break;
-	default:
-		break;
-	}
-
-	this->game = nullptr;
-
-	if (config->useAudio)
-	{
-		Sound::release();
-	}
-}
-
 void Aurora::runGame()
 {
 	while (!glfwWindowShouldClose(window))

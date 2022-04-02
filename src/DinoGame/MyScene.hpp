@@ -37,11 +37,6 @@ public:
 		delete dino;
 	}
 
-	std::unique_ptr<Scene> clone()
-	{
-		return std::make_unique<MyScene>(*this);
-	}
-
 	void handleinput() override
 	{
 		if (isGameEnded && Keyboard::getKeyPress(Keyboard::Enter))

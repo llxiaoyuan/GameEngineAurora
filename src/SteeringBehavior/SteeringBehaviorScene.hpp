@@ -32,9 +32,6 @@ public:
 		delete arrow;
 	}
 
-	// Í¨¹ý Scene ¼Ì³Ð
-	virtual std::unique_ptr<Scene> clone() override;
-
 
 	virtual void handleinput() override;
 

@@ -31,7 +31,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new OrthoCameraTestScene(gsm));
+		gsm->push(new FluidSimulationScene(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 
@@ -41,11 +41,6 @@ public:
 		delete spriteRenderer;
 		delete shapeRenderer;
 		std::cout << "[" << typeid(*this).name() << "] release!\n";
-	}
-
-	std::unique_ptr<Game> clone() override
-	{
-		return std::make_unique<MyGame>(*this);
 	}
 
 	void update(const float& dt) override

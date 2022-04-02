@@ -26,8 +26,6 @@ public:
 
 	virtual ~Scene() {}
 
-	virtual std::unique_ptr<Scene> clone() = 0;
-
 	virtual void handleinput() = 0;
 
 	virtual void update(const float& dt) = 0;
@@ -52,9 +50,10 @@ public:
 		std::cout << "[class GameSceneManager] release!\n";
 	}
 
-	void push(Scene* scene)
+	template<typename Obj>
+	void push(Obj obj)
 	{
-		scenes.push(scene->clone());
+		scenes.push(std::make_unique<std::remove_reference<decltype(*obj)>::type>(*obj));
 	}
 
 	void pop()
@@ -62,10 +61,11 @@ public:
 		scenes.pop();
 	}
 
-	void set(Scene* scene)
+	template<typename Obj>
+	void set(Obj obj)
 	{
 		scenes.pop();
-		scenes.push(scene->clone());
+		scenes.push(std::make_unique<std::remove_reference<decltype(*obj)>::type>(*obj));
 	}
 
 	void update(const float& dt)

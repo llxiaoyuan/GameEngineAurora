@@ -1,10 +1,5 @@
 #include "SteeringBehaviorScene.hpp"
 
-std::unique_ptr<Scene> SteeringBehaviorScene::clone()
-{
-    return std::make_unique<SteeringBehaviorScene>(*this);
-}
-
 void SteeringBehaviorScene::handleinput()
 {
 

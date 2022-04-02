@@ -37,11 +37,6 @@ public:
 		delete renderTexture;
 	}
 
-	std::unique_ptr<Scene> clone()
-	{
-		return std::make_unique<LogoInterpreterScene>(*this);
-	}
-
 	void handleinput() override
 	{
 
