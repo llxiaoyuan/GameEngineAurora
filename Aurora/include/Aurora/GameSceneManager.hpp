@@ -32,8 +32,6 @@ public:
 
 	virtual void render(SpriteRenderer* const spriteRenderer,ShapeRenderer* const shapeRenderer) = 0;
 
-	friend class Event;
-
 };
 
 class GameSceneManager
