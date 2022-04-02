@@ -22,6 +22,11 @@ void OrthoCamera::setPosition(const float& x, const float& y)
 	position.y = y;
 }
 
+void OrthoCamera::setPosition(const glm::vec3 pos)
+{
+	position = pos;
+}
+
 void OrthoCamera::setSize(const float& width, const float& height)
 {
 	size.x = width;
@@ -30,8 +35,8 @@ void OrthoCamera::setSize(const float& width, const float& height)
 
 void OrthoCamera::move(const float& dx, const float& dy)
 {
-	position.x -= dx;
-	position.y -= dy;
+	position.x += dx;
+	position.y += dy;
 }
 
 const glm::mat4& OrthoCamera::getProjectionMatrix() const
@@ -41,18 +46,18 @@ const glm::mat4& OrthoCamera::getProjectionMatrix() const
 
 glm::vec3 OrthoCamera::screenToWorld(const glm::vec3& pos) const
 {
-	const glm::vec3 worldPos = pos - position;
+	const glm::vec3 worldPos = pos + position;
 	return worldPos;
 }
 
 glm::vec3 OrthoCamera::screenToWorld(const float& x, const float& y) const
 {
-	const glm::vec3 worldPos = glm::vec3(x, y, 0) - position;
+	const glm::vec3 worldPos = glm::vec3(x, y, 0) + position;
 	return worldPos;
 }
 
 void OrthoCamera::update()
 {
 	projMatrix = glm::ortho(0.f, size.x, 0.f, size.y, -1.f, 1.f);
-	projMatrix = glm::translate(projMatrix, position);
+	projMatrix = glm::translate(projMatrix, -position);
 }

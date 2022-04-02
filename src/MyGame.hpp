@@ -31,7 +31,7 @@ public:
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())
 	{
-		gsm->push(new SteeringBehaviorScene(gsm));
+		gsm->push(new FourierDrawing(gsm));
 		Graphics::setRecordConfig({ 6000ULL,60 });
 	}
 
@@ -40,7 +40,7 @@ public:
 		delete gsm;
 		delete spriteRenderer;
 		delete shapeRenderer;
-		std::cout << "[" << typeid(*this).name() << "] release!\n";
+		std::cout << "[class MyGame] release!\n";
 	}
 
 	void update(const float& dt) override

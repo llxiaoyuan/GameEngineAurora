@@ -16,7 +16,6 @@
 #include"Keyboard.hpp"
 #include"Mouse.hpp"
 #include"Game.hpp"
-#include"GameSceneManager.hpp"
 #include"Configuration.hpp"
 #include"Random.hpp"
 

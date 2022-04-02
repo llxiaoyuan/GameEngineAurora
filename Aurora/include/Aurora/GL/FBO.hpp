@@ -84,9 +84,6 @@ private:
 			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
 		}
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(r, g, b, a);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

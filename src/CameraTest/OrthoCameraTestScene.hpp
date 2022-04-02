@@ -27,7 +27,7 @@ public:
 
 	void update(const float& dt) override
 	{
-		cam->move(-10 * dt, -10 * dt);
+		cam->setPosition(200, 200);
 		cam->update();
 	}
 
@@ -37,8 +37,9 @@ public:
 		glClearColor(0, 1, 1, 1);
 		shapeRenderer->setProjMatrix(cam->getProjectionMatrix());
 		shapeRenderer->begin();
-		const glm::vec3& worldPos = cam->screenToWorld(Mouse::getPosition());
+		const glm::vec3& worldPos = cam->screenToWorld(10.f,10.f);
 		shapeRenderer->drawFilledRect(worldPos.x, worldPos.y, 100, 100, 1, 1, 1);
+		shapeRenderer->drawFilledRect(200, 200, 100, 100, 1, 1, 1);
 		shapeRenderer->end();
 	}
 

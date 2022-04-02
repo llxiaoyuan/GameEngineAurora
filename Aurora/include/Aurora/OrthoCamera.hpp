@@ -21,6 +21,8 @@ public:
 
 	void setPosition(const float& x,const float& y);
 
+	void setPosition(const glm::vec3 pos);
+
 	void setSize(const float& width, const float& height);
 
 	void move(const float& dx, const float& dy);

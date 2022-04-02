@@ -120,6 +120,7 @@ Texture::Texture(const unsigned char* const buffer, const int& width, const int&
 
 Texture::~Texture()
 {
+	std::cout << "[class Texture] " << filePath << " release!\n";
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteTextures(1, &textureID);

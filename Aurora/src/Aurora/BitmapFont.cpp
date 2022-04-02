@@ -103,7 +103,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 
 		Character character{ i,xoffset,-yoffset - height,xadvance };
 
-		keyMap.insert(std::pair<char, Character>(charID, character));
+		characterMap.insert(std::pair<char,const Character>(charID, character));
 
 		unsigned char* buffer = new unsigned char[(long long)width * (long long)height * 4LL];
 
@@ -129,7 +129,7 @@ BitmapFont::BitmapFont(const std::string& bitmapPath, const std::string& configF
 
 	stream.close();
 
-	std::cout << "[class BitmapFont] font load complete!\n";
+	std::cout << "[class BitmapFont] " << configFilePath << " load complete!\n";
 }
 
 BitmapFont* BitmapFont::create(const std::string& bitmapPath, const std::string& configFilePath, const int& fontSize)
@@ -148,7 +148,7 @@ BitmapFont::~BitmapFont()
 
 const  BitmapFont::Character& BitmapFont::getCharacter(const char& c)
 {
-	return keyMap[c];
+	return characterMap[c];
 }
 
 const int& BitmapFont::getFontSize() const

@@ -53,7 +53,7 @@ private:
 
 	std::vector<BitmapTexture*> textures;
 
-	std::map<char, Character> keyMap;
+	std::map<char,const Character> characterMap;
 
 };
 
