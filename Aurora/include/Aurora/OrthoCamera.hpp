@@ -4,7 +4,6 @@
 #define _ORTHOCAMERA_HPP_
 
 #include<glm/glm.hpp>
-#include<glad/glad.h>
 #include<glm/gtc/matrix_transform.hpp>
 
 #include"Graphics.hpp"

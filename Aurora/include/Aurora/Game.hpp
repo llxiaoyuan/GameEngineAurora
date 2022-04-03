@@ -4,7 +4,6 @@
 #define _GAME_HPP_
 
 #include<iostream>
-#include<memory>
 
 class Game
 {

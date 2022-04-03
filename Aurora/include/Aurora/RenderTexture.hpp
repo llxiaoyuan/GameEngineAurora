@@ -3,9 +3,10 @@
 #ifndef _RENDERTEXTURE_HPP_
 #define _RENDERTEXTURE_HPP_
 
+#include<iostream>
+
 #include<glad/glad.h>
 #include<glm/glm.hpp>
-#include<iostream>
 
 #include"GL/GL.hpp"
 

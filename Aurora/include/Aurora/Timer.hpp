@@ -5,7 +5,6 @@
 
 #include"Graphics.hpp"
 
-//¼ÆÊ±Æ÷Àà
 class Timer
 {
 public:

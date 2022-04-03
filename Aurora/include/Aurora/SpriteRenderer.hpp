@@ -3,10 +3,11 @@
 #ifndef _SPRITE_RENDERER_HPP_
 #define _SPRITE_RENDERER_HPP_
 
+#include<vector>
+
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
-#include<vector>
 
 #include"Math.hpp"
 #include"Graphics.hpp"

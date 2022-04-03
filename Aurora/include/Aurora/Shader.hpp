@@ -3,15 +3,12 @@
 #ifndef _SHADER_HPP_
 #define _SHADER_HPP_
 
-#include<string>
 #include<vector>
-#include<fstream>
-#include<sstream>
 #include<iostream>
+#include<unordered_map>
+
 #include<glad/glad.h>
 #include<glm/glm.hpp>
-
-#include<unordered_map>
 
 #include"Utils.hpp"
 

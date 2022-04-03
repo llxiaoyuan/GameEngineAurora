@@ -4,6 +4,7 @@
 #define _BITMAP_TEXTURE_HPP_
 
 #include<string>
+
 #include<glad/glad.h>
 #include<glm/glm.hpp>
 

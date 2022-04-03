@@ -6,7 +6,7 @@
 #include<string>
 #include<vector>
 #include<fstream>
-#include<map>
+#include<unordered_map>
 
 #include"BitmapTexture.hpp"
 #include"SpriteRenderer.hpp"
@@ -53,7 +53,7 @@ private:
 
 	std::vector<BitmapTexture*> textures;
 
-	std::map<char,const Character> characterMap;
+	std::unordered_map<char,const Character> characterMap;
 
 };
 

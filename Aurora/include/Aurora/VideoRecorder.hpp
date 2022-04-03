@@ -3,11 +3,11 @@
 #ifndef _VIDEO_RECORDER_HPP_
 #define _VIDEO_RECORDER_HPP_
 
-#include<glad/glad.h>
-#include<string.h>
 #include<string>
 #include<iostream>
 #include<chrono>
+
+#include<glad/glad.h>
 
 class VideoRecorder
 {

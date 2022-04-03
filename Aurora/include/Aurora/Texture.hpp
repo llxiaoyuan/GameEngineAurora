@@ -4,11 +4,12 @@
 #define _TEXTURE_HPP_
 
 #include<iostream>
-#include<glad/glad.h>
 #include<string>
+#include<vector>
+
+#include<glad/glad.h>
 #include<stb_image/stb_image.h>
 #include<glm/glm.hpp>
-#include<vector>
 
 class Texture
 {

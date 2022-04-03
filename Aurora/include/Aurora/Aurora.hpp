@@ -5,10 +5,11 @@
 #define _AURORA_HPP_
 
 #include <windows.h>
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
 #include<chrono>
 #include<memory>
+
+#include<glad/glad.h>
+#include<GLFW/glfw3.h>
 
 #include"VideoRecorder.hpp"
 #include"Sound.hpp"

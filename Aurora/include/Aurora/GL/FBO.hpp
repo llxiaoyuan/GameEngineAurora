@@ -4,6 +4,7 @@
 #define _FBO_HPP_
 
 #include<iostream>
+
 #include<glad/glad.h>
 
 class FBO
