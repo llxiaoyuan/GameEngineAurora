@@ -103,6 +103,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 		EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
 		if (devMode.dmDisplayFrequency == 0)
 		{
+			std::cout << "[class Aurora] cannot get monitor refresh rate!\n";
 			Graphics::refreshRate = 60;
 		}
 		else
@@ -110,7 +111,7 @@ bool Aurora::iniEngine(const Configuration& configuration)
 			Graphics::refreshRate = devMode.dmDisplayFrequency;
 		}
 		Graphics::deltaTimeLimit = 1.1f / Graphics::refreshRate;
-		std::cout << "[class Aurora] screen refresh rate " << devMode.dmDisplayFrequency << "\n";
+		std::cout << "[class Aurora] screen refresh rate " << devMode.dmDisplayFrequency << "Hz\n";
 	}
 
 	std::cout << "[class Aurora] initiallize complete!\n";
