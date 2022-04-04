@@ -1,6 +1,6 @@
 #include<Aurora/Random.hpp>
 
-std::default_random_engine Random::randomEngine;
+std::mt19937 Random::randomEngine;
 
 std::uniform_int_distribution<int> Random::intDistribution;
 

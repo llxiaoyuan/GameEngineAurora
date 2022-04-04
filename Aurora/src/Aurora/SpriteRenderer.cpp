@@ -79,30 +79,28 @@ void SpriteRenderer::end()
 void SpriteRenderer::draw(Texture* const texture, const float& x, const float& y)
 {
 	texturePoolAdd(texture);
-	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0));
+	const glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0));
 	texture->addModel(model);
 }
 
 void SpriteRenderer::draw(Texture* const texture, const float& x, const float& y, const float& originX, const float& originY)
 {
 	texturePoolAdd(texture);
-	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x - originX, y - originY, 0));
+	const glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x - originX, y - originY, 0));
 	texture->addModel(model);
 }
 
 void SpriteRenderer::draw(Texture* const texture, const float& x, const float& y, const float& originX, const float& originY, const float& rotation)
 {
 	texturePoolAdd(texture);
-	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0));
-	model = glm::rotate(model, rotation, glm::vec3(0, 0, 1.f));
-	model = glm::translate(model, glm::vec3(-originX, -originY, 0));
+	const glm::mat4 model = glm::translate(glm::rotate(glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0)), rotation, glm::vec3(0, 0, 1.f)), glm::vec3(-originX, -originY, 0));
 	texture->addModel(model);
 }
 
 void SpriteRenderer::draw(RenderTexture* const renderTexture, const float& x, const float& y)
 {
 	renderTexturePoolAdd(renderTexture);
-	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0));
+	const glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0));
 	renderTexture->addModel(model);
 }
 

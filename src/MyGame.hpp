@@ -27,7 +27,7 @@ public:
 	ShapeRenderer* shapeRenderer;
 
 
-	MyGame():
+	MyGame() :
 		gsm(GameSceneManager::create()),
 		spriteRenderer(SpriteRenderer::create()),
 		shapeRenderer(ShapeRenderer::create())

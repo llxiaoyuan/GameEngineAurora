@@ -2,13 +2,7 @@
 
 Texture* Texture::create(const std::string& path)
 {
-	Texture* const texture = new Texture(path);
-	if (texture->textureID)
-	{
-		return texture;
-	}
-	delete texture;
-	return nullptr;
+	return new Texture(path);
 }
 
 Texture::Texture(const std::string& path)

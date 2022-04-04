@@ -81,7 +81,7 @@ public:
 
 	void update(const float& dt) override
 	{
-		d1 += 50ULL;
+		d1 += 75ULL;
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override

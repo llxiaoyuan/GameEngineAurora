@@ -62,7 +62,9 @@ bool VideoRecorder::record()
 	if (frameRecorded == totalFrame + pboNum)
 	{
 		if (stream)
+		{
 			_pclose(stream);
+		}
 		std::cout << "[class VideoRecorder] frame record avg time " << frameTime / totalFrame << "\n";
 		return false;
 	}

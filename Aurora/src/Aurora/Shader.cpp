@@ -46,7 +46,7 @@ std::vector<std::string> Shader::ParseShader(const std::string& filePath)
 		}
 	}
 
-	std::cout << "[" << typeid(*this).name() << "] " << filePath << " compile ";
+	std::cout << "[class Shader] " << filePath << " compile ";
 
 	return std::vector<std::string>{ ss[0].str(), ss[1].str(), ss[2].str(), ss[3].str() };
 }

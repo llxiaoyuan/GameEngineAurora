@@ -175,8 +175,7 @@ void BitmapFont::draw(SpriteRenderer* const renderer, const std::string& context
 		const BitmapFont::Character& character = getCharacter(context[i]);
 		renderer->bitmapTexturePoolAdd(textures[character.index]);
 		const float currentY = y + character.yoffset;
-		glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0));
-		model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
+		const glm::mat4 model = glm::scale(glm::translate(glm::mat4(1.f), glm::vec3(currentX + character.xoffset, currentY, 0)), glm::vec3(getScale(), getScale(), 1));
 		textures[character.index]->addColor(r, g, b, a);
 		textures[character.index]->addModel(model);
 		currentX += character.xadvance * getScale();
@@ -187,8 +186,7 @@ void BitmapFont::draw(SpriteRenderer* const renderer, const char& context, const
 {
 	const BitmapFont::Character& character = getCharacter(context);
 	renderer->bitmapTexturePoolAdd(textures[character.index]);
-	glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(x + character.xoffset, y + character.yoffset, 0));
-	model = glm::scale(model, glm::vec3(getScale(), getScale(), 1));
+	const glm::mat4 model = glm::scale(glm::translate(glm::mat4(1.f), glm::vec3(x + character.xoffset, y + character.yoffset, 0)), glm::vec3(getScale(), getScale(), 1));
 	textures[character.index]->addColor(r, g, b, a);
 	textures[character.index]->addModel(model);
 }

@@ -29,7 +29,7 @@ public:
 
 	~MyScene()
 	{
-		std::cout << "[" << typeid(*this).name() << "] release!\n";
+		std::cout << "[class MyScene] release!\n";
 		delete gameOverTexture;
 		delete font;
 		delete gameOverSound;
