@@ -119,6 +119,45 @@ bool Aurora::iniEngine(const Configuration& configuration)
 	return true;
 }
 
+void Aurora::iniGame(Game* const game)
+{
+	if (!game)
+	{
+		std::cout << "[class Aurora] game is nullptr!\n";
+	}
+
+
+	this->game = game;
+
+	switch (config->mode)
+	{
+	case Configuration::DisplayMode::Normal:
+		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPosCallback(window, cursor_position_callback);
+		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		runGame();
+		break;
+	case Configuration::DisplayMode::Wallpaper:
+		runWallpaper();
+		break;
+	case Configuration::DisplayMode::Record:
+		runRecord();
+		break;
+	default:
+		break;
+	}
+
+	if (this->game)
+	{
+		delete this->game;
+	}
+
+	if (config->useAudio)
+	{
+		Sound::release();
+	}
+}
+
 void Aurora::runGame()
 {
 	while (!glfwWindowShouldClose(window))

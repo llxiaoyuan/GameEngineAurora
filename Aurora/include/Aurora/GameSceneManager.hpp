@@ -48,24 +48,43 @@ public:
 	~GameSceneManager()
 	{
 		std::cout << "[class GameSceneManager] release!\n";
+		while (scenes.size())
+		{
+			delete scenes.top();
+			scenes.pop();
+		}
 	}
 
-	template<typename Obj>
-	void push(Obj obj)
+	void push(Scene* const scene)
 	{
-		scenes.push(std::make_unique<std::remove_reference<decltype(*obj)>::type>(*obj));
+		if (!scene)
+		{
+			std::cout << "[class GameSceneManager] scene is nullptr!\n";
+		}
+		scenes.push(scene);
 	}
 
 	void pop()
 	{
+		if (scenes.size())
+		{
+			delete scenes.top();
+		}
 		scenes.pop();
 	}
 
-	template<typename Obj>
-	void set(Obj obj)
+	void set(Scene* const scene)
 	{
+		if (scenes.size())
+		{
+			delete scenes.top();
+		}
 		scenes.pop();
-		scenes.push(std::make_unique<std::remove_reference<decltype(*obj)>::type>(*obj));
+		if (!scene)
+		{
+			std::cout << "[class GameSceneManager] scene is nullptr!\n";
+		}
+		scenes.push(scene);
 	}
 
 	void update(const float& dt)
@@ -85,7 +104,7 @@ private:
 		
 	}
 
-	std::stack<std::unique_ptr<Scene>> scenes;
+	std::stack<Scene*> scenes;
 
 };
 

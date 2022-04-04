@@ -20,7 +20,6 @@ public:
 	~OrthoCameraTestScene()
 	{
 		delete cam;
-		
 	}
 
 	void handleinput() override
@@ -37,13 +36,10 @@ public:
 	{
 		x = Random::Int() % Graphics::getWidth();
 		y = Random::Int() % Graphics::getHeight();
-		std::cout << &x << "\n";
-		std::cout << cam << "\n";
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
 	{
-		std::cout << &x << "\n";
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0, 1, 1, 1);
 		shapeRenderer->begin();
