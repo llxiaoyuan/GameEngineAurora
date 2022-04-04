@@ -9,12 +9,12 @@ public:
 	SampleScene(GameSceneManager* gsm) :
 		Scene(gsm)
 	{
-		
+		std::cout << "[class SampleScene] create!\n";
 	}
 
 	~SampleScene()
 	{
-
+		std::cout << "[class SampleScene] release\n";
 	}
 
 	void handleinput() override

@@ -16,6 +16,7 @@
 #include"DoomFire/DoomFireScene.hpp"
 #include"FluidSimulation/FluidSimulationScene.hpp"
 #include"CameraTest/OrthoCameraTestScene.hpp"
+#include"SampleScene.hpp"
 
 class MyGame :public Game
 {
