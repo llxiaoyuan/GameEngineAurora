@@ -8,7 +8,7 @@ int Graphics::frameCount = 0;
 
 float Graphics::framePerSec = 0;
 
- int Graphics::screenWidth;
+int Graphics::screenWidth;
 
 int Graphics::screenHeight;
 
