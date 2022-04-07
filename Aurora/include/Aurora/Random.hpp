@@ -5,7 +5,7 @@
 
 #include<random>
 #include<cstdlib>
-#include<time.h>
+#include<ctime>
 
 class Random
 {
