@@ -2,6 +2,7 @@
 
 #include<Aurora/GameSceneManager.hpp>
 #include<Aurora/Graphics.hpp>
+#include<Aurora/Timer.hpp>
 
 #include"Cardioid.hpp"
 
@@ -64,7 +65,8 @@ public:
 		d1(0),
 		hue(0),
 		color{ 1,1,1 },
-		frameCount(0)
+		frameCount(0),
+		timer(0.01f)
 	{
 		c.cal();
 	}
@@ -81,7 +83,10 @@ public:
 
 	void update(const float& dt) override
 	{
-		d1 += 75ULL;
+		if (timer.update())
+		{
+			d1 += 75ULL;
+		}
 	}
 
 	void render(SpriteRenderer* const spriteRenderer, ShapeRenderer* const shapeRenderer) override
@@ -102,4 +107,6 @@ public:
 			frameCount = 0;
 		}
 	}
+
+	Timer timer;
 };
