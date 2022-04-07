@@ -171,7 +171,7 @@ public:
 	{
 		colorSky();
 		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(currentSkyColor.r / 255.f, currentSkyColor.g / 255.f, currentSkyColor.b / 255.f, 1.f);
+		glClearColor(currentSkyColor.r, currentSkyColor.g, currentSkyColor.b, 1.f);
 
 		texture->bind();
 		shapeRenderer->begin();
@@ -203,7 +203,7 @@ public:
 
 	void colorSky()
 	{
-		const float maxSkySaturation = 30.f;
+		const float maxSkySaturation = 30.f/255.f;
 		const int maxStarCount = 500;
 		int totalStarCount = 0;
 
@@ -215,14 +215,14 @@ public:
 		{
 			Star* const star = *it;
 			totalStarCount++;
-			targetSkyColor.r += star->color.r * 255.f;
-			targetSkyColor.g += star->color.g * 255.f;
-			targetSkyColor.b += star->color.b * 255.f;
+			targetSkyColor.r += star->color.r;
+			targetSkyColor.g += star->color.g;
+			targetSkyColor.b += star->color.b;
 		}
 
 		const float intensity = powf(fminf(1, (float)totalStarCount / maxStarCount), 0.3f);
 
-		float maxColorComponent = 1.f;
+		float maxColorComponent = 1.f / 255.f;
 
 		if (targetSkyColor.r > maxColorComponent)
 		{
