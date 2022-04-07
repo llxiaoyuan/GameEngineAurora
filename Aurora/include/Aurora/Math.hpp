@@ -23,7 +23,8 @@ public:
 
 	static constexpr float degToRad = 0.01745329251994329576923690768489f;
 
-	static float lerp(const float& start, const float& end, const float& t);
+	template<typename T>
+	static T lerp(const T& start, const T& end, const T& t);
 
 };
 

@@ -1,6 +1,7 @@
 #include<Aurora/Math.hpp>
 
-float Math::lerp(const float& start, const float& end, const float& t)
+template<typename T>
+T Math::lerp(const T& start, const T& end, const T& t)
 {
     return (end - start) * t + start;
 }

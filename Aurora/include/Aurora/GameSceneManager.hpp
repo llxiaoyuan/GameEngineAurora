@@ -60,6 +60,7 @@ public:
 		if (!scene)
 		{
 			std::cout << "[class GameSceneManager] scene is nullptr!\n";
+			return;
 		}
 		scenes.push(scene);
 	}
@@ -69,8 +70,8 @@ public:
 		if (scenes.size())
 		{
 			delete scenes.top();
+			scenes.pop();
 		}
-		scenes.pop();
 	}
 
 	void set(Scene* const scene)
@@ -78,11 +79,12 @@ public:
 		if (scenes.size())
 		{
 			delete scenes.top();
+			scenes.pop();
 		}
-		scenes.pop();
 		if (!scene)
 		{
 			std::cout << "[class GameSceneManager] scene is nullptr!\n";
+			return;
 		}
 		scenes.push(scene);
 	}
