@@ -253,7 +253,7 @@ public:
 
 private:
 
-	static constexpr float GRAVITY = 0.9f;
+	const float GRAVITY = 0.9f;
 
 	Color currentSkyColor;
 

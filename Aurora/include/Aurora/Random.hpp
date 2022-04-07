@@ -4,6 +4,8 @@
 #define _RANDOM_HPP_
 
 #include<random>
+#include<cstdlib>
+#include<time.h>
 
 class Random
 {

@@ -52,7 +52,7 @@ public:
 		interval(5),
 		curFrame(0)
 	{
-		std::string filePath = "res\\FourierDrawingRes\\maomao.json";
+		std::string filePath = "res\\FourierDrawingRes\\dft_data.json";
 		std::ifstream ifs(filePath);
 		json dftData = json::parse(ifs);
 		ifs.close();
