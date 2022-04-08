@@ -36,7 +36,7 @@ private:
 
 	int height;
 
-	FBO* fbo;
+	FBO* const fbo;
 
 	unsigned int VAO;
 

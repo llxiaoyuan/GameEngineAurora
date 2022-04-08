@@ -23,10 +23,15 @@ public:
 
 	static constexpr float degToRad = 0.01745329251994329576923690768489f;
 
-	template<typename T>
-	static T lerp(const T& start, const T& end, const T& t);
+	template<typename F, typename T>
+	static T lerp(const T& start, const T& end, const F& t);
 
 };
 
+template<typename F,typename T>
+T Math::lerp(const T& start, const T& end, const F& f)
+{
+	return (end - start) * f + start;
+}
 
 #endif // !_MATH_HPP_

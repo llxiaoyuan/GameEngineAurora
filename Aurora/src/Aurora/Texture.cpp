@@ -24,7 +24,7 @@ Texture::Texture(const std::string& path)
 
 		stbi_image_free(localBuffer);
 
-		float positions[] = {0,0,0,0,(float)width,0,1.f,0,(float)width,(float)height,1.f,1.f,0,(float)height,0,1.f};
+		float positions[] = { 0,0,0,0,(float)width,0,1.f,0,(float)width,(float)height,1.f,1.f,0,(float)height,0,1.f };
 
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
@@ -67,7 +67,7 @@ Texture::Texture(const std::string& path)
 }
 
 Texture::Texture(const unsigned char* const buffer, const int& width, const int& height, const int& bpp) :
-	textureID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), positionBuffer(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum])
+	textureID(0), width(width), height(height), bpp(bpp), VAO(0), VBO(0), positionBuffer(0), curMatricesNum(0), registered(false), modelMatrices(new glm::mat4[defaultMaxMatricesNum]), filePath("")
 {
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -77,8 +77,8 @@ Texture::Texture(const unsigned char* const buffer, const int& width, const int&
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
-	float positions[] = {0,0,0,0,(float)width ,0 ,1.0f ,0,(float)width ,(float)height ,1.0f,1.0f,0,(float)height,0 ,1.0f};
+
+	float positions[] = { 0,0,0,0,(float)width ,0 ,1.0f ,0,(float)width ,(float)height ,1.0f,1.0f,0,(float)height,0 ,1.0f };
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);

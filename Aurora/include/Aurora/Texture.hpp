@@ -35,13 +35,11 @@ private:
 
 	friend class SpriteRenderer;
 
-	friend class BitmapFont;
-
 	int width;
 
 	int height;
 
-	std::string filePath;
+	const std::string filePath;
 
 	int bpp;
 

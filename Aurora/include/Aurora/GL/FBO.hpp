@@ -49,13 +49,13 @@ public:
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	int width;
+	const int width;
 
-	int height;
+	const int height;
 
-	float texelSizeX;
+	const float texelSizeX;
 
-	float texelSizeY;
+	const float texelSizeY;
 
 	unsigned int fbo;
 
