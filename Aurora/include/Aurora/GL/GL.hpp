@@ -17,6 +17,8 @@ public:
 
 	static FBO* createFBO(const int& width, const int& height, const int& internalFormat, const unsigned int& format, const unsigned int& type, const int& param);
 
+	inline static void clearColor(const float& r, const float& g, const float& b, const float& a = 1.f);
+
 };
 
 #endif // !_GL_HPP_

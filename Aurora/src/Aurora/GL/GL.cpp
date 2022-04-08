@@ -9,3 +9,8 @@ FBO* GL::createFBO(const int& width, const int& height, const int& internalForma
 {
 	return new FBO(width,height, internalFormat,format,type,param);
 }
+
+inline void GL::clearColor(const float& r, const float& g, const float& b, const float& a)
+{
+	glClearColor(r, g, b, a);
+}

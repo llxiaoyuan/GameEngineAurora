@@ -163,7 +163,7 @@ public:
 	{
 		int posX = Mouse::getPosition().x;
 		int posY = Mouse::getPosition().y;
-		updatePointerDownData(-1, posX, Graphics::getHeight() - posY);
+		updatePointerDownData(-1, posX, posY);
 	}
 
 	void leftUpEvent()
@@ -177,7 +177,7 @@ public:
 		{
 			int posX = Mouse::getPosition().x;
 			int posY = Mouse::getPosition().y;
-			updatePointerMoveData(posX, Graphics::getHeight() - posY);
+			updatePointerMoveData(posX, posY);
 		}
 	}
 
@@ -393,7 +393,7 @@ private:
 		pointer->down = true;
 		pointer->moved = false;
 		pointer->texcoordX = posX / Graphics::getWidth();
-		pointer->texcoordY = 1.0f - posY / Graphics::getHeight();
+		pointer->texcoordY = posY / Graphics::getHeight();
 		pointer->prevTexcoordX = pointer->texcoordX;
 		pointer->prevTexcoordY = pointer->texcoordY;
 		pointer->deltaX = 0;
@@ -406,7 +406,7 @@ private:
 		pointer->prevTexcoordX = pointer->texcoordX;
 		pointer->prevTexcoordY = pointer->texcoordY;
 		pointer->texcoordX = posX / Graphics::getWidth();
-		pointer->texcoordY = 1.0f - posY / Graphics::getHeight();
+		pointer->texcoordY = posY / Graphics::getHeight();
 		pointer->deltaX = pointer->texcoordX - pointer->prevTexcoordX;
 		pointer->deltaY = correctDeltaY(pointer->texcoordY - pointer->prevTexcoordY);
 		pointer->moved = fabsf(pointer->deltaX) > 0 || fabsf(pointer->deltaY) > 0;
