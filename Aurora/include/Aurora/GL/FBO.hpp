@@ -116,6 +116,8 @@ private:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
+	void operator=(const FBO&) = delete;
+
 };
 
 #endif // !_FBO_HPP_

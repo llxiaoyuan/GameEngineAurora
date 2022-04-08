@@ -23,6 +23,8 @@ class Aurora
 {
 public:
 
+	void operator=(const Aurora&) = delete;
+
 	static Aurora& get()
 	{
 		return instance;

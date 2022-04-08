@@ -16,6 +16,8 @@ public:
 
 	BitmapTexture(const BitmapTexture&) = delete;
 
+	void operator=(const BitmapTexture&) = delete;
+
 	~BitmapTexture();
 
 private:

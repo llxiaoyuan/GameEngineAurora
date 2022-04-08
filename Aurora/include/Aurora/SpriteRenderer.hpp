@@ -25,6 +25,8 @@ public:
 
 	SpriteRenderer(const SpriteRenderer&) = delete;
 
+	void operator=(const SpriteRenderer&) = delete;
+
 	~SpriteRenderer();
 
 	void begin();

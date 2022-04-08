@@ -16,6 +16,8 @@ public:
 
 	Animation(const Animation&) = delete;
 
+	void operator=(const Animation&) = delete;
+
 	static Animation* create(const float& frameDuration);
 
 	~Animation();

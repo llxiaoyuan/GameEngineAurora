@@ -66,7 +66,7 @@ public:
 		hue(0),
 		color{ 1,1,1 },
 		frameCount(0),
-		timer(0.01f)
+		timer(0.004f)
 	{
 		c.cal();
 	}
@@ -83,9 +83,9 @@ public:
 
 	void update(const float& dt) override
 	{
-		if (timer.update())
+		while(timer.update())
 		{
-			d1 += 75ULL;
+			d1 += 50ULL;
 		}
 	}
 

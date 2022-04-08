@@ -18,6 +18,10 @@ public:
 
 	GameSceneManager* gsm;
 
+	Scene(const Scene&) = delete;
+
+	void operator=(const Scene&) = delete;
+
 	Scene(GameSceneManager* manager) :
 		gsm(manager)
 	{

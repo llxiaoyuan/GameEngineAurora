@@ -9,6 +9,8 @@ class Sound
 {
 public:
 
+	void operator=(const Sound&) = delete;
+
 	static Sound* create(const char* filePath, const bool& loop = false);
 
 	~Sound();

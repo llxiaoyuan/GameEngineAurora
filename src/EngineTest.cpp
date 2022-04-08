@@ -16,5 +16,6 @@ int main(int argc, const char* argv[])
 	{
 		Aurora::get().iniGame(new MyGame());
 	}
+
 	return 0;
 }

@@ -19,6 +19,8 @@ public:
 
 	Texture(const Texture&) = delete;
 
+	void operator=(const Texture&) = delete;
+
 	static Texture* create(const std::string& path);
 
 	~Texture();

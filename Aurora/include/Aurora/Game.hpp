@@ -19,6 +19,8 @@ public:
 		std::cout << "[class Game] release!\n";
 	}
 
+	void operator=(const Game&) = delete;
+
 	virtual void update(const float& dt) = 0;
 
 	virtual void render() = 0;

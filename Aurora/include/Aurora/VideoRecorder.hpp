@@ -19,6 +19,8 @@ public:
 
 	VideoRecorder(const int& width, const int& height,const size_t& totalFrame,const int& frameRate);
 
+	void operator=(const VideoRecorder&) = delete;
+
 	~VideoRecorder();
 
 	bool record();

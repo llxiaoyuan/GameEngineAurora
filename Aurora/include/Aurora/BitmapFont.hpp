@@ -19,6 +19,8 @@ public:
 
 	BitmapFont(const BitmapFont&) = delete;
 
+	void operator=(const BitmapFont&) = delete;
+
 	~BitmapFont();
 
 	struct Character

@@ -18,6 +18,8 @@ public:
 
 	ShapeRenderer(const ShapeRenderer&) = delete;
 
+	void operator=(const ShapeRenderer&) = delete;
+
 	~ShapeRenderer();
 
 	void begin();
