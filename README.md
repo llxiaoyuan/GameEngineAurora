@@ -59,3 +59,5 @@ Times Tables Cardioid: https://www.bilibili.com/video/BV1KR4y1V7r4?spm_id_from=3
 4.4 很好今天解决了这个问题，一切都是独享指针惹的祸，妈的，也怪自己智能指针这里没怎么搞，只想让它帮忙处理内存释放的问题，却没想到这样做的后果。之前写引擎埋下的祸患今天终于解决了。还好引擎代码量不是特别大，今天总算是绝后患了。
 
 4.7 今天在别的电脑上试了下编译，结果报错，在Random.cpp下vs提示time未找到标识符，解决方法很简单，在Random.hpp加上time.h头文件就行了。其实我感到挺庆幸的，还好只有这一个错误。
+
+4.8 昨天晚上睡觉突然想到了Timer的计时，发现timeLimit如果小于帧生成时间，if(timer.update()){...}这类就会变成每帧执行一次，只要timeLimit小于帧生成时间，就会变成上述情况。解决方法很简单，当curTime>=timeLimit时curTime-=timeLimit然后还要将curTime+=Graphics::getDeltaTime()置后。之后呢使用方法也得变化，从if(timer.update()){...}改成while(timer.update()){...}。
