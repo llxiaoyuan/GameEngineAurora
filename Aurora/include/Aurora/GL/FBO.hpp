@@ -82,7 +82,7 @@ private:
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
-			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
+			std::cout << "[class FBO] framebuffer is not complete!\n";
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -110,7 +110,7 @@ private:
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
-			std::cout << "[class RenderTexture] framebuffer is not complete!\n";
+			std::cout << "[class FBO] framebuffer is not complete!\n";
 		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
