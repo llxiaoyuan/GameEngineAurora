@@ -61,3 +61,5 @@ Times Tables Cardioid: https://www.bilibili.com/video/BV1KR4y1V7r4?spm_id_from=3
 4.7 今天在别的电脑上试了下编译，结果报错，在Random.cpp下vs提示time未找到标识符，解决方法很简单，在Random.hpp加上time.h头文件就行了。其实我感到挺庆幸的，还好只有这一个错误。
 
 4.8 昨天晚上睡觉突然想到了Timer的计时，发现timeLimit如果小于帧生成时间，if(timer.update()){...}这类就会变成每帧执行一次，只要timeLimit小于帧生成时间，就会变成上述情况。解决方法很简单，当curTime>=timeLimit时curTime-=timeLimit然后还要将curTime+=Graphics::getDeltaTime()置后。之后呢使用方法也得变化，从if(timer.update()){...}改成while(timer.update()){...}，但是当timeLimit大于帧生成时间时用if语句其实也可以。
+
+4.9 由于GLAD提供的OpenGL函数都是宏定义，鼠标悬停在函数上时没有任何参数提示，我决定封装一些GLAD提供的函数到GL这个静态类中。

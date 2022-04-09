@@ -27,7 +27,7 @@ public:
 		glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), (void*)(0 * sizeof(float)));
-
+		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
@@ -199,12 +199,12 @@ public:
 		blur(sunrays, sunraysTemp, 1);
 
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
+		GL::enable(GL_BLEND);
 
 		int width = Graphics::getWidth();
 		int height = Graphics::getHeight();
 
-		glViewport(0, 0, width, height);
+		GL::viewport(0, 0, width, height);
 
 		drawColor(ColorRGB{ 0,0,0 });
 
@@ -234,99 +234,99 @@ private:
 
 	void step(const float& dt)
 	{
-		glDisable(GL_BLEND);
-		glViewport(0, 0, velocity->width, velocity->height);
+		GL::disable(GL_BLEND);
+		GL::viewport(0, 0, velocity->width, velocity->height);
 
 		curlProgram->bind();
-		glUniform2f(curlProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
-		glUniform1i(curlProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		GL::uniform2f(curlProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		GL::uniform1i(curlProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
 		blit(curl->fbo);
 
 		vorticityProgram->bind();
-		glUniform2f(vorticityProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
-		glUniform1i(vorticityProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
-		glUniform1i(vorticityProgram->uniforms["uCurl"], curl->attachTexture(1));
-		glUniform1f(vorticityProgram->uniforms["curl"], config.CURL);
-		glUniform1f(vorticityProgram->uniforms["dt"], dt);
+		GL::uniform2f(vorticityProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		GL::uniform1i(vorticityProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		GL::uniform1i(vorticityProgram->uniforms["uCurl"], curl->attachTexture(1));
+		GL::uniform1f(vorticityProgram->uniforms["curl"], config.CURL);
+		GL::uniform1f(vorticityProgram->uniforms["dt"], dt);
 		blit(velocity->write()->fbo);
 		velocity->swap();
 
 		divergenceProgram->bind();
-		glUniform2f(divergenceProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
-		glUniform1i(divergenceProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		GL::uniform2f(divergenceProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		GL::uniform1i(divergenceProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
 		blit(divergence->fbo);
 
 		clearProgram->bind();
-		glUniform1i(clearProgram->uniforms["uTexture"], pressure->read()->attachTexture(0));
-		glUniform1f(clearProgram->uniforms["value"], config.PRESSURE);
+		GL::uniform1i(clearProgram->uniforms["uTexture"], pressure->read()->attachTexture(0));
+		GL::uniform1f(clearProgram->uniforms["value"], config.PRESSURE);
 		blit(pressure->write()->fbo);
 		pressure->swap();
 
 		pressureProgram->bind();
-		glUniform2f(pressureProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
-		glUniform1i(pressureProgram->uniforms["uDivergence"], divergence->attachTexture(0));
+		GL::uniform2f(pressureProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		GL::uniform1i(pressureProgram->uniforms["uDivergence"], divergence->attachTexture(0));
 		for (int i = 0; i < config.PRESSURE_ITERATIONS; i++)
 		{
-			glUniform1i(pressureProgram->uniforms["uPressure"], pressure->read()->attachTexture(1));
+			GL::uniform1i(pressureProgram->uniforms["uPressure"], pressure->read()->attachTexture(1));
 			blit(pressure->write()->fbo);
 			pressure->swap();
 		}
 
 		gradienSubtractProgram->bind();
-		glUniform2f(gradienSubtractProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
-		glUniform1i(gradienSubtractProgram->uniforms["uPressure"], pressure->read()->attachTexture(0));
-		glUniform1i(gradienSubtractProgram->uniforms["uVelocity"], velocity->read()->attachTexture(1));
+		GL::uniform2f(gradienSubtractProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		GL::uniform1i(gradienSubtractProgram->uniforms["uPressure"], pressure->read()->attachTexture(0));
+		GL::uniform1i(gradienSubtractProgram->uniforms["uVelocity"], velocity->read()->attachTexture(1));
 		blit(velocity->write()->fbo);
 		velocity->swap();
 
 		advectionProgram->bind();
-		glUniform2f(advectionProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
+		GL::uniform2f(advectionProgram->uniforms["texelSize"], velocity->texelSizeX, velocity->texelSizeY);
 		int velocityId = velocity->read()->attachTexture(0);
-		glUniform1i(advectionProgram->uniforms["uVelocity"], velocityId);
-		glUniform1i(advectionProgram->uniforms["uSource"], velocityId);
-		glUniform1f(advectionProgram->uniforms["dt"], dt);
-		glUniform1f(advectionProgram->uniforms["dissipation"], config.VELOCITY_DISSIPATION);
+		GL::uniform1i(advectionProgram->uniforms["uVelocity"], velocityId);
+		GL::uniform1i(advectionProgram->uniforms["uSource"], velocityId);
+		GL::uniform1f(advectionProgram->uniforms["dt"], dt);
+		GL::uniform1f(advectionProgram->uniforms["dissipation"], config.VELOCITY_DISSIPATION);
 		blit(velocity->write()->fbo);
 		velocity->swap();
 
-		glViewport(0, 0, dye->width, dye->height);
+		GL::viewport(0, 0, dye->width, dye->height);
 
-		glUniform1i(advectionProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
-		glUniform1i(advectionProgram->uniforms["uSource"], dye->read()->attachTexture(1));
-		glUniform1f(advectionProgram->uniforms["dissipation"], config.DENSITY_DISSIPATION);
+		GL::uniform1i(advectionProgram->uniforms["uVelocity"], velocity->read()->attachTexture(0));
+		GL::uniform1i(advectionProgram->uniforms["uSource"], dye->read()->attachTexture(1));
+		GL::uniform1f(advectionProgram->uniforms["dissipation"], config.DENSITY_DISSIPATION);
 		blit(dye->write()->fbo);
 		dye->swap();
-
+		
 	}
 
 	void drawColor(const ColorRGB& color)
 	{
 		colorProgram->bind();
-		glUniform4f(colorProgram->uniforms["color"], color.r, color.g, color.b, 1);
+		GL::uniform4f(colorProgram->uniforms["color"], color.r, color.g, color.b, 1);
 		blit(0);
 	}
 
 	void drawDisplay(const int& width, const int& height)
 	{
 		displayProgram->bind();
-		glUniform2f(displayProgram->uniforms["texelSize"], 1.0f / width, 1.0f / height);
-		glUniform1i(displayProgram->uniforms["uTexture"], dye->read()->attachTexture(0));
-		glUniform1i(displayProgram->uniforms["uSunrays"], sunrays->attachTexture(3));
+		GL::uniform2f(displayProgram->uniforms["texelSize"], 1.0f / width, 1.0f / height);
+		GL::uniform1i(displayProgram->uniforms["uTexture"], dye->read()->attachTexture(0));
+		GL::uniform1i(displayProgram->uniforms["uSunrays"], sunrays->attachTexture(3));
 		blit(0);
 	}
 
 	void applySunrays(FBO* const source, FBO* const mask, FBO* const destination)
 	{
-		glDisable(GL_BLEND);
+		GL::disable(GL_BLEND);
 		sunraysMaskProgram->bind();
-		glUniform1i(sunraysMaskProgram->uniforms["uTexture"], source->attachTexture(0));
-		glViewport(0, 0, mask->width, mask->height);
+		GL::uniform1i(sunraysMaskProgram->uniforms["uTexture"], source->attachTexture(0));
+		GL::viewport(0, 0, mask->width, mask->height);
 		blit(mask->fbo);
 
 		sunraysProgram->bind();
-		glUniform1f(sunraysProgram->uniforms["weight"], config.SUNRAYS_WEIGHT);
-		glUniform1i(sunraysProgram->uniforms["uTexture"], mask->attachTexture(0));
-		glViewport(0, 0, destination->width, destination->height);
+		GL::uniform1f(sunraysProgram->uniforms["weight"], config.SUNRAYS_WEIGHT);
+		GL::uniform1i(sunraysProgram->uniforms["uTexture"], mask->attachTexture(0));
+		GL::viewport(0, 0, destination->width, destination->height);
 		blit(destination->fbo);
 	}
 
@@ -335,12 +335,12 @@ private:
 		blurProgram->bind();
 		for (int i = 0; i < iterations; i++)
 		{
-			glUniform2f(blurProgram->uniforms["texelSize"], target->texelSizeX, 0.0);
-			glUniform1i(blurProgram->uniforms["uTexture"], target->attachTexture(0));
+			GL::uniform2f(blurProgram->uniforms["texelSize"], target->texelSizeX, 0.0);
+			GL::uniform1i(blurProgram->uniforms["uTexture"], target->attachTexture(0));
 			blit(temp->fbo);
 
-			glUniform2f(blurProgram->uniforms["texelSize"], 0.0, target->texelSizeY);
-			glUniform1i(blurProgram->uniforms["uTexture"], temp->attachTexture(0));
+			GL::uniform2f(blurProgram->uniforms["texelSize"], 0.0, target->texelSizeY);
+			GL::uniform1i(blurProgram->uniforms["uTexture"], temp->attachTexture(0));
 			blit(target->fbo);
 		}
 	}
@@ -363,19 +363,19 @@ private:
 
 	void splat(const float& x, const float& y, const float& dx, const float& dy, const float& r, const float& g, const float& b)
 	{
-		glViewport(0, 0, velocity->width, velocity->height);
+		GL::viewport(0, 0, velocity->width, velocity->height);
 		splatProgram->bind();
-		glUniform1i(splatProgram->uniforms["uTarget"], velocity->read()->attachTexture(0));
-		glUniform1f(splatProgram->uniforms["aspectRatio"], (float)Graphics::getWidth() / Graphics::getHeight());
-		glUniform2f(splatProgram->uniforms["point"], x, y);
-		glUniform3f(splatProgram->uniforms["color"], dx, dy, 0.f);
-		glUniform1f(splatProgram->uniforms["radius"], correctRadius(config.SPLAT_RADIUS / 100.0f));
+		GL::uniform1i(splatProgram->uniforms["uTarget"], velocity->read()->attachTexture(0));
+		GL::uniform1f(splatProgram->uniforms["aspectRatio"], (float)Graphics::getWidth() / Graphics::getHeight());
+		GL::uniform2f(splatProgram->uniforms["point"], x, y);
+		GL::uniform3f(splatProgram->uniforms["color"], dx, dy, 0.f);
+		GL::uniform1f(splatProgram->uniforms["radius"], correctRadius(config.SPLAT_RADIUS / 100.0f));
 		blit(velocity->write()->fbo);
 		velocity->swap();
 
-		glViewport(0, 0, dye->width, dye->height);
-		glUniform1i(splatProgram->uniforms["uTarget"], dye->read()->attachTexture(0));
-		glUniform3f(splatProgram->uniforms["color"], r, g, b);
+		GL::viewport(0, 0, dye->width, dye->height);
+		GL::uniform1i(splatProgram->uniforms["uTarget"], dye->read()->attachTexture(0));
+		GL::uniform3f(splatProgram->uniforms["color"], r, g, b);
 		blit(dye->write()->fbo);
 		dye->swap();
 	}
