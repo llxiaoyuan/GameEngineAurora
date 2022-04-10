@@ -63,3 +63,5 @@ Times Tables Cardioid: https://www.bilibili.com/video/BV1KR4y1V7r4?spm_id_from=3
 4.8 昨天晚上睡觉突然想到了Timer的计时，发现timeLimit如果小于帧生成时间，if(timer.update()){...}这类就会变成每帧执行一次，只要timeLimit小于帧生成时间，就会变成上述情况。解决方法很简单，当curTime>=timeLimit时curTime-=timeLimit然后还要将curTime+=Graphics::getDeltaTime()置后。之后呢使用方法也得变化，从if(timer.update()){...}改成while(timer.update()){...}，但是当timeLimit大于帧生成时间时用if语句其实也可以。
 
 4.9 由于GLAD提供的OpenGL函数都是宏定义，鼠标悬停在函数上时没有任何参数提示，我决定封装一些GLAD提供的函数到GL这个静态类中。
+
+4.10 昨天晚上突然想起了一个问题，我写的引擎在运行的时候，在开始之后的某一固定时间段会掉帧，然后突然又变正常。在诊断工具中查看，发现在这一小段时间内CPU占用突然上升。又出现了一个莫名其妙的问题，真让人摸不着头脑，其实很早之前我就发现了这个问题，从恐龙游戏开发时就有的。然后去网上搜了一下，https://forums.developer.nvidia.com/t/trouble-driving-a-240-hz-monitor-through-vsync-reliably/64987 这个人遇到的问题和我的一样，我的显示屏是144Hz 然后显卡是RTX3070 LAPTOP 140W，这样的配置运行我这个引擎写出的游戏按理来说是绝对不会卡的。然后和这个人遇到的问题一样，运行到30s左右会卡一下，而且这个时候CPU占用比较高，然后之后就没问题了。这个人也给出了解决方法，在Nvidia控制面板中将电源管理模式调到最高性能优先就行了。我试了一下他的解决方法，结果真的有用。这种问题就很迷，也不知道为什么会出现，以后再来想这种东西吧。
